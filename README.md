@@ -1,5 +1,5 @@
 DEMPATHYPROJECT
-![<https://www.dempathyproject.com>](dempathyprojectgithub.jpg)
+![<https://www.dempathyproject.com>](D_EmpathyProject_logo.png)
 
 Bienvenido a D_Empathy Project proyecto de periodismo independiente, abierto y colaborativo dedicado a la investigación y al análisis de hechos que afectan al medio ambiente y al desarrollo social sostenido.
 
