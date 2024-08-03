@@ -1,7 +1,7 @@
 
 ![<https://www.dempathyproject.com>](D_EmpathyProject_logo.png)
 
-Bienvenido a D_Empathy Project proyecto de periodismo independiente, abierto y colaborativo dedicado a la investigación y al análisis de hechos que afectan al medio ambiente y al desarrollo social sostenido.
+Bienvenido a **D_Empathy Project** proyecto de periodismo independiente, abierto y colaborativo dedicado a la investigación y al análisis de hechos que afectan al medio ambiente y al desarrollo social sostenido.
 
 Aquí encontrarás los códigos e información de las investigaciones que se  van realizando. Y puedes trabajarlas y compartirlas nuevamente. 
 
