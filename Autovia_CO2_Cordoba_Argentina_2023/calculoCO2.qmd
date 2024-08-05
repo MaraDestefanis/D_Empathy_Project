@@ -1,0 +1,124 @@
+---
+title: "Análisis CO2 autovía:"
+description: | 
+  El objetivo por la cual la Cooperativa Andina de Fomento donó u$s 75000 para la construcción de una autovía fue para reducir CO2. Análisis de datos cuestionan la misma. 
+categories: 
+  - Caso de análisis
+  - Proyecciones
+author: Mara Destéfanis
+date: 12/9/2023
+image: images/co2.png
+image-alt: fotografía por Matías Spignola
+toc: true
+format:
+  html:
+    mermaid: 
+      theme: neutral
+---
+
+## CO2
+
+### Análisis de Emisiones de CO2 en autovía cinco años. Carretera doble vía.
+
+
+Parte de los objetivos, según la Corporación Andina de Fomento (CAF) quien aporta u\$s 75 millones de los u\$s 100 millones de dólares de costo para la construcción de la autovía alternativa a la ruta nacional 38 en Córdoba, Argentina es **la reducción de la emisión de dióxido de carbono (CO2) .** Análisis junto a Guillaume Hoffmann, investigador del Conicet abren paso al replanteo.
+
+La obra consiste en la construcción de una autovía de doble vía por el Valle de Punilla, que avanza sobre las Sierras Grandes, hasta retomar la actual traza metros antes del ingreso a La Cumbre, en un recorrido de 43,5 kilómetros. En este momento se realiza la traza Variante Costa Azul con el acceso a la localidad de Molinari. Caminos de Las Sierras, Córdoba, Argentina. La empresa de construcción del Gobierno de Córdoba, es la encargada de llevar adelante la autovía.
+
+Las emisiones derivadas de una obra de carretera se dividen en: construcción y operación. En base a estimaciones de proyectos similares, se puede calcular los órdenes de magnitud significativos de esos valores.
+
+-   En la **etapa de construcción**, las emisiones se deben principalmente al impacto de los movimientos de suelo, y de obras como túneles, puentes y viaductos.
+    En el caso de Punilla, el terreno montañoso presenta importante movimientos de suelo conformados por dos puentes y varios distribuidores de tránsito y alcantarillas.
+
+-   En la **etapa de operación**, las emisiones debidas al aumento del tráfico dependen del tránsito sobre esa vía nueva.
+    Para medirlo se utiliza la medición TMDA (Tránsito Medio Diario Anual), que expresa vehículos que transitan por día.
+    Así se relacionan los valores de TMDA de 5.000, 10.000, 15.000, y 20.000 veh/día, corresponden respectivamente a emisiones de 20.000, 40.000, 60.000 y 80.000 tn CO2/año, y es probable que se llegue a ese último valor en un plazo de 5 años.
+
+Es decir, para nuevas autovías en funcionamiento (etapa de operaciones) se calcula un crecimiento de circulación de vehículos a través de los años.
+Puede llegar a incrementarse hasta un 90% más al quinto año.
+(Hymel 2019). Casi el doble. Bajo un análisis predictivo a cinco años se observa un incremento de emisiones a través del tiempo y no a la inversa.
+
+::: callout-note
+## Bajo un análisis a cinco años se observa un incremento de emisiones a través del tiempo y no a la inversa.
+:::
+
+### **Datos Relevantes**
+
+-   Por la autovía se calcula que transitarán alrededor de 10.000 veh/día(TMDA)
+
+-   Esos 10.000 veh/día corresponden al valor de emisiones 40000 toneladas CO2/año (tnCO2/año).
+
+-   Para nuevas autovías en etapa de operaciones se calcula un crecimiento de vehículos en circulación diaria a través de los años llegando potencialmente a un 90% para el quinto año.
+    (Hymel 2019).
+    **Casi el doble.**
+
+Con el valor inicial de 10.000 veh/día y teniendo en cuenta los porcentuales de crecimiento de vehículos se observa un incremento de emisiones a través del tiempo.\
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(readr)
+library(readxl)
+library(ggplot2)
+
+```
+
+Resumen de Datos
+
+```{r, include=TRUE, echo=FALSE}
+
+emisiones <-read_xlsx("DATOS/Emisiones.xlsx")
+
+# Exploración de datos 
+
+str(emisiones)
+summary <- summary(emisiones)
+print(summary)
+```
+
+### **Gráfico**
+
+```{r, message=FALSE, echo=TRUE}
+
+# Evolución CO2 
+
+e <- ggplot(emisiones,aes(Año,tnCO2))
+
+e + geom_point(aes(color=tnCO2), size=2) +
+ geom_smooth(method = glm) + 
+  ggtitle("Tendencia Emisiones CO2 a cinco años") 
+
+
+#Gráfico 1 Scatterplot  donde la variable x representa los años y la variable y la cantidad de Emisiones por año según crecimiento esperado por Hymel) y estimando tn CO2/año según fórmula: E=NxFxL,  (N=TMDA, longitud de via en km, F factor de emisión en gCO2/km) La franja gris representa intervalo de confianza donde puede moverse los valores predictivos.gls es usado para generar un modelo general linear que brinda una descripción simbólica de una linea predictiva y descriptiva del error de distribución. 
+```
+
+Asimismo hay que considerar las emisiones que se producen en la etapa de construcción.
+
+A modo de referencia:
+
+| Año | TMDA  | tnCO/2 | Porcentaje |
+|-----|-------|--------|------------|
+| 1   | 10000 | 40000  |            |
+| 2   | 15800 | 63200  | 59%        |
+| 3   | 17300 | 69200  | 73%        |
+| 4   | 18150 | 71200  | 78.1%      |
+| 5   | 19000 | 76000  | 90%        |
+
+Con una mirada global, según Maximo Mazzocco, Delegado Juvenil en la COP26, Co-organizador de la Cumbre Climática de la Juventud N°1 para América Latina y el Caribe (RCOY LAC 1) Argentina no alcanza los compromisos de disminución de CO2 frente a la Conferencia de las Naciones Unidas sobre el Cambio Climática.
+Al respecto expresa: " Los compromisos de Argentina son muy difíciles de cumplir con la agenda actual, real. Uno es lo que se dice y otro es lo que se hace. Uno es lo que se compromete hacer y otra cosa es lo que sucede en los hechos" finaliza.
+
+::: callout-note
+## Hoy Argentina país no ha dado grandes indicios de poder llegar al compromiso asumido de emisiones de gases de efecto invernadero. Con casi la mitad de la población pobre muy vulnerable y sin la infraestructura correspondiente de una planificación basada en la naturaleza para adaptarnos. Máximo Mazzocco
+:::
+
+
+
+Los códigos y datos de este artículo para colaborar lo podes encontrar aquí, [github](https://github.com/MaraDestefanis/D_Empathy_Project). 
+
+
+::: {.callout-note style="margin-top: 2.25rem;" appearance="simple"}
+**Editor's note**: For more on data linkage, [check out our interview with Helen Miller-Bakewell of the UK Office for Statistics Regulation](https://realworlddatascience.net/viewpoints/interviews/posts/2023/10/16/data-sharing-in-gov.html), discussing the OSR report, [Data Sharing and Linkage for the Public Good](https://osr.statisticsauthority.gov.uk/publication/data-sharing-and-linkage-for-the-public-good/).
+:::
+
+::: {.article-btn}
+[Encuentra mas casos de estudios](/investiga/index.qmd)
+:::
