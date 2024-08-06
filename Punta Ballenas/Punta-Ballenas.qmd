@@ -1,0 +1,74 @@
+---
+title: "Península Punta Ballenas:"
+description: |
+   Ubicada en el departamento de Maldonado, Uruguay se encuentra en una polémica ambiental. En él se quiere construir 29 edificios residenciales que impactarán a nivel ambiental, social y turístico.
+categories: 
+  - Territorios
+  - Península
+author: Mara Destéfanis
+date: 12/7/2023
+image: images/PuntaBallenas.jpg
+toc: true
+format:
+  html:
+    mermaid: 
+      theme: neutral
+---
+
+## Punta Ballenas
+
+La península Punta Ballenas se ubica entre un puerto natural donde se desarrollan deportes náuticos y las playa Portezuelo y Solanas al oeste.\
+Al este se visualizan las  [grutas](https://es.wikipedia.org/wiki/Gruta "Gruta") al este con vista a [Punta del Este](https://es.wikipedia.org/wiki/Punta_del_Este "Punta del Este"), la [Isla Gorriti](https://es.wikipedia.org/wiki/Isla_Gorriti "Isla Gorriti") y la Casa Taller de [Casapueblo](https://es.wikipedia.org/wiki/Casapueblo "Casapueblo"), diseñada por el artista plástico [Carlos Páez Vilaró](https://es.wikipedia.org/wiki/Carlos_P%C3%A1ez_Vilar%C3%B3 "Carlos Páez Vilaró")\
+La disputa de Punta Ballena lleva décadas pero recién en el año 2023 se hizo de público conocimiento.
+
+## Trayectoria de la Disputa
+
+Las tierras hoy disputadas pertenecen a la familia Lussich. Se trataba de una estancia comprada por Antonio Lussich [^1] que luego de su fallecimiento fue dividida para sus descendientes. En el plano, la península había quedado como una zona verde de playa que conformaba el espacio libre de fraccionamiento.
+
+[^1]:  1800 hectáreas de tierra compradas por Antonio Lussich a Gerónimo Cabrera por los comienzos del siglo XX
+
+En el año 1946 por ley las propiedades debían dejar una faja costera. La ley indicaba que se podía fraccionar el terreno hasta 150 metros de la línea superior de la Rivera excepto si había acantilados. En dichos casos se podía reducir y no era obligatorio dejar ese espacio costero.
+
+Con menos densidad poblacional y turística, Punta Ballenas era un lugar recóndito y difícil de transitarlo. Recuerda **Jose Sciandro**, Abogado ambientalista y docente de la licenciatura de Gestión Ambiental del Centro Universitario Regional del Este (CURÉ): "Una vez fui allí teníamos que pasar por rocas y un camino imposible, creíamos que no lo íbamos a lograr, fue una aventura recorrerla"\
+\
+Durante el período militar de Uruguay (1073-1985) se construyó sobre la península una calle panorámica que llega hasta el extremo de Punta Ballenas. En esa época, los descendientes de Antonio Lussich comenzaron un trámite legal solicitando la expropiación del terreno a manos del municipio. La solicitud desencadenó un proceso judicial que continuaría hasta el año 2001.
+
+En el año 2004 la Corte Suprema de Justicia reconoció (Sentencia Nro. 265) que la tierra era privada. Obligando a la Intendencia a devolver los terrenos a sus propietarios. De las 16 hectáreas en disputa, el fallo obligaba a restituir 10 .\
+
+## Nuevos planes
+
+En el año 2008 en Uruguay se aprueba una nueva ley de ordenamiento que deroga la ordenanza del año 46´ dejando sin excepto la excepción de espacio costero frente a una zona de acantilados. Luego, para finales del año 2014, la familia vende el 80% de las tierras al empresario argentino, socio del Banco Macro, Delfín Exequiel Carballo González. 
+
+Frente a una política de excepciones que se brindaba a inversores el municipio aprueba el aprovechamiento urbanístico que representaba un 0,37% del total de la superficie para edificar. Nace el proyecto de edificación en la península disputada públicamente a fines del 2023. "Esto transversaliza mucho más el tema y lo hace prácticamente neutral desde el punto de vista político," asegura el entrevistado José Sciandro.
+
+![ilustración plano presentado Proyecto Punta Ballenas.](images/planoedificios.png){fig-align="center"}
+
+La aprobación urbanística exige la evaluación de impacto ambiental en manos del Ministerio de Ambiente de Uruguay.  El proceso deja una instancia de participación pública.
+
+## Licencia Social
+
+Si bien la instancia de participación ciudadana no es vinculante hasta el 10 de diciembre 2023 las organizaciones, universidades, instituciones y vecinos podían dejar sus opiniones por escrito al Ministerio de Ambiente.  La participación fue récords.  Sin embargo, Jose Sciandro expresa: "Hay un problema que debemos detectar y es el momento de la instancia. Ya que ahora que está todo diagramando recién la gente se entera"
+
+Por su parte, Isabel Gadino, docente de la licenciatura de gestión ambiental del CURE y quien analiza también las capacidades del ordenamiento del territorio frente la presión del turismo residencial expresa que desde la universidad trata de estar alerta a todas las cosas que suceden en la costa a fin de aportar sobre los procesos que se desencadenan para que sean tratados de manera más sustentable tanto ecológica, económica como social.  Dice: "La presión inmobiliaria es grande. Este departamento tiene la particularidad de las excepciones a las normativas territoriales y exoneraciones tributarias para promover la inversión". [^2]\
+\
+Investigadores del CURE de diferentes áreas desarrollaron un Informe aportando comentarios al impacto ambiental realizado de Punta Ballenas. Entre los puntos relevantes Isabel Gadino señala que el impacto ambiental deja sin estudio algunos aspectos vinculantes como por ejemplo la fauna marina, cuestionamientos sobre las medidas de mitigación de la flora, la protección a plantas catalogadas como vulnerables, en peligro de extinción y endémicas a nivel mundial y el estudio arqueológico de las rocas que presenta características de cómo la tierra se movía hace 530 millones de años.\
+![Ilustración2: Mapa de actividades, información proporcionada por el EIA, estudio ingeniería ambiental.](images/mapaEIA.png)
+
+[^2]:  Gadino agrega que son ejemplos los permisos otorgados para las construcciones de las torres más altas en las paradas 16 y 19 de La Mansa.
+
+## Próximos pasos: 
+
+Para principio del año 2024, el Ministerio convoca a audiencia pública. \
+Según **Jose Sciandro** pueden pasar dos cosas:
+
+1.     Si el Ministerio apoya el proyecto quedará construido sobre el acantillado 320 departamentos en 29 bloques quedarían la calle publica y dos miradores al costado.\
+\
+2.     Si el Ministerio, por otra parte, dice que el proyecto no se puede construir el acuerdo entre la intendencia y el privado se cae quedando en mano de privado. 
+
+## Documentación: 
+
+Comentarios al Informe Ambiental Resumen del \"Complejo Residencial Punta Ballena\", presentado en Octubre de 2023. Centro Universitario Regional del Este (CURE), UDELAR . [Archivo.pdf](Manifiesto Punta Ballena_CURE)
+
+::: callout-note
+## Llamado a Colaboradores: construcción de mapas, análisis topográfico y relieves.
+:::

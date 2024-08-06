@@ -1,0 +1,139 @@
+---
+title: "Comunidad Comechingones:"
+description: |
+  La quinta generación denuncia violaciones a los derechos de las comunidades originarias. 
+categories: 
+  - Territorios
+  - Pueblos Originarios
+author: Mara Destéfanis
+date: 12/9/2023
+image: images/GustavoPueyo.png
+toc: true
+format:
+  html:
+    mermaid: 
+      theme: neutral
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## Originario
+
+### Entrevista Gustavo Pueyo, Comunidad Originaria de Cosquín Las Tunas.
+
+> "Soy Gustavo Pueyo, soy parte de la comunidad indígena de Cosquín Las Tunas. Nuestro territorio ancestral se encuentra hacia el oeste de la ciudad de Cosquín muy próximo al sector denominado Juntura de los Ríos" expresa -abriendo el diálogo- Pueyo, ciudadano cordobés y quinta generación de [Los Comechingones](https://es.wikipedia.org/wiki/Comechingones).
+
+Sin consulta obligatoria y libre la empresa Caminos de Las Sierras, Córdoba, Argentina ha atravesado sus tierras destruyendo reliquias arqueológicas que han sido cuidadas de generación a generación.
+"La autovía ha llevado puesto la vida cotidiana y costumbres ancestrales", dice.
+
+La obra consiste en la construcción de una autovía de doble vía por el Valle de Punilla, que avanza sobre las Sierras Grandes, hasta retomar la actual traza metros antes del ingreso a La Cumbre, en un recorrido de 43,5 kilómetros.
+En este momento se realiza la traza Variante Costa Azul con el acceso a la localidad de Molinari
+
+La Comunidad Las Tunas denuncia que las intervenciones se realizaron sin participación previa, obligatoria y libre de la Comunidad Originaria.
+El reconocimiento desde el Derecho internacional y Nacional no sólo implica admitir la anterioridad en tiempo de las Comunidades , sino su estructura social, la cosmovisión y la espiritualidad que se vive en esos territorios.
+
+### La Voz de la quinta generación de Los Comechingones
+
+{{< video https://youtu.be/a4LGtQbXdCY >}}
+
+## Denuncias y Reclamos:
+
+Se denuncia que la construcción de la autovía sobre tierra de comunidades originarias violan derechos.
+Algunos de los reclamos son:
+
+1- **Salud** En el lugar viven dos adultos mayores ( 92 años y 87 años) a quienes les afectó diariamente las detonaciones.
+Se realizaron de dos a cinco explosiones diarias durante el proceso de construcción en la zona.
+
+2- **Propiedad Privada** Denuncian ingreso a la propiedad privada y pública ilegítima.
+Las explosiones también impactaron en la vivienda original de los ancestros de Gustavo Pueyo que tiene una antiguedad de 170 años y forma parte del patrimonio cultural de su comunidad.
+
+3- **Patrimonio arqueológico:** Destrucción de 100 metros de la estructura de una pirca, construcción arqueológica a cielo abierto que se extiende unos 500 mts hacia el noroeste.
+Las pircas tuvieron diferentes funciones, aquí indicaban una seña que conduce a la fuente de agua donde se originan dos vertientes.
+La pica ancestral ha sido cuidada y custodiada de generación en generación, hoy encomendada a la sexta generación de descendientes de originarios que habitan el inmueble.
+[^1]
+
+[^1]: pirca ubicada en la fracción identificada como Afectación nro.
+    223, Nomenclatura Cat.
+    2303546416358104.
+
+## Pircas -Antes y Despues-
+
+::: {layout-nrow="2"}
+![Pirca Antes](images/pirca_4.jpeg)
+
+![Pirca Antes](images/p_serrana.jpeg)
+
+![Pirca Despues](images/pirca_d_8.jpeg)
+
+![Pirca Despues](images/pirca_d_9.jpeg)
+:::
+
+4- **Derecho al agua** El movimiento de suelo durante el proceso de autovía provocó, según relata Gustavo Pueyo, agua lodo en las vertientes.
+Según las tradiciones, las pircas delimitan y marca un ojo de agua que aprovisiona a la propiedad, el campo, los animales y las huertas ya que tienen el sentido de una cosmovisión circular.
+El agua vuelve al río " Respetamos este dar circular de la naturaleza" expresa Gustavo Pueyo y denuncia: " El gobierno con esta obra está vulnerándonos por todos lados, inclusive en este derecho. El derecho al agua".\
+
+Otro reclamo alineado a las denuncias ambientales y que afecta a la economía circular ancestral de la comunidad es la deforestación en [Pampa de Olaen](https://es.wikipedia.org/wiki/Pampa_de_Olaen).
+Reclaman que se cortaron alrededor de 200 árboles del bosque.
+Según señala Gustavo Pueyo el lugar era el habitad para la recreía de animales y desgraciadamente ahora no existe, fueron pasadas por las topadoras.[^2]
+
+[^2]: [Importancia ambiental y arqueológica](https://www.researchgate.net/figure/Figura-1-Ubicacion-geografica-del-sitio-arqueologico-Puesto-La-Esquina-1-Pampa-de_fig1_258207856) de la Pampa de Olaen.
+
+En la denuncia presentada a la Justicia Cordobesa se expresa que el Estado violentó gravemente los siguientes derechos de la comunidad de Las Tunas:
+
+> 1- Respeto a la identidad cultural.\
+> 2- Respeto la sus valores, prácticas e instituciones.\
+> 3- Derecho a su tierra y territorio.\
+> 4- Consulta libre, previa e informada.\
+> 5- Respeto a los saberes y conocimientos ancestrales.
+
+![Casona Adobe 170 años](images/casa_adobe.jpg)
+
+Anexo:
+
+Según estudios del Instituto de Antropología de Córdoba (DACOR) del CONICET y del Departamento de Antropología de la Facultad de Filosofía y Humanidades de la Universidad Nacional de Córdoba, junto a otros colaboradores señalan que aproximadamente el 75% de los habitantes actuales del centro de Argentina procedería de linajes maternos de pueblos originarios.
+
+```{r pressure, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Datos Espaciales 
+# Preliminares
+
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(sf)
+
+# Alternativa 
+packages <- c("rgdal", "leaflet","highcharter","tidyverse","spData","sf",
+              "ggplot2","ggmap","maps","mapdata","httr","sp")
+
+
+tabla_adn <- read_xls("datos/d_native.xls")
+
+# Pasado a archivo shapefle / Vectorial / Puntos
+
+sf_adn <- st_as_sf(tabla_adn, coords =c("Longitud","Latitud"), dim = "XY",
+                   crs = 4326, na.fail = FALSE)
+
+#plot(sf_adn)
+mapview::mapview(st_transform(sf_adn, crs = 4326))
+```
+
+## Documentación
+
+-   Procedimiento Oficial Destrucción de Pircas [Destruccion_Pircas.pdf](doc/Destruccion_Pircas.pdf)
+
+-   Decreto Audiencia caso Destrucción de Pircas Ancestrales [decreto_audiencia.pdf](doc/decreto_audiencia.pdf "Audiencia Pircas"){.texto}
+
+-   Texto denuncia de la Comunidad Indígena de Cosquín, [denuncia_Comechingones.pdf](doc/denuncia_Comechingones.pdf)\
+    Las Tunas al Gobierno de Córdoba en la Justicia.
+
+-   Email enviado desde la empresa constructora del Gobierno [email_20minutos.JPEG](email_20minutos.JPEG){#email}\
+    Caminos de las Sierras con solo 20 minutos avisando sobre\
+    la destrucción de las Pircas.
+
+-   Amparo, pedido de Suspensión de todas las obras que afectan el patrimonio\
+    cultural, histórico y arqueológico de la Comunidad.
+    (7/7/2022) [amparo_suspención.pdf](doc/amparo_suspención.pdf)
+
+-   Libro "Entre renaceres, autovías y títulos comunitarios de tierras. Una aproximación a la historia indígena de Cosquín. ([QR](images/QR_libro.jpeg)) Comunidad Indígena de Cosquín, Las Tunas. Perteneciente al Pueblo Kamiare-Comechingón.

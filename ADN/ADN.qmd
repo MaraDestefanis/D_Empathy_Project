@@ -1,0 +1,44 @@
+---
+title: "Los argentinos no sólo vienen de los barcos:"
+description: |
+   Evidencias genéticas señalan que la ascendencia nativo americana continúa en la población actual. 
+categories: 
+  - Territorios
+  - Pueblos originarios
+author: Mara Destéfanis
+date: 2/8/2024
+image: images/ADN_dempathyproject.jpg
+toc: true
+format:
+  html:
+    mermaid: 
+      theme: neutral
+---
+
+## ADN
+
+### Evidencias genéticas señalan que la ascendencia nativo americana continúa en la población actual.
+
+> La Conquista del Desierto (período 1870-1885) no marcó el ocaso de los pueblos originarios, tampoco ´los argentinos llegamos de los barcos´ como había expresado el presidente Alberto Fernández durante la visita al país del mandatario español Pedro Sánchez en junio del año 2021. Según estudios recientes genéticamente hablando la ascendencia nativo americana continúa presente en la población actual.
+
+A esta conclusión llegó el equipo conformado por los investigadores Darío Demarchi, Angelina García y Rodrigo Nores del Instituto de Antropología de Córdoba (DACOR) del CONICET y del Departamento de Antropología de la Facultad de Filosofía y Humanidades de la Universidad Nacional de Córdoba, junto a otros colaboradores. Señalan que aproximadamente el 75% de los habitantes actuales del centro de Argentina procederían de linajes maternos de pueblos originarios.
+
+El objetivo del estudio consistió en investigar la variación genética de habitantes del centro de Argentina - tomando como individuos de análisis las poblaciones actuales y las comunidades antiguas- es decir, aquellos que estuvieron presentes en el territorio antes de la colonización. Para llegar a abarcar el estudio de los individuos arqueológicos las muestras se obtuvieron a través de material óseo o dentario. “Cuando hacemos estudios de linajes maternos en la población antigua y los comparamos con la población moderna, lo que vemos es que hay continuidad temporal. O sea, las mismas variaciones genéticas que vemos en la población actual, también las encontramos, por ejemplo, en individuos de hasta 4500 años,” explica el investigador especializado en Antropológica biológica Rodrigo Nores.
+
+El proceso de análisis de las poblaciones actuales consistió en tomar muestras a individuos de diferentes zonas del centro de Argentina (provincias de Córdoba, San Luis y Santiago del Estero) mediante un hisopado bucal. El material obtenido permitió describir la variabilidad genética que se hereda exclusivamente de la madre, el ADN mitocondrial. En su contraparte, para linajes paternos se estudiaron los ´cromosomas Y´, al ser uno de los dos cromosomas sexuales involucrado en la determinación del sexo (X e Y). Estas moléculas permiten rastrear la ascendencia materna y paterna, respectivamente, gracias a la diversidad genética en las poblaciones actuales identificando el origen de procedencia del individuo.
+
+Los resultados sobre las poblaciones actuales arrojaron que, en promedio, el 75% de las muestras analizadas presentan linajes maternos nativos americanos, en tanto un 20% son de linaje europeo y el 5% provienen de ascendencia africana. El Doctor Rodrigo Nores destaca que es muy importante, por lo menos en los linajes maternos, el componente nativo americano. La historia es diferente cuando se analiza el cromosoma Y ya que, al observar las muestras de la población actual, los resultados arrojaron que hay un 92% que tienen ascendencia paterna que, en este caso, se detectan en muy bajo porcentaje los linajes masculinos nativos americanos (7%) Y africanos (1%).
+
+No solo en Argentina sino en muchos lugares de América se repite este patrón de formación de las poblaciones neo-americanas. Es decir, “hombres europeos conquistadores que vinieron y se reprodujeron con mujeres nativas y después de las migraciones europeas del siglo XIX y XX se incorporó el componente africano. En su composición es mayormente masculina” concluye el Dr. Nores. Así la combinación que predomina del individuo actual es europea en lo masculino y nativo americano en lo femenino.
+
+En el segundo enfoque se analizan los individuos de origen arqueológico por medio de las variantes que se encuentran en el ADN Mitocondrial. Permiten determinar a qué grupos y subgrupos de nativo americanos pertenecían. El procedimiento se realiza extrayendo el ADN de dientes o de huesos y secuenciándolo. Así se leen las moléculas pequeñas de ADN logrando describir el orden de las bases nitrogenadas, que representan las “letras” en el lenguaje de los genes. Las secuencias obtenidas se comparan con otra secuencia de referencia. De ambas, se identifican las mutaciones y se encuentran sus diferencias. Mediante esta técnica se analiza su organización logrando establecer inferencias sobre el origen de las poblaciones y la ocurrencia de migraciones. “Cuando una variante se observa en distintos individuos, se asume que tienen un vínculo de linaje materno, es decir que vienen de un ancestro en común” señala el Dr. Nores. Según los datos obtenidos de los estudios realizados se puede marcar en el mapa la siguiente distribución del componente nativo americano materno en la región.
+
+
+
+Si bien la biología aporta la reconstrucción de las huellas de la ascendencia aborigen indígena, “la identidad de los pueblos originarios va por otro camino” aclara el Dr. Nores. Durante la construcción Estado-Nación-Territorio con las campañas militares ocurridas desde el período de Julio A Roca hasta la presidencia de Perón quedan por unir piezas de reconstrucción de la historia del territorio.
+
+Algunas de ellas se encuentran en documentos escritos de investigaciones pasadas y presentes como los informes de la isla Martín García de Mariano Nagy y Alexis Papazian o la matanza de la comunidad Pilagá del Gran Chaco escrito por Valeria Mapelman. Otros informes quedan guardados en registros nacionales como el Instituto Nacional de Asuntos Indígenas de Argentina.
+
+Nuevas piezas vivas se encuentran en las tradiciones de las comunidades originarias, como las de los Comechingones en las sierras de Córdoba o los Sanavirones en las cercanías de la Laguna Mar Chiquita, quienes continúan transmitiendo los saberes ancestrales de generación en generación.
+
+En cuanto a la ciencia, aporta la huella biológica de que la conexión entre habitantes actuales y antiguos es directa, sin interrupción y sin reemplazo.
