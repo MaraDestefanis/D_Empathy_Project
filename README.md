@@ -5,9 +5,11 @@ Bienvenido a **D_Empathy Project** proyecto de periodismo independiente, abierto
 
 Aquí encontrarás los códigos e información de las investigaciones que se  van realizando. Y puedes trabajarlas y compartirlas nuevamente. 
 
-Cualquier nueva investigación que quieras sugerir es bienvenida. Como así también compartir el analisis y brindandolo para que la comunidad lo analice. 
+Cualquier nueva investigación que quieras sugerir es bienvenida. 
+Como así también compartir el analisis y brindarlo  para que la comunidad lo analice. 
 
-D_Empathy Project es una comunidad abierta.  
+D_Empathy Project es una comunidad abierta, filantrópica, sin fines de lucro. 
+
 
 
 #### Contacto:
