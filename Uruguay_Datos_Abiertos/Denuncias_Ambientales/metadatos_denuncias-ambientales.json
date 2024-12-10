@@ -1,0 +1,62 @@
+{
+    "atributos": [
+        {
+            "descripcion": "Fecha que se recibe la denuncia",
+            "informacionAdicional": "",
+            "tipoDeDato": "Date",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Fecha denuncia"
+        },
+        {
+            "descripcion": "Vías de comunicación por las que ingresa la denuncia",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Via de ingreso"
+        },
+        {
+            "descripcion": "Origen de la denuncia",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Departamento"
+        },
+        {
+            "descripcion": "Motivo principal de la denuncia",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Motivo 1"
+        },
+        {
+            "descripcion": "Motivo secundario de la denuncia (opcional)",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Motivo 2"
+        },
+        {
+            "descripcion": "Motivo extra (opcional)",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Motivo 3"
+        },
+        {
+            "descripcion": "Derivación del expediente a un organismo externo (sólo para los casos que se derivan)",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Derivacion ext 1"
+        },
+        {
+            "descripcion": "Derivación del expediente a un organismo externo (en caso de derivación diferente a \"Derivación Ext 1\")",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Derivacion ext 2"
+        }
+    ],
+    "titulo": "Metadatos de denuncias ambientales",
+    "descripcion": "Metadatos de denuncias ambientales"
+}

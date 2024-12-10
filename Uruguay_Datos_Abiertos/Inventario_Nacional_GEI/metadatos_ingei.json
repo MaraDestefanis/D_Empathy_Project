@@ -1,0 +1,76 @@
+{
+    "atributos": [
+        {
+            "descripcion": "Agrupa los datos desagregadas en Sectores según las Directrices del IPCC 2006.",
+            "informacionAdicional": "Energía: Incluye las emisiones generadas por la quema de combustibles fósiles (derivados del petróleo y gas natural) en el país, así como las emisiones fugitivas de los combustibles.\nProcesos Industriales y Uso de Productos (IPPU): Incluye las emisiones de GEI provocadas por procesos industriales, por el uso de GEI en los productos y por los usos no energéticos del carbono contenido en los combustibles fósiles. Las emisiones por el consumo de energía durante el proceso industrial son consideradas dentro del Sector Energía. Las principales fuentes de emisión son los procesos industriales que transforman materias primas por medios químicos o físicos, liberando GEI.\nAgricultura, Silvicultura y Otros Usos de la Tierra (AFOLU): Incluye las emisiones de GEI originadas en las actividades y prácticas agropecuarias, así como las emisiones y remociones de CO2 por el uso y los cambios en el uso de la tierra.\nDesechos: Comprende la estimación de emisiones de GEI originados a través de procesos anaerobios de descomposición de la materia orgánica contenida en los residuos sólidos urbanos, del tratamiento biológico de residuos, así como también en las aguas residuales tanto domésticas y comerciales como industriales. Además, se estiman las emisiones de incineraciones y el tratamiento biológico de residuos.\nOtros: No se contabilizan otros Sectores de emisión\nPartidas Informativas: Se incluyen las emisiones de gases de efecto invernadero procedentes del Transporte marítimo y aéreo internacional (Bunkers internacionales). Estas emisiones, de acuerdo a la metodología utilizada  para la elaboración de los inventarios (Directrices del IPCC de 2006), no se suman a los totales del sector Energía, sino que se presentan por separado con fines exclusivamente informativos.\n",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/spanish/pdf/0_Overview/V0_0_Cover.pdf",
+            "nombreDeAtributo": "Sector"
+        },
+        {
+            "descripcion": "Agrupa los datos desagregadas en Categorías de fuentes y sumideros según las Directrices del IPCC 2006.",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Categoría"
+        },
+        {
+            "descripcion": "Datos desagregados en Subcategorías de fuentes y sumideros según las Directrices del IPCC 2006.",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Subcategoría"
+        },
+        {
+            "descripcion": "Año de la medición",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Año"
+        },
+        {
+            "descripcion": "Clasificación según si el GEI es directo o indirecto (precursores)",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/download",
+            "nombreDeAtributo": "Tipo de GEI"
+        },
+        {
+            "descripcion": "Fórmula química del Gas de Efecto Invernadero (GEI)",
+            "informacionAdicional": "Gases de efecto invernadero directos\nCO2: Emisiones anuales totales de dioxido de carbono (CO2) expresados en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 2006\nCH4: Emisiones anuales totales de metano (CH4) expresados en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 2006.\nN2O: Emisiones anuales totales de óxido nitroso (N2O) expresados en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 2006.\nPFCs: Emisiones anuales totales de perfluorocarbonos (PFC) expresados en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 2006 (No ocurre en la serie histórica)\nSF6: Emisiones anuales totales de hexafluoruro de azufre (SF6) expresados en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-134a: Emisiones anuales totales de 1,1,1,2-Tetrafluoroetano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-125: Emisiones anuales totales de Pentafluoroetano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-143a: Emisiones anuales totales de 1,1,1-Trifluoroetano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-32: Emisiones anuales totales de Difluorometano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-23: Emisiones anuales totales de Fluoroformo expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-152a: Emisiones anuales totales de 1,1-difluoroetano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-227ea: Emisiones anuales totales de 1,1,1,2,3,3,3-heptafluoropropano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006.\nHFC-245fa: Emisiones anuales totales de 1,1,1,3,3-pentafluoropropano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006. No se informa factor de conversión bajo la métrica GWP 100 AR2.\nHFC-365mfc: Emisiones anuales totales de 1,1,1,3,3-pentafluorobutano expresados en Giga gramos y estimado de acuerdo a las Directrices del IPCC 2006. No se informa factor de conversión bajo la métrica GWP 100 AR2.\n\nGases de efecto invernadero indirectos\nNo se presenta factor de conversión bajo las métricas GTPAR5 y GWPO AR2\nCOVDM (Gg): Emisiones anuales totales de compuestos orgánicos volátiles distintos de metano (COVDM) expresadas en Giga gramos (Gg), estimado de acuerdo a las Directrices del IPCC 1996 rev (sector EnergÍa)  y EMEP/EEA 2016 (sector Procesos Industriales y Uso de Productos).\nNOx (Gg): Emisiones anuales totales de óxidos de nitrógeno (NOx) expresadas en Giga gramos (Gg), estimado de acuerdo a las Directrices del IPCC 1996 rev (sectores Energía y Agricultura, Silvicultura y Otros Usos de la Tierra)  y EMEP/EEA 2016 (sector Procesos Industriales y Uso de Productos).\nCO (Gg): Emisiones anuales totales de monóxido de carbono (CO) expresadas en Giga gramos (Gg) estimado de acuerdo a las Directrices del IPCC 1996 rev (sectores Energía y Agricultura, Silvicultura y Otros Usos de la Tierra)  y EMEP/EEA 2016 (sector Procesos Industriales y Uso de Productos).\nSO2 (Gg): Emisiones anuales totales de dióxido de azufre (SO2) expresadas en Giga gramos (Gg), estimado de acuerdo a las Directrices del IPCC 1996 rev (sector Energía)  y EMEP/EEA 2016 (sector Procesos Industriales y Uso de Productos).\n",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "GEI"
+        },
+        {
+            "descripcion": "Emisiones/remociones de Gases de Efecto Invernadero para la Categoría o Subcategoría expresadas en Gigagramos (Gg)",
+            "informacionAdicional": "Las emisiones netas para la categoría aparecen con signo positivo (+). Las remociones netas para la categoría aparecen con signo negativo (-)",
+            "tipoDeDato": "Numeric",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Gg Gas"
+        },
+        {
+            "descripcion": "Emisiones/remociones de Gases de Efecto Invernadero para la Categoría o Subcategoría expresadas en Gg bajo la métrica GWP 100AR2",
+            "informacionAdicional": "Las emisiones netas para la categoría aparecen con signo positivo (+). Las remociones netas para la categoría aparecen con signo negativo (-)\nPotencial de calentamiento global (global warming potential (GWP)): Índice que mide el forzamiento radiativo tras una emisión de una unidad de masa de cierta sustancia, acumulada durante un horizonte temporal determinado, en comparación con el causado por la sustancia de referencia: el dióxido de carbono (CO2). (IPCC, 2015)",
+            "tipoDeDato": "Numeric",
+            "recursoRelacionado": "https://www.ipcc.ch/site/assets/uploads/2018/02/SYR_AR5_FINAL_full_es.pdf",
+            "nombreDeAtributo": "Gg CO2 - eq (GWP)"
+        },
+        {
+            "descripcion": "Emisiones/remociones de Gases de Efecto Invernadero para la Categoría o Subcategoría expresadas en Gg bajo la métrica GTP 100AR5",
+            "informacionAdicional": "Las emisiones netas para la categoría aparecen con signo positivo (+). Las remociones netas para la categoría aparecen con signo negativo (-)\nPotencial de cambio en la temperatura global (global temperature change potential (GTP)):Índice que mide el cambio de la temperatura media global en superficie en un punto temporal determinado tras una emisión de una unidad de masa de cierta sustancia, en comparación con el causado por la sustancia de referencia: el dióxido de carbono (CO2). (IPCC, 2015)",
+            "tipoDeDato": "Numeric",
+            "recursoRelacionado": "https://www.ipcc.ch/site/assets/uploads/2018/02/SYR_AR5_FINAL_full_es.pdf",
+            "nombreDeAtributo": "Gg CO2 - eq (GTP)"
+        },
+        {
+            "descripcion": "Notation Keys",
+            "informacionAdicional": "",
+            "tipoDeDato": "String",
+            "recursoRelacionado": "",
+            "nombreDeAtributo": "Notation Keys"
+        }
+    ],
+    "titulo": "Descripcion Paquete",
+    "descripcion": "Recursos de Metadatos"
+}
