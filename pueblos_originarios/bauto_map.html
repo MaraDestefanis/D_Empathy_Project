@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2af7e0ce89c1eac368a3a1be810e1418 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_2af7e0ce89c1eac368a3a1be810e1418" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2af7e0ce89c1eac368a3a1be810e1418 = L.map(
+                "map_2af7e0ce89c1eac368a3a1be810e1418",
+                {
+                    center: [-31.78544659, -64.458292895],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 6,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_69edeac80604efd7407c3fa74b6335b7 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 20, "maxZoom": 20, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abcd", "tms": false}
+            );
+        
+    
+            tile_layer_69edeac80604efd7407c3fa74b6335b7.addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+    var color_map_3a6909e616b5db09a2937938bc9d127a = {};
+
+    
+    color_map_3a6909e616b5db09a2937938bc9d127a.color = d3.scale.threshold()
+              .domain([18.0, 18.198396793587175, 18.396793587174347, 18.595190380761522, 18.793587174348698, 18.991983967935873, 19.190380761523045, 19.38877755511022, 19.587174348697395, 19.785571142284567, 19.983967935871743, 20.182364729458918, 20.380761523046093, 20.579158316633265, 20.77755511022044, 20.975951903807616, 21.17434869739479, 21.372745490981963, 21.571142284569138, 21.769539078156313, 21.967935871743485, 22.16633266533066, 22.364729458917836, 22.56312625250501, 22.761523046092186, 22.95991983967936, 23.158316633266534, 23.35671342685371, 23.55511022044088, 23.753507014028056, 23.95190380761523, 24.150300601202403, 24.34869739478958, 24.547094188376754, 24.74549098196393, 24.943887775551104, 25.142284569138276, 25.34068136272545, 25.539078156312627, 25.7374749498998, 25.935871743486974, 26.13426853707415, 26.33266533066132, 26.531062124248496, 26.72945891783567, 26.927855711422843, 27.126252505010022, 27.324649298597194, 27.52304609218437, 27.721442885771545, 27.919839679358716, 28.118236472945892, 28.316633266533067, 28.51503006012024, 28.713426853707414, 28.91182364729459, 29.11022044088176, 29.30861723446894, 29.507014028056112, 29.705410821643287, 29.903807615230463, 30.102204408817634, 30.30060120240481, 30.498997995991985, 30.697394789579157, 30.895791583166332, 31.094188376753507, 31.29258517034068, 31.490981963927858, 31.68937875751503, 31.887775551102205, 32.08617234468938, 32.28456913827655, 32.48296593186373, 32.6813627254509, 32.879759519038075, 33.078156312625254, 33.276553106212425, 33.4749498997996, 33.673346693386776, 33.87174348697395, 34.07014028056112, 34.2685370741483, 34.46693386773547, 34.66533066132264, 34.86372745490982, 35.06212424849699, 35.260521042084164, 35.45891783567134, 35.65731462925852, 35.85571142284569, 36.054108216432866, 36.252505010020045, 36.45090180360721, 36.64929859719439, 36.84769539078157, 37.04609218436874, 37.24448897795591, 37.44288577154309, 37.64128256513026, 37.83967935871743, 38.03807615230461, 38.236472945891784, 38.434869739478955, 38.633266533066134, 38.831663326653306, 39.03006012024048, 39.22845691382766, 39.42685370741483, 39.625250501002, 39.82364729458918, 40.02204408817636, 40.22044088176352, 40.4188376753507, 40.61723446893788, 40.815631262525045, 41.014028056112224, 41.2124248496994, 41.410821643286575, 41.609218436873746, 41.807615230460925, 42.0060120240481, 42.20440881763527, 42.40280561122245, 42.60120240480962, 42.79959919839679, 42.99799599198397, 43.19639278557114, 43.394789579158314, 43.59318637274549, 43.791583166332664, 43.989979959919836, 44.188376753507015, 44.38677354709419, 44.58517034068136, 44.78356713426854, 44.981963927855716, 45.18036072144288, 45.37875751503006, 45.57715430861724, 45.77555110220441, 45.97394789579158, 46.17234468937876, 46.37074148296593, 46.569138276553105, 46.76753507014028, 46.965931863727455, 47.16432865731463, 47.362725450901806, 47.56112224448898, 47.75951903807615, 47.95791583166333, 48.1563126252505, 48.35470941883767, 48.55310621242485, 48.75150300601202, 48.949899799599194, 49.14829659318637, 49.34669338677355, 49.54509018036072, 49.743486973947896, 49.941883767535074, 50.140280561122246, 50.33867735470942, 50.53707414829659, 50.73547094188377, 50.93386773547094, 51.13226452905812, 51.33066132264529, 51.52905811623246, 51.72745490981964, 51.92585170340681, 52.124248496993985, 52.322645290581164, 52.521042084168336, 52.71943887775551, 52.91783567134269, 53.11623246492986, 53.31462925851704, 53.51302605210421, 53.71142284569138, 53.90981963927856, 54.10821643286573, 54.3066132264529, 54.50501002004008, 54.703406813627254, 54.901803607214426, 55.100200400801604, 55.298597194388776, 55.496993987975955, 55.69539078156313, 55.8937875751503, 56.09218436873748, 56.29058116232465, 56.48897795591182, 56.687374749499, 56.88577154308617, 57.08416833667334, 57.28256513026052, 57.480961923847694, 57.67935871743487, 57.877755511022045, 58.07615230460922, 58.274549098196395, 58.47294589178357, 58.67134268537074, 58.86973947895792, 59.06813627254509, 59.26653306613226, 59.46492985971944, 59.66332665330661, 59.86172344689379, 60.06012024048096, 60.258517034068134, 60.45691382765531, 60.655310621242485, 60.85370741482966, 61.052104208416836, 61.25050100200401, 61.44889779559118, 61.64729458917836, 61.84569138276553, 62.04408817635271, 62.24248496993988, 62.44088176352705, 62.63927855711423, 62.8376753507014, 63.036072144288575, 63.234468937875754, 63.432865731462925, 63.6312625250501, 63.829659318637276, 64.02805611222445, 64.22645290581163, 64.4248496993988, 64.62324649298597, 64.82164328657315, 65.02004008016033, 65.21843687374749, 65.41683366733467, 65.61523046092185, 65.81362725450902, 66.0120240480962, 66.21042084168337, 66.40881763527054, 66.60721442885772, 66.8056112224449, 67.00400801603206, 67.20240480961924, 67.40080160320642, 67.59919839679358, 67.79759519038076, 67.99599198396794, 68.1943887775551, 68.39278557114228, 68.59118236472946, 68.78957915831663, 68.9879759519038, 69.18637274549098, 69.38476953907815, 69.58316633266533, 69.78156312625251, 69.97995991983967, 70.17835671342685, 70.37675350701403, 70.5751503006012, 70.77354709418837, 70.97194388777555, 71.17034068136272, 71.36873747494991, 71.56713426853707, 71.76553106212424, 71.96392785571143, 72.1623246492986, 72.36072144288576, 72.55911823647295, 72.75751503006012, 72.95591182364728, 73.15430861723448, 73.35270541082164, 73.55110220440882, 73.749498997996, 73.94789579158316, 74.14629258517034, 74.34468937875752, 74.54308617234469, 74.74148296593187, 74.93987975951904, 75.13827655310621, 75.33667334669339, 75.53507014028057, 75.73346693386773, 75.93186372745491, 76.13026052104209, 76.32865731462925, 76.52705410821643, 76.72545090180361, 76.92384769539078, 77.12224448897796, 77.32064128256513, 77.5190380761523, 77.71743486973948, 77.91583166332666, 78.11422845691382, 78.312625250501, 78.51102204408818, 78.70941883767534, 78.90781563126252, 79.1062124248497, 79.30460921843687, 79.50300601202404, 79.70140280561122, 79.89979959919839, 80.09819639278558, 80.29659318637275, 80.49498997995991, 80.6933867735471, 80.89178356713427, 81.09018036072143, 81.28857715430863, 81.48697394789579, 81.68537074148296, 81.88376753507015, 82.08216432865731, 82.28056112224449, 82.47895791583166, 82.67735470941884, 82.87575150300601, 83.07414829659318, 83.27254509018036, 83.47094188376754, 83.66933867735472, 83.86773547094188, 84.06613226452906, 84.26452905811624, 84.4629258517034, 84.66132264529058, 84.85971943887776, 85.05811623246493, 85.2565130260521, 85.45490981963928, 85.65330661322645, 85.85170340681363, 86.0501002004008, 86.24849699398797, 86.44689378757515, 86.64529058116233, 86.84368737474949, 87.04208416833667, 87.24048096192385, 87.43887775551102, 87.6372745490982, 87.83567134268537, 88.03406813627255, 88.23246492985972, 88.4308617234469, 88.62925851703407, 88.82765531062124, 89.02605210420842, 89.2244488977956, 89.42284569138276, 89.62124248496994, 89.81963927855712, 90.01803607214428, 90.21643286573146, 90.41482965931864, 90.6132264529058, 90.81162324649299, 91.01002004008016, 91.20841683366733, 91.40681362725451, 91.60521042084169, 91.80360721442885, 92.00200400801603, 92.20040080160321, 92.39879759519039, 92.59719438877755, 92.79559118236473, 92.99398797595191, 93.19238476953907, 93.39078156312625, 93.58917835671343, 93.7875751503006, 93.98597194388778, 94.18436873747495, 94.38276553106212, 94.5811623246493, 94.77955911823648, 94.97795591182364, 95.17635270541082, 95.374749498998, 95.57314629258516, 95.77154308617234, 95.96993987975952, 96.16833667334669, 96.36673346693387, 96.56513026052104, 96.76352705410822, 96.96192384769539, 97.16032064128257, 97.35871743486975, 97.55711422845691, 97.75551102204409, 97.95390781563127, 98.15230460921843, 98.35070140280561, 98.54909819639279, 98.74749498997996, 98.94589178356713, 99.14428857715431, 99.34268537074148, 99.54108216432866, 99.73947895791584, 99.937875751503, 100.13627254509018, 100.33466933867736, 100.53306613226452, 100.7314629258517, 100.92985971943888, 101.12825651302605, 101.32665330661322, 101.5250501002004, 101.72344689378758, 101.92184368737475, 102.12024048096193, 102.3186372745491, 102.51703406813627, 102.71543086172345, 102.91382765531063, 103.11222444889779, 103.31062124248497, 103.50901803607215, 103.70741482965931, 103.90581162324649, 104.10420841683367, 104.30260521042084, 104.50100200400801, 104.6993987975952, 104.89779559118236, 105.09619238476954, 105.29458917835672, 105.49298597194388, 105.69138276553106, 105.88977955911824, 106.08817635270542, 106.28657314629258, 106.48496993987976, 106.68336673346694, 106.8817635270541, 107.08016032064128, 107.27855711422846, 107.47695390781563, 107.6753507014028, 107.87374749498998, 108.07214428857715, 108.27054108216433, 108.46893787575151, 108.66733466933867, 108.86573146292585, 109.06412825651303, 109.2625250501002, 109.46092184368737, 109.65931863727455, 109.85771543086172, 110.0561122244489, 110.25450901803607, 110.45290581162325, 110.65130260521042, 110.8496993987976, 111.04809619238478, 111.24649298597194, 111.44488977955912, 111.6432865731463, 111.84168336673346, 112.04008016032064, 112.23847695390782, 112.43687374749499, 112.63527054108216, 112.83366733466934, 113.03206412825651, 113.23046092184369, 113.42885771543087, 113.62725450901803, 113.82565130260521, 114.02404809619239, 114.22244488977955, 114.42084168336673, 114.61923847695391, 114.81763527054109, 115.01603206412825, 115.21442885771543, 115.41282565130261, 115.61122244488978, 115.80961923847696, 116.00801603206413, 116.2064128256513, 116.40480961923848, 116.60320641282566, 116.80160320641282, 117.0])
+              .range(['#0000ffff', '#0000feff', '#0001fcff', '#0002fbff', '#0003f9ff', '#0003f8ff', '#0004f6ff', '#0005f5ff', '#0006f3ff', '#0006f2ff', '#0007f0ff', '#0008efff', '#0009edff', '#000aebff', '#000aeaff', '#000be8ff', '#000ce7ff', '#000de5ff', '#000de4ff', '#000ee2ff', '#000fe1ff', '#0010dfff', '#0010deff', '#0011dcff', '#0012dbff', '#0013d9ff', '#0014d7ff', '#0014d6ff', '#0015d4ff', '#0016d3ff', '#0017d1ff', '#0017d0ff', '#0018ceff', '#0019cdff', '#001acbff', '#001bcaff', '#001bc8ff', '#001cc7ff', '#001dc5ff', '#001ec3ff', '#001ec2ff', '#001fc0ff', '#0020bfff', '#0021bdff', '#0021bcff', '#0022baff', '#0023b9ff', '#0024b7ff', '#0025b6ff', '#0025b4ff', '#0026b3ff', '#0027b1ff', '#0028afff', '#0028aeff', '#0029acff', '#002aabff', '#002ba9ff', '#002ca8ff', '#002ca6ff', '#002da5ff', '#002ea3ff', '#002fa2ff', '#002fa0ff', '#00309fff', '#00319dff', '#00329bff', '#00329aff', '#003398ff', '#003497ff', '#003595ff', '#003694ff', '#003692ff', '#003791ff', '#00388fff', '#00398eff', '#00398cff', '#003a8bff', '#003b89ff', '#003c87ff', '#003d86ff', '#003d84ff', '#003e83ff', '#003f81ff', '#004080ff', '#00407eff', '#00417dff', '#00427bff', '#00437aff', '#004378ff', '#004477ff', '#004575ff', '#004673ff', '#004772ff', '#004770ff', '#00486fff', '#00496dff', '#004a6cff', '#004a6aff', '#004b69ff', '#004c67ff', '#004d66ff', '#004e64ff', '#004e63ff', '#004f61ff', '#00505fff', '#00515eff', '#00515cff', '#00525bff', '#005359ff', '#005458ff', '#005456ff', '#005555ff', '#005653ff', '#005752ff', '#005850ff', '#00584fff', '#00594dff', '#005a4bff', '#005b4aff', '#005b48ff', '#005c47ff', '#005d45ff', '#005e44ff', '#005f42ff', '#005f41ff', '#00603fff', '#00613eff', '#00623cff', '#00623aff', '#006339ff', '#006437ff', '#006536ff', '#006534ff', '#006633ff', '#006731ff', '#006830ff', '#00692eff', '#00692dff', '#006a2bff', '#006b2aff', '#006c28ff', '#006c26ff', '#006d25ff', '#006e23ff', '#006f22ff', '#007020ff', '#00701fff', '#00711dff', '#00721cff', '#00731aff', '#007319ff', '#007417ff', '#007516ff', '#007614ff', '#007612ff', '#007711ff', '#00780fff', '#00790eff', '#007a0cff', '#007a0bff', '#007b09ff', '#007c08ff', '#007d06ff', '#007d05ff', '#007e03ff', '#007f02ff', '#008000ff', '#018100ff', '#028100ff', '#048200ff', '#058300ff', '#078400ff', '#088400ff', '#0a8500ff', '#0b8600ff', '#0d8700ff', '#0e8700ff', '#108800ff', '#118900ff', '#138a00ff', '#158a00ff', '#168b00ff', '#188c00ff', '#198d00ff', '#1b8e00ff', '#1c8e00ff', '#1e8f00ff', '#1f9000ff', '#219100ff', '#229100ff', '#249200ff', '#259300ff', '#279400ff', '#299400ff', '#2a9500ff', '#2c9600ff', '#2d9700ff', '#2f9800ff', '#309800ff', '#329900ff', '#339a00ff', '#359b00ff', '#369b00ff', '#389c00ff', '#399d00ff', '#3b9e00ff', '#3d9e00ff', '#3e9f00ff', '#40a000ff', '#41a100ff', '#43a100ff', '#44a200ff', '#46a300ff', '#47a400ff', '#49a500ff', '#4aa500ff', '#4ca600ff', '#4da700ff', '#4fa800ff', '#51a800ff', '#52a900ff', '#54aa00ff', '#55ab00ff', '#57ab00ff', '#58ac00ff', '#5aad00ff', '#5bae00ff', '#5daf00ff', '#5eaf00ff', '#60b000ff', '#61b100ff', '#63b200ff', '#65b200ff', '#66b300ff', '#68b400ff', '#69b500ff', '#6bb500ff', '#6cb600ff', '#6eb700ff', '#6fb800ff', '#71b800ff', '#72b900ff', '#74ba00ff', '#75bb00ff', '#77bc00ff', '#79bc00ff', '#7abd00ff', '#7cbe00ff', '#7dbf00ff', '#7fbf00ff', '#80c000ff', '#82c100ff', '#83c200ff', '#85c200ff', '#86c300ff', '#88c400ff', '#8ac500ff', '#8bc500ff', '#8dc600ff', '#8ec700ff', '#90c800ff', '#91c900ff', '#93c900ff', '#94ca00ff', '#96cb00ff', '#97cc00ff', '#99cc00ff', '#9acd00ff', '#9cce00ff', '#9ecf00ff', '#9fcf00ff', '#a1d000ff', '#a2d100ff', '#a4d200ff', '#a5d300ff', '#a7d300ff', '#a8d400ff', '#aad500ff', '#abd600ff', '#add600ff', '#aed700ff', '#b0d800ff', '#b2d900ff', '#b3d900ff', '#b5da00ff', '#b6db00ff', '#b8dc00ff', '#b9dc00ff', '#bbdd00ff', '#bcde00ff', '#bedf00ff', '#bfe000ff', '#c1e000ff', '#c2e100ff', '#c4e200ff', '#c6e300ff', '#c7e300ff', '#c9e400ff', '#cae500ff', '#cce600ff', '#cde600ff', '#cfe700ff', '#d0e800ff', '#d2e900ff', '#d3ea00ff', '#d5ea00ff', '#d6eb00ff', '#d8ec00ff', '#daed00ff', '#dbed00ff', '#ddee00ff', '#deef00ff', '#e0f000ff', '#e1f000ff', '#e3f100ff', '#e4f200ff', '#e6f300ff', '#e7f300ff', '#e9f400ff', '#eaf500ff', '#ecf600ff', '#eef700ff', '#eff700ff', '#f1f800ff', '#f2f900ff', '#f4fa00ff', '#f5fa00ff', '#f7fb00ff', '#f8fc00ff', '#fafd00ff', '#fbfd00ff', '#fdfe00ff', '#feff00ff', '#ffff00ff', '#fffd00ff', '#fffc00ff', '#fffa00ff', '#fff900ff', '#fff700ff', '#fff600ff', '#fff400ff', '#fff300ff', '#fff100ff', '#fff000ff', '#ffee00ff', '#ffed00ff', '#ffeb00ff', '#ffe900ff', '#ffe800ff', '#ffe600ff', '#ffe500ff', '#ffe300ff', '#ffe200ff', '#ffe000ff', '#ffdf00ff', '#ffdd00ff', '#ffdc00ff', '#ffda00ff', '#ffd900ff', '#ffd700ff', '#ffd500ff', '#ffd400ff', '#ffd200ff', '#ffd100ff', '#ffcf00ff', '#ffce00ff', '#ffcc00ff', '#ffcb00ff', '#ffc900ff', '#ffc800ff', '#ffc600ff', '#ffc500ff', '#ffc300ff', '#ffc100ff', '#ffc000ff', '#ffbe00ff', '#ffbd00ff', '#ffbb00ff', '#ffba00ff', '#ffb800ff', '#ffb700ff', '#ffb500ff', '#ffb400ff', '#ffb200ff', '#ffb000ff', '#ffaf00ff', '#ffad00ff', '#ffac00ff', '#ffaa00ff', '#ffa900ff', '#ffa700ff', '#ffa600ff', '#ffa400ff', '#ffa300ff', '#ffa100ff', '#ffa000ff', '#ff9e00ff', '#ff9c00ff', '#ff9b00ff', '#ff9900ff', '#ff9800ff', '#ff9600ff', '#ff9500ff', '#ff9300ff', '#ff9200ff', '#ff9000ff', '#ff8f00ff', '#ff8d00ff', '#ff8c00ff', '#ff8a00ff', '#ff8800ff', '#ff8700ff', '#ff8500ff', '#ff8400ff', '#ff8200ff', '#ff8100ff', '#ff7f00ff', '#ff7e00ff', '#ff7c00ff', '#ff7b00ff', '#ff7900ff', '#ff7800ff', '#ff7600ff', '#ff7400ff', '#ff7300ff', '#ff7100ff', '#ff7000ff', '#ff6e00ff', '#ff6d00ff', '#ff6b00ff', '#ff6a00ff', '#ff6800ff', '#ff6700ff', '#ff6500ff', '#ff6400ff', '#ff6200ff', '#ff6000ff', '#ff5f00ff', '#ff5d00ff', '#ff5c00ff', '#ff5a00ff', '#ff5900ff', '#ff5700ff', '#ff5600ff', '#ff5400ff', '#ff5300ff', '#ff5100ff', '#ff5000ff', '#ff4e00ff', '#ff4c00ff', '#ff4b00ff', '#ff4900ff', '#ff4800ff', '#ff4600ff', '#ff4500ff', '#ff4300ff', '#ff4200ff', '#ff4000ff', '#ff3f00ff', '#ff3d00ff', '#ff3c00ff', '#ff3a00ff', '#ff3800ff', '#ff3700ff', '#ff3500ff', '#ff3400ff', '#ff3200ff', '#ff3100ff', '#ff2f00ff', '#ff2e00ff', '#ff2c00ff', '#ff2b00ff', '#ff2900ff', '#ff2800ff', '#ff2600ff', '#ff2400ff', '#ff2300ff', '#ff2100ff', '#ff2000ff', '#ff1e00ff', '#ff1d00ff', '#ff1b00ff', '#ff1a00ff', '#ff1800ff', '#ff1700ff', '#ff1500ff', '#ff1400ff', '#ff1200ff', '#ff1000ff', '#ff0f00ff', '#ff0d00ff', '#ff0c00ff', '#ff0a00ff', '#ff0900ff', '#ff0700ff', '#ff0600ff', '#ff0400ff', '#ff0300ff', '#ff0100ff', '#ff0000ff']);
+    
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.x = d3.scale.linear()
+              .domain([18.0, 117.0])
+              .range([0, 450 - 50]);
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.legend = L.control({position: 'topright'});
+    color_map_3a6909e616b5db09a2937938bc9d127a.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_3a6909e616b5db09a2937938bc9d127a.legend.addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.xAxis = d3.svg.axis()
+        .scale(color_map_3a6909e616b5db09a2937938bc9d127a.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([18.0, 51.0, 84.0, 117.0]);
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.g = color_map_3a6909e616b5db09a2937938bc9d127a.svg.append("g")
+        .attr("class", "key")
+        .attr("transform", "translate(25,16)");
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.g.selectAll("rect")
+        .data(color_map_3a6909e616b5db09a2937938bc9d127a.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_3a6909e616b5db09a2937938bc9d127a.x(color_map_3a6909e616b5db09a2937938bc9d127a.color.domain()[i - 1]) : color_map_3a6909e616b5db09a2937938bc9d127a.x.range()[0],
+            x1: i < color_map_3a6909e616b5db09a2937938bc9d127a.color.domain().length ? color_map_3a6909e616b5db09a2937938bc9d127a.x(color_map_3a6909e616b5db09a2937938bc9d127a.color.domain()[i]) : color_map_3a6909e616b5db09a2937938bc9d127a.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_3a6909e616b5db09a2937938bc9d127a.g.call(color_map_3a6909e616b5db09a2937938bc9d127a.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .text("Tama\u00f1o de la Muestra");
+    
+            var circle_marker_53222e669071439ba5deed9f4fec5626 = L.circleMarker(
+                [-29.3809362, -63.4725564],
+                {"bubblingMouseEvents": true, "color": "#002aaaff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#002aaaff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.9, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_566da44a3753ed3081a09370a86840a4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c6e9c44dad042b4178b3b7f7b6ccf2a9 = $(`<div id="html_c6e9c44dad042b4178b3b7f7b6ccf2a9" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Sumampa , Santiago del Estero</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Sumampa</td>       <td>Santiago del Estero</td>       <td>SUM</td>       <td>-29.380936</td>       <td>-63.472556</td>       <td>29</td>       <td>3.4</td>       <td>0.0</td>       <td>96.6</td>       <td>28</td>       <td>0.214</td>       <td>0.071</td>       <td>0.321</td>       <td>0.393</td>       <td>3.721</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_566da44a3753ed3081a09370a86840a4.setContent(html_c6e9c44dad042b4178b3b7f7b6ccf2a9);
+            
+        
+
+        circle_marker_53222e669071439ba5deed9f4fec5626.bindPopup(popup_566da44a3753ed3081a09370a86840a4)
+        ;
+
+        
+    
+    
+            circle_marker_53222e669071439ba5deed9f4fec5626.bindTooltip(
+                `<div>
+                     Sumampa 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_f78142b35fc1e7bbdc84ba73c24f6b13 = L.circleMarker(
+                [-28.4946077, -63.8162922],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.6, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_f190c35b0af2e4eba219345f30665649 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_40e64f2a208c503d3decdd458b23d50d = $(`<div id="html_40e64f2a208c503d3decdd458b23d50d" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Villa Atamisqui, Santiago del Estero</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Villa Atamisqui</td>       <td>Santiago del Estero</td>       <td>VA</td>       <td>-28.494608</td>       <td>-63.816292</td>       <td>56</td>       <td>3.6</td>       <td>3.6</td>       <td>96.6</td>       <td>52</td>       <td>0.173</td>       <td>0.096</td>       <td>0.519</td>       <td>0.212</td>       <td>7.719</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_f190c35b0af2e4eba219345f30665649.setContent(html_40e64f2a208c503d3decdd458b23d50d);
+            
+        
+
+        circle_marker_f78142b35fc1e7bbdc84ba73c24f6b13.bindPopup(popup_f190c35b0af2e4eba219345f30665649)
+        ;
+
+        
+    
+    
+            circle_marker_f78142b35fc1e7bbdc84ba73c24f6b13.bindTooltip(
+                `<div>
+                     Villa Atamisqui
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_de9d7a9bd3b9d5452d6e0fdc858d21cc = L.circleMarker(
+                [-31.4200833, -64.1887761],
+                {"bubblingMouseEvents": true, "color": "#ff0000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.7, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_494332ea39889a153dd4063fe402605f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_fc6dec9e11ef60af3e8a561711204fe0 = $(`<div id="html_fc6dec9e11ef60af3e8a561711204fe0" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Cordoba ciudad, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Cordoba ciudad</td>       <td>Córdoba</td>       <td>cba</td>       <td>-31.420083</td>       <td>-64.188776</td>       <td>117</td>       <td>24.8</td>       <td>3.5</td>       <td>66.7</td>       <td>78</td>       <td>0.128</td>       <td>0.192</td>       <td>0.397</td>       <td>0.282</td>       <td>28.697</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_494332ea39889a153dd4063fe402605f.setContent(html_fc6dec9e11ef60af3e8a561711204fe0);
+            
+        
+
+        circle_marker_de9d7a9bd3b9d5452d6e0fdc858d21cc.bindPopup(popup_494332ea39889a153dd4063fe402605f)
+        ;
+
+        
+    
+    
+            circle_marker_de9d7a9bd3b9d5452d6e0fdc858d21cc.bindTooltip(
+                `<div>
+                     Cordoba ciudad
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d78e862edc01d3f8dedf26d0df780d6b = L.circleMarker(
+                [-32.1751765, -64.573383],
+                {"bubblingMouseEvents": true, "color": "#003693ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#003693ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_33c7971839c9a6a11ae99755138e328a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_35446019c29d0b5f262ecab5609e941c = $(`<div id="html_35446019c29d0b5f262ecab5609e941c" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Amboy, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Amboy</td>       <td>Córdoba</td>       <td>AMB</td>       <td>-32.175176</td>       <td>-64.573383</td>       <td>32</td>       <td>9.4</td>       <td>9.4</td>       <td>90.6</td>       <td>29</td>       <td>0.172</td>       <td>0.517</td>       <td>0.172</td>       <td>0.138</td>       <td>18.972</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_33c7971839c9a6a11ae99755138e328a.setContent(html_35446019c29d0b5f262ecab5609e941c);
+            
+        
+
+        circle_marker_d78e862edc01d3f8dedf26d0df780d6b.bindPopup(popup_33c7971839c9a6a11ae99755138e328a)
+        ;
+
+        
+    
+    
+            circle_marker_d78e862edc01d3f8dedf26d0df780d6b.bindTooltip(
+                `<div>
+                     Amboy
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_24ed8dc127a6d35d4534da8147175021 = L.circleMarker(
+                [-33.0072364, -61.8094146],
+                {"bubblingMouseEvents": true, "color": "#0023baff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0023baff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.7, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_dd1b66e48c290d2d80363971e0939346 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_78adb4298fe10e81da1abc647942a3ef = $(`<div id="html_78adb4298fe10e81da1abc647942a3ef" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Cruz Alta, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Cruz Alta</td>       <td>Córdoba</td>       <td>CA</td>       <td>-33.007236</td>       <td>-61.809415</td>       <td>27</td>       <td>48.1</td>       <td>48.1</td>       <td>51.9</td>       <td>14</td>       <td>0.071</td>       <td>0.429</td>       <td>0.286</td>       <td>0.214</td>       <td>96.486</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_dd1b66e48c290d2d80363971e0939346.setContent(html_78adb4298fe10e81da1abc647942a3ef);
+            
+        
+
+        circle_marker_24ed8dc127a6d35d4534da8147175021.bindPopup(popup_dd1b66e48c290d2d80363971e0939346)
+        ;
+
+        
+    
+    
+            circle_marker_24ed8dc127a6d35d4534da8147175021.bindTooltip(
+                `<div>
+                     Cruz Alta
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_432fbff1f976dc83cbd75fbe31512738 = L.circleMarker(
+                [-33.4180372, -63.2970015],
+                {"bubblingMouseEvents": true, "color": "#00613eff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00613eff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.3, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_20cafe19824568d2e8b3840dc6f098a5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_23733d0fa8a1f6f529575626e5d34241 = $(`<div id="html_23733d0fa8a1f6f529575626e5d34241" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">La Carlota, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>La Carlota</td>       <td>Córdoba</td>       <td>LCA</td>       <td>-33.418037</td>       <td>-63.297002</td>       <td>43</td>       <td>46.5</td>       <td>74.98</td>       <td>51.2</td>       <td>22</td>       <td>0.318</td>       <td>0.136</td>       <td>0.318</td>       <td>0.227</td>       <td>121.798</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_20cafe19824568d2e8b3840dc6f098a5.setContent(html_23733d0fa8a1f6f529575626e5d34241);
+            
+        
+
+        circle_marker_432fbff1f976dc83cbd75fbe31512738.bindPopup(popup_20cafe19824568d2e8b3840dc6f098a5)
+        ;
+
+        
+    
+    
+            circle_marker_432fbff1f976dc83cbd75fbe31512738.bindTooltip(
+                `<div>
+                     La Carlota
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_ab06ce39b2d8770e12d5429852b39f8c = L.circleMarker(
+                [-34.5195442, -63.9447548],
+                {"bubblingMouseEvents": true, "color": "#003a8bff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#003a8bff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.3, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_468d3d66e1167d2d8e1d27cecd072293 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_77a4fc1d19475f2671718571508a34fe = $(`<div id="html_77a4fc1d19475f2671718571508a34fe" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Jovita, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Jovita</td>       <td>Córdoba</td>       <td>JOV</td>       <td>-34.519544</td>       <td>-63.944755</td>       <td>33</td>       <td>66.7</td>       <td>66.7</td>       <td>30.3</td>       <td>10</td>       <td>0.2</td>       <td>0.1</td>       <td>0.6</td>       <td>0.1</td>       <td>134.0</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_468d3d66e1167d2d8e1d27cecd072293.setContent(html_77a4fc1d19475f2671718571508a34fe);
+            
+        
+
+        circle_marker_ab06ce39b2d8770e12d5429852b39f8c.bindPopup(popup_468d3d66e1167d2d8e1d27cecd072293)
+        ;
+
+        
+    
+    
+            circle_marker_ab06ce39b2d8770e12d5429852b39f8c.bindTooltip(
+                `<div>
+                     Jovita
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_3190b251991e5bbc3fe4523171db4acb = L.circleMarker(
+                [-30.8539263, -64.9934681],
+                {"bubblingMouseEvents": true, "color": "#178c00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#178c00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.4, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_7cdda370ed54f76db5cbcf7883644344 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_69c9ddb4557f81ff1b6437fad3388ed0 = $(`<div id="html_69c9ddb4557f81ff1b6437fad3388ed0" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Villa de Soto, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Villa de Soto</td>       <td>Córdoba</td>       <td>VSO</td>       <td>-30.853926</td>       <td>-64.993468</td>       <td>54</td>       <td>11.1</td>       <td>11.1</td>       <td>81.5</td>       <td>44</td>       <td>0.091</td>       <td>0.114</td>       <td>0.455</td>       <td>0.341</td>       <td>22.655</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_7cdda370ed54f76db5cbcf7883644344.setContent(html_69c9ddb4557f81ff1b6437fad3388ed0);
+            
+        
+
+        circle_marker_3190b251991e5bbc3fe4523171db4acb.bindPopup(popup_7cdda370ed54f76db5cbcf7883644344)
+        ;
+
+        
+    
+    
+            circle_marker_3190b251991e5bbc3fe4523171db4acb.bindTooltip(
+                `<div>
+                     Villa de Soto
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_a5c6487ddfd103709c20c979c843e576 = L.circleMarker(
+                [-31.4680296, -64.2349497],
+                {"bubblingMouseEvents": true, "color": "#3e9f00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3e9f00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.9, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_34e95d8e6e5c434bc8cacfccdcca6d24 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8ff56c9b45868f6ab5418c1547b1cdae = $(`<div id="html_8ff56c9b45868f6ab5418c1547b1cdae" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">La Para , Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>La Para</td>       <td>Córdoba</td>       <td>LPA</td>       <td>-31.46803</td>       <td>-64.23495</td>       <td>59</td>       <td>16.9</td>       <td>5.1</td>       <td>78.0</td>       <td>46</td>       <td>0.152</td>       <td>0.065</td>       <td>0.457</td>       <td>0.326</td>       <td>22.457</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_34e95d8e6e5c434bc8cacfccdcca6d24.setContent(html_8ff56c9b45868f6ab5418c1547b1cdae);
+            
+        
+
+        circle_marker_a5c6487ddfd103709c20c979c843e576.bindPopup(popup_34e95d8e6e5c434bc8cacfccdcca6d24)
+        ;
+
+        
+    
+    
+            circle_marker_a5c6487ddfd103709c20c979c843e576.bindTooltip(
+                `<div>
+                     La Para 
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_4a0c753b85c668ec717d7f89b44d06dd = L.circleMarker(
+                [-31.1754275, -65.1021949],
+                {"bubblingMouseEvents": true, "color": "#0000ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000ffff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 1.8, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_61e6bea3b73595a11506d0ad671eb0eb = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_998b906aeb10cc0b554adab14bda435f = $(`<div id="html_998b906aeb10cc0b554adab14bda435f" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">San Carlos Minas, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>San Carlos Minas</td>       <td>Córdoba</td>       <td>SCM</td>       <td>-31.175428</td>       <td>-65.102195</td>       <td>18</td>       <td>16.7</td>       <td>5.5</td>       <td>77.8</td>       <td>14</td>       <td>0.143</td>       <td>0.071</td>       <td>0.571</td>       <td>0.214</td>       <td>22.771</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_61e6bea3b73595a11506d0ad671eb0eb.setContent(html_998b906aeb10cc0b554adab14bda435f);
+            
+        
+
+        circle_marker_4a0c753b85c668ec717d7f89b44d06dd.bindPopup(popup_61e6bea3b73595a11506d0ad671eb0eb)
+        ;
+
+        
+    
+    
+            circle_marker_4a0c753b85c668ec717d7f89b44d06dd.bindTooltip(
+                `<div>
+                     San Carlos Minas
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_2a5c08b887ad5c40c5acc499785e182a = L.circleMarker(
+                [-29.7876085, -63.9423571],
+                {"bubblingMouseEvents": true, "color": "#1f8f00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f8f00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.5, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_15647e893cb1359ece8aba3ae5e856c1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c613cfc2757efe8b5562dc3ff413d4c6 = $(`<div id="html_c613cfc2757efe8b5562dc3ff413d4c6" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">San Francisco del Chañar, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>San Francisco del Chañar</td>       <td>Córdoba</td>       <td>SFC</td>       <td>-29.787609</td>       <td>-63.942357</td>       <td>55</td>       <td>3.7</td>       <td>10.9</td>       <td>85.4</td>       <td>47</td>       <td>0.17</td>       <td>0.149</td>       <td>0.447</td>       <td>0.234</td>       <td>15.047</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_15647e893cb1359ece8aba3ae5e856c1.setContent(html_c613cfc2757efe8b5562dc3ff413d4c6);
+            
+        
+
+        circle_marker_2a5c08b887ad5c40c5acc499785e182a.bindPopup(popup_15647e893cb1359ece8aba3ae5e856c1)
+        ;
+
+        
+    
+    
+            circle_marker_2a5c08b887ad5c40c5acc499785e182a.bindTooltip(
+                `<div>
+                     San Francisco del Chañar
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_19daa9428aa8df6b4e4ffe3b23024214 = L.circleMarker(
+                [-31.9450289, -65.1902739],
+                {"bubblingMouseEvents": true, "color": "#004674ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#004674ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.6, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_bc0125818f658938186d8f5384000391 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_570f35a5232838995eb58599b2c01ee6 = $(`<div id="html_570f35a5232838995eb58599b2c01ee6" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Villa Dolores, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Villa Dolores</td>       <td>Córdoba</td>       <td>VDO</td>       <td>-31.945029</td>       <td>-65.190274</td>       <td>36</td>       <td>11.1</td>       <td>5.6</td>       <td>83.3</td>       <td>30</td>       <td>0.3</td>       <td>0.1</td>       <td>0.5</td>       <td>0.1</td>       <td>17.2</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_bc0125818f658938186d8f5384000391.setContent(html_570f35a5232838995eb58599b2c01ee6);
+            
+        
+
+        circle_marker_19daa9428aa8df6b4e4ffe3b23024214.bindPopup(popup_bc0125818f658938186d8f5384000391)
+        ;
+
+        
+    
+    
+            circle_marker_19daa9428aa8df6b4e4ffe3b23024214.bindTooltip(
+                `<div>
+                     Villa Dolores
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_1fa98c73cef617c644b48c1bf59382ee = L.circleMarker(
+                [-31.4166037, -65.4498748],
+                {"bubblingMouseEvents": true, "color": "#000fe0ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000fe0ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.2, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_b999b52e58a1c54c3c454696972fe745 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f39dda2fed510fcad81c4e63a6154849 = $(`<div id="html_f39dda2fed510fcad81c4e63a6154849" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Chancani, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Chancani</td>       <td>Córdoba</td>       <td>CHA</td>       <td>-31.416604</td>       <td>-65.449875</td>       <td>22</td>       <td>13.6</td>       <td>13.6</td>       <td>72.7</td>       <td>16</td>       <td>0.063</td>       <td>0.125</td>       <td>0.438</td>       <td>0.375</td>       <td>27.638</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_b999b52e58a1c54c3c454696972fe745.setContent(html_f39dda2fed510fcad81c4e63a6154849);
+            
+        
+
+        circle_marker_1fa98c73cef617c644b48c1bf59382ee.bindPopup(popup_b999b52e58a1c54c3c454696972fe745)
+        ;
+
+        
+    
+    
+            circle_marker_1fa98c73cef617c644b48c1bf59382ee.bindTooltip(
+                `<div>
+                     Chancani
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_872acea513604ff8db98850e18068350 = L.circleMarker(
+                [-33.1231585, -64.3493441],
+                {"bubblingMouseEvents": true, "color": "#178c00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#178c00ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.4, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_46181cdbb6ba4ecf293fd3976d6ac7ca = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4f38c0a6e59157f90d862c56fd03b855 = $(`<div id="html_4f38c0a6e59157f90d862c56fd03b855" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Río Cuarto, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Río Cuarto</td>       <td>Córdoba</td>       <td>RIV</td>       <td>-33.123159</td>       <td>-64.349344</td>       <td>54</td>       <td>22.2</td>       <td>0.0</td>       <td>77.8</td>       <td>42</td>       <td>0.286</td>       <td>0.19</td>       <td>0.262</td>       <td>0.262</td>       <td>22.462</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_46181cdbb6ba4ecf293fd3976d6ac7ca.setContent(html_4f38c0a6e59157f90d862c56fd03b855);
+            
+        
+
+        circle_marker_872acea513604ff8db98850e18068350.bindPopup(popup_46181cdbb6ba4ecf293fd3976d6ac7ca)
+        ;
+
+        
+    
+    
+            circle_marker_872acea513604ff8db98850e18068350.bindTooltip(
+                `<div>
+                     Río Cuarto
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_deaa4eee6e7b3d0ea0a4dc61c29570ec = L.circleMarker(
+                [-31.2365323, -63.0610682],
+                {"bubblingMouseEvents": true, "color": "#0026b2ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0026b2ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.8, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_c6515cf1044e3ca3bb78f75afade6e02 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b192a8cb279fbca0b74eb2abdcff0f63 = $(`<div id="html_b192a8cb279fbca0b74eb2abdcff0f63" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">La Tordilla, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>La Tordilla</td>       <td>Córdoba</td>       <td>LTO</td>       <td>-31.236532</td>       <td>-63.061068</td>       <td>28</td>       <td>28.6</td>       <td>10.7</td>       <td>60.7</td>       <td>17</td>       <td>0.294</td>       <td>0.059</td>       <td>0.294</td>       <td>0.353</td>       <td>39.594</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_c6515cf1044e3ca3bb78f75afade6e02.setContent(html_b192a8cb279fbca0b74eb2abdcff0f63);
+            
+        
+
+        circle_marker_deaa4eee6e7b3d0ea0a4dc61c29570ec.bindPopup(popup_c6515cf1044e3ca3bb78f75afade6e02)
+        ;
+
+        
+    
+    
+            circle_marker_deaa4eee6e7b3d0ea0a4dc61c29570ec.bindTooltip(
+                `<div>
+                     La Tordilla
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d805b5bdd999c34f5716e5c085d203ab = L.circleMarker(
+                [-30.783225, -64.6360509],
+                {"bubblingMouseEvents": true, "color": "#0026b2ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0026b2ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.8, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_851af134e7f0a7a888c989433b2bfc08 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a6c1a755bbb8bdf63eadb8a287b8abd3 = $(`<div id="html_a6c1a755bbb8bdf63eadb8a287b8abd3" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">San Marcos Sierras, Córdoba</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>San Marcos Sierras</td>       <td>Córdoba</td>       <td>SMS</td>       <td>-30.783225</td>       <td>-64.636051</td>       <td>28</td>       <td>7.1</td>       <td>17.9</td>       <td>75.0</td>       <td>21</td>       <td>0.286</td>       <td>0.095</td>       <td>0.476</td>       <td>0.143</td>       <td>25.476</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_851af134e7f0a7a888c989433b2bfc08.setContent(html_a6c1a755bbb8bdf63eadb8a287b8abd3);
+            
+        
+
+        circle_marker_d805b5bdd999c34f5716e5c085d203ab.bindPopup(popup_851af134e7f0a7a888c989433b2bfc08)
+        ;
+
+        
+    
+    
+            circle_marker_d805b5bdd999c34f5716e5c085d203ab.bindTooltip(
+                `<div>
+                     San Marcos Sierras
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_651203d20a8c828f211de95064d3155c = L.circleMarker(
+                [-33.3210647, -66.3482086],
+                {"bubblingMouseEvents": true, "color": "#005555ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#005555ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_c0533af59d7f82bc73639421ed62fef5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4c07dd15de282e951e47f8278cdf1eec = $(`<div id="html_4c07dd15de282e951e47f8278cdf1eec" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">La Toma, San Luis</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>La Toma</td>       <td>San Luis</td>       <td>LTN</td>       <td>-33.321065</td>       <td>-66.348209</td>       <td>40</td>       <td>15.0</td>       <td>2.5</td>       <td>82.5</td>       <td>33</td>       <td>0.212</td>       <td>0.0</td>       <td>0.455</td>       <td>0.333</td>       <td>17.955</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_c0533af59d7f82bc73639421ed62fef5.setContent(html_4c07dd15de282e951e47f8278cdf1eec);
+            
+        
+
+        circle_marker_651203d20a8c828f211de95064d3155c.bindPopup(popup_c0533af59d7f82bc73639421ed62fef5)
+        ;
+
+        
+    
+    
+            circle_marker_651203d20a8c828f211de95064d3155c.bindTooltip(
+                `<div>
+                     La Toma
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_9d06f4d23ead22e77735ac0c40e8dd15 = L.circleMarker(
+                [-32.5594627, -65.2440415],
+                {"bubblingMouseEvents": true, "color": "#0007f0ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0007f0ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.0, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_0505ea814c75c4e12d4b36576035aebc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0400540972c75898c1e2457bce103d19 = $(`<div id="html_0400540972c75898c1e2457bce103d19" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Concarán, San Luis</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Concarán</td>       <td>San Luis</td>       <td>CON</td>       <td>-32.559463</td>       <td>-65.244041</td>       <td>20</td>       <td>15.0</td>       <td>5.0</td>       <td>80.0</td>       <td>16</td>       <td>0.25</td>       <td>0.438</td>       <td>0.25</td>       <td>0.063</td>       <td>20.25</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_0505ea814c75c4e12d4b36576035aebc.setContent(html_0400540972c75898c1e2457bce103d19);
+            
+        
+
+        circle_marker_9d06f4d23ead22e77735ac0c40e8dd15.bindPopup(popup_0505ea814c75c4e12d4b36576035aebc)
+        ;
+
+        
+    
+    
+            circle_marker_9d06f4d23ead22e77735ac0c40e8dd15.bindTooltip(
+                `<div>
+                     Concarán
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d5c3d2636379e1e976c7b7bc31860f5f = L.circleMarker(
+                [-32.3422883, -65.2016033],
+                {"bubblingMouseEvents": true, "color": "#004674ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#004674ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.6, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_2f2a07baf7fb64dbbbb13d0206f59595 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bbb5844ee67e5faefe792225441f2bb4 = $(`<div id="html_bbb5844ee67e5faefe792225441f2bb4" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Santa Rosa del Conlara, San Luis</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Santa Rosa del Conlara</td>       <td>San Luis</td>       <td>SRC</td>       <td>-32.342288</td>       <td>-65.201603</td>       <td>36</td>       <td>5.6</td>       <td>0.0</td>       <td>94.4</td>       <td>34</td>       <td>0.206</td>       <td>0.176</td>       <td>0.441</td>       <td>0.176</td>       <td>6.041</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_2f2a07baf7fb64dbbbb13d0206f59595.setContent(html_bbb5844ee67e5faefe792225441f2bb4);
+            
+        
+
+        circle_marker_d5c3d2636379e1e976c7b7bc31860f5f.bindPopup(popup_2f2a07baf7fb64dbbbb13d0206f59595)
+        ;
+
+        
+    
+    
+            circle_marker_d5c3d2636379e1e976c7b7bc31860f5f.bindTooltip(
+                `<div>
+                     Santa Rosa del Conlara
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c2bbe5f74c8bbcf7ec4d75b6c9a2a290 = L.circleMarker(
+                [-33.2809543, -66.3102442],
+                {"bubblingMouseEvents": true, "color": "#001bc9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#001bc9ff", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2.5, "stroke": true, "weight": 3}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+        
+    
+        var popup_ec8076c3716d2d1b7aa121ea6357ee2a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b6c313273c5d8d770762593eb27713d0 = $(`<div id="html_b6c313273c5d8d770762593eb27713d0" style="width: 100.0%; height: 100.0%;">             <strong style="font-size: 20px;">Tilsarao, San Luis</strong><br>             <strong>Información Completa:</strong><br>             <table border="1" class="dataframe table table-striped">   <thead>     <tr style="text-align: right;">       <th>Ciudad</th>       <th>Provincia</th>       <th>ID</th>       <th>Latitud</th>       <th>Longitud</th>       <th>N Total</th>       <th>Europa/MedioOriente</th>       <th>Africa</th>       <th>Nativos</th>       <th>Originarios</th>       <th>A2</th>       <th>B2</th>       <th>C1</th>       <th>D1</th>       <th>total_diversity</th>     </tr>   </thead>   <tbody>     <tr>       <td>Tilsarao</td>       <td>San Luis</td>       <td>TIL</td>       <td>-33.280954</td>       <td>-66.310244</td>       <td>25</td>       <td>4.0</td>       <td>4.0</td>       <td>92.0</td>       <td>23</td>       <td>0.348</td>       <td>0.348</td>       <td>0.174</td>       <td>0.13</td>       <td>8.174</td>     </tr>   </tbody> </table>             </div>`)[0];
+                popup_ec8076c3716d2d1b7aa121ea6357ee2a.setContent(html_b6c313273c5d8d770762593eb27713d0);
+            
+        
+
+        circle_marker_c2bbe5f74c8bbcf7ec4d75b6c9a2a290.bindPopup(popup_ec8076c3716d2d1b7aa121ea6357ee2a)
+        ;
+
+        
+    
+    
+            circle_marker_c2bbe5f74c8bbcf7ec4d75b6c9a2a290.bindTooltip(
+                `<div>
+                     Tilsarao
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var layer_control_97e831228dd067a86bc93a7d88c54a0a_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_69edeac80604efd7407c3fa74b6335b7,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_97e831228dd067a86bc93a7d88c54a0a = L.control.layers(
+                layer_control_97e831228dd067a86bc93a7d88c54a0a_layers.base_layers,
+                layer_control_97e831228dd067a86bc93a7d88c54a0a_layers.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_2af7e0ce89c1eac368a3a1be810e1418);
+
+        
+</script>
+</html>

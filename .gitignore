@@ -1,0 +1,27 @@
+# Datos pesados
+*.zip
+*.shp
+*.dbf
+*.sbn
+*.sbx
+*.shx
+*.prj
+*.cpg
+*.m4a
+
+# Documentos pesados
+*.pdf
+*.doc
+*.docx
+*.xlsx
+*.xls
+*.rds
+
+# Imágenes
+*.jpg
+*.jpeg
+*.png
+
+# R
+.RData
+.Rhistory
