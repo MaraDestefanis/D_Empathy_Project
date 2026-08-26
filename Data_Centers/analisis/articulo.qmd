@@ -1,0 +1,543 @@
+---
+title: "Investigación Periodística"
+---
+
+::: {.text-center}
+![](images/datacenter_int.png){fig-alt="Interior de un data center" width="70%"}
+:::
+
+
+```{python}
+#| include: false
+# Slack Tecnológico
+
+import pandas as pd
+import numpy as np
+
+
+# Visualización 
+
+from IPython.display import display, HTML
+from pathlib import Path
+import sys, os
+import plotly.graph_objects as go
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from dc_estilos import *
+TEMPLATE = TEMPLATE_PLOTLY
+
+# Display numérico
+pd.set_option("display.max_columns",  None)
+pd.set_option("display.float_format", "{:,.2f}".format)
+
+print("Estilo visual cargado.")
+
+VIZ = Path("../visual/")
+```
+
+```{python}
+#| include: false
+
+dc_t = pd.read_csv("../datos/dc_master_confeature.csv")
+```
+
+## La carrera térmica de los Data Centers
+
+
+Un **data center** es una fábrica que contiene servidores que almacenan datos, redes y switches, software de gestión y sistemas de seguridad permitiendo que el mundo digital funcione. Su tarea es mover datos constantemente. Para ello necesita consumir electricidad y agua para controlar la temperatura para una población online en constante crecimiento - actualmente hay un **73,4%** de la población mundial conectada a internet y  de ella un **30%** usan herramientas de IA. 
+Durante el 2026 se vió una proliferación de DataCenters en construcción y planificados  a gran escala en vez de pequeñas y distribuidas. Esto conlleva que para poder enfriarse requieran de mayor consumo eléctrico y de agua lo que provoca mayor cantidad de emisiones de CO2.
+
+>**Para el año 2030 se estima que el consumo de agua llegará a los 9.3 billones (trillion) de litros suficiente agua para llenar 3.7 millones de piscinas olímpicas y el consumo eléctrico superará los 945 TWh comparable al de todo Japón en un año**
+
+
+
+### ¿Cómo llegamos a esto?
+
+
+Bueno. Los Data Centers no son nuevos, la primera instalación fue construida en el año 1945 para albergar el **ENAIC** en la Universidad de Pennsylvania. Instalaciones adicionales se levantaron en West Point, el Pentágono y la sede de la CIA en los años '50 en Estados Unidos. Desde esa fecha la carrera comienza a ser térmica. El problema del calor estaba instaurado, se necesitaban enormes ventiladores y conductos de ventilación para enfriar las máquinas.  [Ver Línea de Tiempo](Material_Adicional/Lineadeltiempo.html){target="_blank"}  La necesidad de enfriar fue creciendo exponencialmente junto con el crecimiento de los datos y nuestra capacidad de gestionarlos.  
+
+En el año 2010, comenzamos a evidenciar el concepto de Big Data, grandes volúmenes de datos, que crecían a causa de tres cosas: abaratamiento de telefonía móvil con paquetes de datos, almacenamientos-cloud - económicos, y el primer furor de las redes sociales que llevaron a que los contenidos -datos- se crearan en la arena pública ahora digital.
+
+Hasta allí  internet solo consumía de estas fábricas almacenamiento - lugar virtual-, streaming y redes. Con el aprovechamiento del big data para entrenar datos comenzó la carrera de los modelos de grandes lenguajes -LLM- de inteligencia artificial. Para entrenar necesitamos más datos, más procesamiento, en sí más energía ya que el consumo se da para el **razonamiento computacional masivo**. 
+
+> EL COSTO: el calor se dispara y la necesidad de ENFRIAR se agudiza.   
+
+Luego del 2020, los startups tecnológicas focalizadas en inteligencia artificial comenzaron a germinar: por ejemplo OpenAI —Chat GPT—, Anthropic —Claude—. Y los grandes jugadores hicieron lo mismo: **Google —Gemini—, Microsoft —Copilot**, apalancado en su alianza con **OpenAI**, además de sus propios modelos livianos **Phi—, Meta —Llama**, de código abierto—, **Amazon —Titan**, a través de **Amazon Bedrock**, además de su fuerte inversión en **Anthropic— y TikTok/ByteDance —Doubao—**. La carrera también sumó a **xAI —Grok—** y a jugadores chinos como **Alibaba —Qwen— y DeepSeek,** que en poco tiempo se metieron de lleno en la disputa por la infraestructura global de IA. 
+
+
+El ritmo de crecimiento y consumo también fue anticipado por sus protagonistas, algunas afirmaciones fueron: 
+
+- **El entrenamiento de GPT-4 consumió entre 40 y 55 veces más energía que el de GPT-3** 
+-  **Según Anthopic, se necesitará 10 veces más energía en comparación con lo que creían hace apenas un año-2025-**
+- **1 millón de satélites: Es la escala del proyecto "Colossus" de SpaceX para crear un sistema de distribución unificado en el espacio para 2027-2028** 
+
+
+En síntesis, la carrera actual es ser líderes en la industria a través de crear más Data Centers, pero grandes que permitan ser desarrollados en menor tiempo. 
+
+
+En este informe nos adentraremos a conocer las características de los Data Centers y como según su tamaño podemos estimar consumo e impacto en:   **[Consumo Eléctrico](energia.qmd)**, **[Consumo Agua, Riesgo hídrico](agua.qmd)**, **[Calentamiento Global co2](co2.qmd)**, **[Mapa Ubicaciones](mapa.qmd)**
+
+También con un principio de recolección de datos y en elaboración: **[Denuncias Globales](denuncias.qmd)**, **[Capital y Economía](capital.qmd)**, **[Zonas Oceano Espacio](espacio_oceano.qmd)**, **[Tesina alternativas](tesis_distribución_dc.qmd)**
+
+Si el problema principal es el enfriamiento, es lógico pensar en una solución orgánica donde emplazar estas fábricas en lugares fríos o la construcción de más Data Centers de escalas pequeñas interconectadas, DC distribuidos o federalizados.
+Entonces: ¿Existen otras alternativas de ubicación y diseño para los Data Centers? La respuesta es sí. 
+Algunas ya se aplican hoy, generalmente en Data Centers de escala más pequeña: países con climas naturalmente fríos, que reducen el gasto en refrigeración, o emplazamientos subterráneos —cuevas, minas reconvertidas—. También existen alternativas en etapa de proyecto debajo del océano o en análisis en el espacio.  
+Pero hasta el momento la dirección, según las características de los Data Centers que se están construyendo y están planificados es de centros de gran escala. 
+Aunque en la industria, los costos ambientales y las denuncias y protestas de la población que ya convive con los Data Centers están generando un replanteamiento y una alerta de esta dirección . [Ver Tabla de denuncias](denuncias.qmd) 
+
+
+Expertos de la Universidad de las Naciones Unidas y Singularity University advierten que el consumo de electricidad, agua y suelo para sostener esta infraestructura digital alcanzará niveles críticos para el año 2030. El impacto no es solo ecológico, la concentración de poder tecnológico en pocas manos y la falta de transparencia -secretismo- en los tratos corporativos plantean serios riesgos para la democracia y la soberanía global 
+[Sharron McPherson, Singularity University — entrevista](https://www.youtube.com/watch?v=oc5jVFckoSE)
+
+
+### La huella del usuario
+
+
+Pero, cuál es nuestra responsabilidad en todo esto. **¿Cuánto nos cuesta energéticamente cada output?** 
+
+Un consumo consciente es entender que cada consulta a una inteligencia artificial generativa, cada imagen, cada video generado, tiene un costo energético propio, por más invisible que parezca.  La escala personal es pensar cuánto gastamos como individuo, qué herramientas utilizamos, cuántas horas y para qué. Multiplicado por la cantidad de gente que hace lo mismo promedialmente en el mundo nos da una estimación. El consumo consciente es decidir acciones según la elección de los actores, procesos y herramientas digitales que se consumen alineado a nuestro pensamiento crítico.  Antes que nada se requiere conocer el impacto de una acción para medir nuestro impacto.  
+
+**¿Quiénes consumen IA?** Hoy, 6,12 mil millones de personas —el 73,8% de la población mundial— usan internet. De ese universo, 2,42 mil millones ya adoptaron el uso de IA generativa: cerca del 30% de la población mundial, una cifra que se duplicó en el año 2025. Por otro lado, 2,21 mil millones de personas —1 de cada 4 habitantes del planeta— todavía no están conectadas a internet. La mayoría vive en Asia del Sur y África. Fuentes: [Digital 2026 Mid-Year Global Update Report](https://datareportal.com/reports/digital-2026-mid-year-global-update-report), [Digital Around the World](https://datareportal.com/global-digital-overview).
+Poner una escala y medir puede resultar complejo pero se puede generar estimaciones solo con el fin de comprender cuánto nos cuesta energéticamente cada output.  
+
+>Una consulta compleja de texto con IA cuesta en promedio ~14 Wh. multiplicada por los 6,12 mil millones de personas ya conectadas a internet, equivale a seis veces el consumo eléctrico residencial diario de Uruguay (14 GWh/día, UTE-DNE 2025)
+
+> Generar una imagen por IA consume 2.9 Wh, lo que equivale a mantener encendida una bombilla LED de 10W por 17 minutos
+> Un video corto de alta complejidad consume tanto como 200,000 clasificaciones de spam.
+
+```{python}
+# Comparo el costo energético de cada tipo de interacción con IA — uso escala
+# log en el eje x porque el rango va de 0,2 a 950 Wh (factor ~3000x) y en escala
+# lineal la barra de "Video generado" taparía a todas las demás.
+ 
+
+ 
+def fmt_wh(lo, hi):
+    # Formateo con coma decimal (estilo español) en vez del punto de Python
+    def f(n):
+        s = f"{n:.2f}".rstrip('0').rstrip('.') if n < 10 else f"{n:.0f}"
+        return s.replace('.', ',')
+    return f"{f(lo)} Wh" if lo == hi else f"{f(lo)}–{f(hi)} Wh"
+ 
+# Cargo los datos de la tabla — wh_rep es el valor representativo (punto medio
+# para los rangos, valor puntual para las estimaciones fijas) que define el
+# largo de la barra. El rango completo queda en el hover, no se pierde.
+data_interacciones = pd.DataFrame([
+    {"interaccion": "Búsqueda Google",       "wh_min": 0.3,  "wh_max": 0.3,  "wh_rep": 0.30, "equivale": "referencia base",                     "color": PALETA["pizarra"]},
+    {"interaccion": "Texto simple",           "wh_min": 0.2,  "wh_max": 0.3,  "wh_rep": 0.25, "equivale": "≈ 1 búsqueda Google",                 "color": PALETA["oliva"]},
+    {"interaccion": "Imagen generada",        "wh_min": 1.0,  "wh_max": 3.0,  "wh_rep": 2.0,  "equivale": "5–10 búsquedas Google",               "color": COLOR_TAMAÑO["medium"]},
+    {"interaccion": "Texto complejo",         "wh_min": 2.0,  "wh_max": 30.0, "wh_rep": 16.0, "equivale": "10–100 búsquedas Google",             "color": PALETA["tierra"]},
+    {"interaccion": "Video generado (5 seg)", "wh_min": 950,  "wh_max": 950,  "wh_rep": 950,  "equivale": "≈ 12% del día eléctrico de un hogar", "color": COLOR_TAMAÑO["hyperscale"]},
+])
+ 
+# Ordeno ascendente para que la barra más grande (video) quede arriba del todo
+data_interacciones = data_interacciones.sort_values("wh_rep").reset_index(drop=True)
+data_interacciones["rango_txt"] = data_interacciones.apply(lambda r: fmt_wh(r.wh_min, r.wh_max), axis=1)
+ 
+fig = go.Figure()
+ 
+fig.add_trace(go.Bar(
+    y=data_interacciones["interaccion"],
+    x=data_interacciones["wh_rep"],
+    orientation="h",
+    marker_color=data_interacciones["color"],
+    text=data_interacciones["rango_txt"],
+    textposition="outside",
+    customdata=data_interacciones["equivale"],
+    hovertemplate="<b>%{y}</b><br>Costo: %{text}<br>Equivale a: %{customdata}<extra></extra>",
+))
+ 
+fig.update_layout(
+    template=TEMPLATE_PLOTLY,
+    title="Cuánto cuesta cada interacción con IA<br><sup>estimaciones 2025 — fuentes independientes convergentes</sup>",
+    xaxis=dict(title="Energía por interacción (Wh, escala logarítmica)", type="log"),
+    yaxis=dict(title=""),
+    height=420,
+    margin=dict(l=160, r=60, t=90, b=60),
+    showlegend=False,
+)
+ 
+fig.add_annotation(
+    text="Fuentes: Google Cloud (2025, metodología propia) · Epoch AI (2025) · OpenAI · Jehham et al. (2025)",
+    xref="paper", yref="paper", x=0, y=-0.22, showarrow=False,
+    font=dict(size=7, color=PALETA["pizarra"]), align="left"
+)
+ 
+fig.show()
+ 
+```
+
+>La responsabilidad en el uso cae con gran peso, ya que, según un [informe de la ONU](https://unu.edu/inweh)
+aunque el entrenamiento de la IA es intensiva, la fase de inferencia, es decir el uso diario por miles de millones de usuarios, representa entre el 80% y el 90% del consumo total de energía de la IA
+
+### Data Centers en el mundo
+
+
+
+En esta investigación  **D_Empathy Project**  recopiló **5314 Data Centers** verificados de ellos hay 5263 operativos (99%), 24 (0.5%) en construcción y 27 (0.5%)planificados ubicados en 147 países, 7 continentes y llevados a cabo por 2369 operadores únicos. 
+
+Pero atención, no significa que sean los únicos Data Centers que existen. De los 5314 DC que aquí analizamos el 99% están registrados en PeeringDB  base de datos voluntaria que representa mayoritariamenta al ecosistema de internet occidental. 
+Otros Datas Centers a considerar: 
+
+- **China** cuenta con más de 2.700 instalaciones estimadas y  ~60 GW de capacidad pero está prácticamente ausente de registros por razones regulatorias y de arquitectura de red ([Our World in Data](https://ourworldindata.org/internet)).  - **Rusia** en tanto tiene una capacidad IT instala de  ~1.010 MW con operadores como Rostelecom, Yandex.Cloud y MTS Group. Casi no aparece en PeeringDB porque desde 2022 la industria opera bajo mandato de soberanía digital — las reglas de soberanía digital de julio 2025 obligan a procesar datos de ciudadanos rusos localmente, canalizando cargas de trabajo hacia infraestructura doméstica ([DataReportal](https://datareportal.com/global-digital-overview)).
+- Si miramos el mercado de **Oriente Medio** este existe y crece rápido pero los operadores locales (Gulf Data Hub, center3/stc, Khanzna) no participan en PeeringDB. UAE, Arabia Saudita, Sudáfrica e Israel son los principales destinos, con Omán, Bahrein, Qatar, Nigeria, Kenia y Egipto como destinos emergentes ([Electro IQ](https://electroiq.com/stats/internet-statistics/)).
+-  Por su parte **Africa**, invisible pero en expansión hay infraestructura construida que no aparece en ningún registro internacional porque opera para mercados locales sin interconexión global ([World Bank](https://blogs.worldbank.org/en/digital-development/africas-connectivity-gap-can-map-tell-story)).
+-   En el **Sudeste Asiático**, Malasia domina seguida de Singapur, Indonesia, Tailandia, Filipinas y Vietnam. Singapur sí está bien representado en PeeringDB por ser hub global, pero el resto de la región está muy subrepresentado ([Our World in Data](https://ourworldindata.org/internet)).
+
+| Región ausente | Capacidad estimada | Razón principal |
+|---|---|---|
+| China | ~60 GW / 2.700 instalaciones | Ecosistema de red cerrado, sin integración con PeeringDB |
+| Rusia | ~1.010 MW | Soberanía digital, sanciones, operadores domésticos |
+| Oriente Medio (local) | Creciente, no cuantificado | Operadores regionales sin presencia en registros globales |
+| África subsahariana | Subutilizado pero existente | Sin interconexión global, registro inexistente |
+| Sudeste Asiático (excl. Singapur) | En expansión rápida | Infraestructura local sin participación en PeeringDB |
+
+### Características de los Data Centers del ecosistema internet occidental
+
+
+
+Los Data Centers que actualmente estan en construcción y están planificados escalan en tamaño y consumos. 
+Mas grandes y más energía requerida para su funcionamiento con impactos más severos y directos a la región en donde operan y con variaciones entre una y otra según la tecnología de enfriamiento que utilizan y las características del lugar donde se instalan. 
+
+```{python}
+#| include: false
+
+# Tipos de datos correctos
+# Categóricos
+cats = ['operador_norm', 'web', 'continente', 'pais', 'pais_iso',
+        'ciudad', 'direccion', 'estado', 'tecnologia_refrigeracion',
+        'riesgo_hidrico_cuenca', 'riesgo_hidrico_pais',
+        'bws_descripcion', 'tamaño_categoria', 'tamaño_porredes']
+
+for col in cats:
+    dc_t[col] = dc_t[col].astype('category')
+
+# String a object para nombre
+dc_t['nombre'] = dc_t['nombre'].astype('object')
+
+# Int64 (nullable) para enteros con posibles NaN
+dc_t['id'] = dc_t['id'].astype('Int64')
+
+# Verificar
+print(dc_t.dtypes)
+print()
+print(f"Memoria antes/después:")
+print(dc_t.memory_usage(deep=True).sum() / 1024**2, "MB")
+```
+
+```{python}
+#| include: false
+
+# Acomodo  categorías residuales de riesgo hídrico cuenca
+
+
+reemplazos = {
+    'No Data': 'sin_dato',
+    'Sin dato (sin cuenca)': 'sin_dato', 
+    'Arid and Low Water Use': 'sin_dato'
+}
+
+dc_t['riesgo_hidrico_cuenca'] = (dc_t['riesgo_hidrico_cuenca']
+    .astype(str)
+    .replace(reemplazos)
+    .astype('category'))
+
+# Verificar
+print(dc_t['riesgo_hidrico_cuenca'].value_counts(dropna=False))
+```
+
+#### Tamaño por redes conectadas
+
+De los 5263 DC operativos, el **64% son locales** - es decir tienen menos de 5 redes conectadas-, el **24% regional** - -20 redes conectadas-, casi **10% Nacional** - entre 20 y 99 redes- y solo un **2% internacional**. Los internacionales por lo general suelen consumir más de  200 MW categorizados como hyperscale y son los que ahora avanzan más en su construcción. 
+
+En cuanto a los operativos, prácticamente no contamos con el dato del tamaño del DC según su capacidad MW, solo se a registrado el consumo de energía del 0,06% que son justamente 3 operativos con cap_mw de hyperscale (Stargate I Abilene 1.200 MW, Vantage Johor Malaysia 300 MW, Scala Campus Tamboré 600 MW). 
+
+Ahora los Data Centers que están en planificación o construcción manejan una escala completamente distinta a la de los que ya están operando. 
+En cuanto a cantidad de redes casi la mitad de los Data Centers de 51 registrados informan sus características. Entre ellos **21 son  internacionales y 5 nacionales**.  Y de ellos -según el registro coincide 20 señalan que son hyperscale, mientras que 6 large y 4 medium -< 50 MW-. Ninguno small -  < 10 MW -. Características de consumo. 
+
+```{python}
+#| include: false
+
+## OPERATIVOS------------------------------------
+#  Distribución por tamaño_porredes
+#--------------------------------------------------------
+
+op = dc_t[dc_t["estado"] == "operativo"]
+
+conteo = op.tamaño_porredes.value_counts(dropna=True)
+porcentaje = op.tamaño_porredes.value_counts(dropna=True, normalize=True) * 100 
+
+resumen = pd.DataFrame({'conteo': conteo, 'porcentaje': porcentaje.round(2)})
+print(resumen)
+```
+
+### La brecha entre Data Centers operativos y proyectados
+
+
+
+>El crecimiento de Data Centers internacionales, según la cantidad de redes conectadas, que se dá en los planificados y en construcción deriva en un incremento de consumo eléctico y de agua que ascienda a casi 500 veces en comparación con los Data Centers operativos. 
+
+>Para tener una referencia, el 50% de estos consumen alrededor de 138,25 MW de electricidad en comparación de la mediana de los Data Centers operativos que consumen 0,28 MW.
+En tanto en agua, el consumo es igual de extremo: 5.231 millones de litros al año frente a apenas 10,6 millones del datacenter operativo típico. 
+
+La razón es simple: la mayoría de los Data Centers operativos hoy son chicos, con poca conectividad de red. Los proyectos anunciados, en cambio, incluyen los megaproyectos de nueva generación — con capacidades que superan por lejos a toda la infraestructura existente.
+
+```{python}
+cols_num = ['consumo_electrico_mw', 'agua_total_ml_año']
+
+# Agrupo directamente por estado — así comparo operativos vs. planificados/construcción
+# en una sola tabla, en vez de dos prints separados
+dc_t['grupo'] = dc_t['estado'].apply(lambda e: 'Operativos' if e == 'operativo' else 'Planificados y en construcción')
+
+resumen = (dc_t.groupby('grupo')[cols_num]
+           .agg(['mean', 'median'])
+           .round(2)
+           .reindex(['Operativos', 'Planificados y en construcción']))
+
+display(resumen)
+```
+
+### ¿Dónde están los Data Centers?
+
+
+
+Los Data Centers que se están construyendo y planificados se concentran  en América del Norte -16 DC - , Asia Pacífico - 13-  y Europa -8 -. Pero se amplían a  América del Sur - 7-, Africa -3- , Australia -2- y Oriente Medio -2-  [Ver Mapa Integral](mapa.qmd)
+
+Los que ya están operativos están concentrado en un 35% en Europa seguido por América del Norte -30%- y Asia Pacífico 17%. En estos América del Sur es el cuarto continente con un 9% de los Data Centers que ya están operativos. 
+
+```{python}
+#| include: false
+# . Distribución por continente 
+
+print("\n=== DCs OPERATIVOS POR CONTINENTE ===")
+print(op.continente.value_counts())
+
+total =op.continente.value_counts().sum()
+pct = (op.continente.value_counts() / total * 100).round(1)
+
+print(pct.to_string())
+```
+
+::: {.callout-note}
+
+**Récord:** el mayor proyecto individual en construcción es Meta Hyperion — Richland Parish (Meta Platforms, Estados Unidos), con una capacidad declarada de 5.000 MW. En comparación, el mayor data center operativo es Stargate I — Abilene Campus (Estados Unidos, 1.200 MW). 
+
+El centro de datos de Meta en Richland Parish fue anunciado como un proyecto de 10.000 millones de dólares en diciembre de 2024. En julio de 2026, Meta y Louisiana Economic Development describieron el proyecto actual en más de 50.000 millones de dólares, casi 10 millones de pies cuadrados, y 5 GW de capacidad de cómputo o TI planificada.
+
+La brecha es de más de 4 veces la capacidad. La carrera de megaproyectos se disputa en Estados Unidos. Abriéndose al resto del mundo, bajo el crecimiento de denuncias y reclamos presentados por colectivos vecinales de las zonas alrededor de los Data Centers. 
+
+:::
+
+```{python}
+no_op = dc_t[
+    (dc_t["estado"] != "operativo") &
+    (~dc_t["operador_norm"].str.contains("Múltiples", case=False, na=False))
+]
+
+campos = [
+    'nombre', 'operador_norm', 'pais', 'continente',
+    'tamaño_porredes', 'tamaño_categoria', 'cap_mw',
+    'consumo_electrico_mw', 'agua_total_ml_año',
+    'co2_ton_año', 'riesgo_hidrico_cuenca',
+    'tecnologia_refrigeracion', 'fuente_dato'
+]
+
+display(no_op.loc[[no_op['cap_mw'].idxmax()], campos])
+```
+
+![Meta Hyperion — Richland Parish, Louisiana](images/Hyperion_Meta_Data_Center_D_Empathy_Project.jpg){fig-align="center" width="85%"}
+
+<iframe width="100%" height="562" src="https://www.youtube.com/embed/Z-O6_JBa82I" title="Meta Hyperion: What Changed From $10B to More Than $50B" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-can-play" allowfullscreen></iframe>
+
+### Distribución por país Data Centers planificados y en construcción. 
+
+
+De los Data Centers planificados y en construcción, según la información por capacidad de MW, se ubican en los siguientes países que se señalan en el gráfico teniendo en cuenta que hay Data Centers que no presentan la información con respecto a su capacidad de MW por lo cual se mostrarán en color gris en el país donde se están pensando localizar y los que ya están en construcción. 
+
+```{python}
+# --- 6d. No operativos: país por tamaño_categoria (incluye sin dato) ---
+no_op = dc_t[dc_t["estado"] != "operativo"].copy()
+
+# Relleno los NaN con "sin_dato" — así entran al groupby (por defecto los descarta)
+no_op["tamaño_categoria"] = no_op["tamaño_categoria"].astype(object).fillna("sin_dato")
+
+cont_nop = (no_op.groupby(["pais", "tamaño_categoria"], observed=True)
+                 .size()
+                 .reset_index(name="cantidad"))
+
+fig4 = px.bar(cont_nop, x="pais", y="cantidad", color="tamaño_categoria",
+              category_orders={"tamaño_categoria": ORDEN_TAMAÑO_CAT},
+              color_discrete_map=COLOR_TAMAÑO,
+              title="<b>Países — En construcción y planificados</b> por tamaño",
+              labels={"cantidad": "DCs", "pais": "", "tamaño_categoria": "Tamaño"},
+              template=TEMPLATE, barmode="stack", height=600)
+
+# Cambio la etiqueta de la leyenda para que sea legible — sin tocar dc_estilos.py
+fig4.for_each_trace(lambda t: t.update(name="Sin información de su tamaño")
+                     if t.name == "sin_dato" else None)
+
+fig4.show()
+
+# Guardo el PNG solo si kaleido está disponible — si falla, no quiero que se caiga
+# el render entero de la web por un archivo estático que es opcional
+try:
+    fig4.write_image("../datos/fig4_continentes_noop.png", scale=2)
+except Exception as e:
+    pass
+```
+
+### Información de los Data Centers planificados y en construcción 
+
+Al detalle estos son los Data Centers planificados y en construcción que se analizan según el dataset elaborado para tal fin desde D_Empathy_Project- 
+
+```{python}
+# tabla completa de proyectados ordenada por MW
+
+
+cols_show = ['nombre','operador_norm','pais','estado','tamaño_categoria',
+             'consumo_electrico_mw','anio_registro','inversion_usd_m']
+tab = no_op[cols_show].sort_values('consumo_electrico_mw', ascending=False).copy()
+tab['consumo_electrico_mw'] = tab['consumo_electrico_mw'].round(0)
+tab['inversion_usd_m']      = tab['inversion_usd_m'].round(0)
+
+fig = go.Figure(data=[go.Table(
+    columnwidth=[200, 160, 100, 110, 100, 90, 80, 100],
+    header=dict(
+        values=['<b>Nombre</b>','<b>Operador</b>','<b>País</b>',
+                '<b>Estado</b>','<b>Tamaño</b>','<b>MW</b>',
+                '<b>Año</b>','<b>Inversión (M USD)</b>'],
+        fill_color='#1F4E5F',
+        font=dict(color='white', size=11),
+        align='left',
+        height=30,
+    ),
+    cells=dict(
+        values=[tab[c] for c in cols_show],
+        fill_color=[['#1a1a2e' if i%2==0 else '#16213e' for i in range(len(tab))]]*len(cols_show),
+        font=dict(color='white', size=10),
+        align='left',
+        height=25,
+    ),
+)])
+fig.update_layout(
+    title='<b>Pipeline futuro completo</b> — 51 proyectos ordenados por MW',
+    template=TEMPLATE,
+    height=600,
+    margin=dict(l=10, r=10, t=50, b=10),
+)
+
+
+fig.show()
+```
+
+### Línea de tiempo y caracteristicas principales
+
+Antes de mirar los datos del dataset, esta [línea de tiempo](Material_Adicional/Lineadeltiempo.html) repasa los hitos históricos del sector — desde el ENIAC (1945) hasta la carrera de infraestructura de IA de los últimos años.
+
+```{=html}
+<iframe src="Material_Adicional/Lineadeltiempo.html" width="100%" height="700" style="border:1px solid #D9D2C0; border-radius:6px;" title="Línea de tiempo: historia de los Data Centers"></iframe>
+```
+
+[Abrir la línea de tiempo en una pestaña nueva](Material_Adicional/Lineadeltiempo.html){target="_blank"}
+
+Si vemos todos los Data Centers a través de los años que se han registrado desde el 2011 vemos que luego del 2021 con el surgimiento de las herramientas de IA generativas las características de los Data Centers en cuanto tamaño es expansiva, lo mismo que a consumo debido a una nueva tarea: entrenamiento de datos.
+
+- 2022 ChatGPT
+- Stargate
+
+```{python}
+
+op = dc_t[dc_t["estado"] == "operativo"].copy()
+
+por_año = op.groupby('anio_registro').size().reset_index(name='n_dcs')
+por_año_acum = por_año.copy()
+por_año_acum['acumulado'] = por_año_acum['n_dcs'].cumsum()
+
+fig = make_subplots(rows=1, cols=2,
+    subplot_titles=['DCs nuevos por año', 'DCs acumulados'])
+
+fig.add_trace(go.Bar(
+    x=por_año['anio_registro'], y=por_año['n_dcs'],
+    marker_color=PALETA['oliva'], name='Nuevos por año',
+    hovertemplate='%{x}: %{y} DCs<extra></extra>',
+), row=1, col=1)
+
+fig.add_trace(go.Scatter(
+    x=por_año_acum['anio_registro'], y=por_año_acum['acumulado'],
+    mode='lines+markers',
+    line=dict(color=PALETA['tierra'], width=2),
+    marker=dict(size=4),
+    name='Acumulado',
+    hovertemplate='%{x}: %{y} DCs acumulados<extra></extra>',
+), row=1, col=2)
+
+# fuerzo un tick por año (dtick=1) sin decimales, y roto la etiqueta para que no se pisen
+fig.update_xaxes(tickmode='linear', dtick=1, tickangle=-45, tickformat='d', tickfont=dict(size=10))
+
+# marco los hitos del sector: pandemia (2020), ChatGPT (2022), Stargate (2025)
+# add_vline con row/col los dibuja en cada subplot; annotation_position='top' acomoda el texto solo
+hitos = [(2020, 'Pandemia'), (2022, 'ChatGPT'), (2025, 'Stargate')]
+color_hito = PALETA.get('gris', '#7a7a7a') 
+
+for anio, etiqueta in hitos:
+    for col in [1, 2]:
+        fig.add_vline(
+            x=anio, line_dash='dot', line_color=color_hito, line_width=1.0,
+            annotation_text=etiqueta, annotation_position='top',
+            annotation_font_size=10, annotation_font_color=color_hito,
+            row=1, col=col,
+        )
+        fig.add_annotation(
+            x=anio, y=0.97, yref='y domain', yanchor='top', xanchor='left',
+            text=etiqueta, showarrow=False, textangle=-90,
+            font=dict(size=7, color=color_hito),
+            row=1, col=col,
+        )
+
+fig.update_layout(
+    title='<b>Crecimiento histórico del sector</b> — DCs operativos por año de registro',
+    template=TEMPLATE_PLOTLY,
+    height=460,
+    margin=dict(t=100),
+    showlegend=False,
+)
+
+
+fig.show()
+```
+
+### Capacidad acumulada por continente
+
+
+> ¿Qué regiones a través del tiempo acumula mayor consumo electrico MW?
+>  Europa seguido por América del Norte, centrado en Estados Unidos, históricamente, pero luego del 2020 se comienza a observar crecimiento en Asia Pacífico, América del Sur.    [Ver Energia](energia.qmd)
+
+```{python}
+# Por continente 
+
+cont_año = op.groupby(['anio_registro','continente'],
+    observed=True)['consumo_electrico_mw'].sum().reset_index()
+cont_año_pivot = cont_año.pivot(index='anio_registro',
+    columns='continente', values='consumo_electrico_mw').fillna(0)
+cont_año_pivot = cont_año_pivot.cumsum().reset_index()
+cont_long = cont_año_pivot.melt(id_vars='anio_registro',
+    var_name='continente', value_name='mw_acumulado')
+
+fig = px.area(
+    cont_long,
+    x='anio_registro', y='mw_acumulado',
+    color='continente',
+    color_discrete_map=COLOR_CONTINENTE,
+    labels={
+        'anio_registro':  'Año',
+        'mw_acumulado':   'MW acumulados',
+        'continente':     'Continente',
+    },
+    title='<b>Capacidad eléctrica acumulada por continente</b><br>'
+          '<sup>⚠ MW estimados al año base 2024 — no son consumos históricos reales</sup>',
+    template=TEMPLATE_PLOTLY,
+    height=460,
+)
+fig.update_layout(legend=dict(orientation='h', y=-0.2))
+fig.show()
+```
+

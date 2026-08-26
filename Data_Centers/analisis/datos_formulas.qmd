@@ -1,0 +1,355 @@
+---
+title: "Datos y Fórmulas"
+---
+
+#### Fuente de los datos
+
+- Los datos se recolectaron a través de una investigación online. Principalmente se tomaron datos de la fuente **PeeringDB** (99% del dataset). El resto se completó con investigación profunda en internet para recabar información de los nuevos Data Centers que están en estado "planificación" y que aún no están registrados.   [Descargar el dataset completo (CSV)](Material_Adicional/dc_master_confeature.csv){download="dc_master_confeature.csv"}
+- [PeeringDB](https://www.peeringdb.com/) es una base de datos abierta y gratuita, mantenida por la comunidad de operadores de redes, que registra información de interconexión a nivel global: qué redes están presentes en qué centros de datos, y en qué puntos de intercambio de internet (IXPs) hacen peering. Es una iniciativa sin fines de lucro, creada en 2004 y gestionada por voluntarios — funciona como el registro de referencia del sector para decisiones de interconexión.
+
+#### Variables originales
+
+El dataset creado registra **5314 Data Centers** y contiene:
+
+- **Identificación y ubicación:** nombre, operador, web, continente, país, ciudad y dirección.
+- **Estado:** si está operativo, en construcción o planificado.
+- **Año de registro** en la base de datos utilizada.
+- `redes_conectadas`: cantidad de redes conectadas.
+- `ix_count`: cantidad de puntos de intercambio de internet donde distintas redes se conectan entre sí para intercambiar tráfico directamente.
+- `cap_mw`: capacidad de potencia instalada en megavatios (solo declarado para 31 megaproyectos; el resto sin dato). El porcentaje de datos `cap_mw` lleva a trabajar con variables derivadas de la información obtenida a fin de poder hacer un análisis con estimaciones, ya que `cap_mw` directo solo puede usarse para el 0,5% del dataset final.
+- **Inversión en USD.**
+
+#### Variables externas (WRI Aqueduct 4.0)
+
+A esta información se interpolaron variables externas desde **WRI Aqueduct 4.0**:
+
+- Riesgo hídrico país.
+- Riesgo hídrico cuenca (con trabajo extra de interpolación espacial punto-en-polígono).
+- `bws_descripcion`.
+
+[WRI Aqueduct 4.0](https://www.wri.org/applications/aqueduct) es la herramienta de evaluación de riesgo hídrico del World Resources Institute (WRI). Mapea el mundo en cuencas hidrográficas y le asigna a cada una un puntaje de *Baseline Water Stress* — básicamente, qué proporción de la disponibilidad total de agua de esa cuenca ya se está extrayendo para uso humano (agrícola, industrial, doméstico). Cuanto más alto el estrés, menos margen de agua le queda a la cuenca antes de escasez.
+
+De ahí sale una escala que usamos en este dataset (Low / Low-Medium / Medium-High / High / Extremely High, codificada 1-5): **"Extremely High"** significa que se extrae más del 80% del agua disponible de esa cuenca.
+
+#### Variables derivadas
+
+- **Tecnología de refrigeración** — asignada por reglas (tamaño + año de registro).
+- **Divergencia país-cuenca** — fórmula (cuenca_ord − país_ord).
+- **Fuente del dato** (`fuente_dato`) — columna de trazabilidad para documentar de dónde salió cada registro.
+- `tamaño_categoría` y `tamaño_porredes`.
+
+```{python}
+#| include: false
+# Slack Tecnológico 
+
+import pandas as pd
+import numpy as np
+```
+
+```{python}
+#| include: false
+
+dc = pd.read_csv("../datos/datacenters_master.csv")
+```
+
+```{python}
+#| include: false
+dc.info()
+```
+
+```{python}
+#| include: false
+
+#  Genero variables nuevas: 
+# tamaño_categoria basada en cap_mw real (solo 31 tendrán valor)
+
+print("Tamaño según la capacidad mw solo para los DC declarados - 0.5 -")
+def clasificar_tamano_mw(cap_mw):
+    if pd.isna(cap_mw):    return pd.NA
+    elif cap_mw < 1:       return "micro"
+    elif cap_mw < 10:      return "small"
+    elif cap_mw < 50:      return "medium"
+    elif cap_mw < 200:     return "large"
+    else:                  return "hyperscale"
+
+dc["tamaño_categoria"] = dc["cap_mw"].apply(clasificar_tamano_mw)
+#  verificar
+print("--- tamaño_categoria ---")
+print(dc["tamaño_categoria"].value_counts(dropna=False))
+```
+
+```{python}
+#| include: false
+
+# tamaño_porredes basada en redes_conectadas (todos los DCs)
+print(" Tamaño por redes basado en redes conectadas") 
+      
+def clasificar_porredes(net):
+    if pd.isna(net):   return pd.NA
+    elif net < 5:      return "local"
+    elif net < 20:     return "regional"
+    elif net < 100:    return "nacional"
+    else:              return "internacional"
+
+dc["tamaño_porredes"] = dc["redes_conectadas"].apply(clasificar_porredes)
+
+display(dc["tamaño_porredes"].value_counts(dropna=False)
+        .rename_axis('tamaño_porredes')
+        .rename('cantidad')
+        .to_frame()
+        .assign(porcentaje=lambda df: (df['cantidad'] / df['cantidad'].sum() * 100).round(2))
+       )
+```
+
+## Sobre las fórmulas
+
+### Clasificación por consumo eléctrico
+
+Según el rango de MW, los Data Centers se clasifican en:
+
+| Categoría | Rango |
+|---|---|
+| Micro | < 1 MW |
+| Small | 1 – 10 MW |
+| Medium | 10 – 50 MW |
+| Large | 50 – 200 MW |
+| Hyperscale | ≥ 200 MW |
+
+> **Limitación:** solo el 0.5% de los Data Centers registrados en PeeringDB informan `cap_mw` declarado. Por este motivo el consumo eléctrico no puede calcularse directamente como $C_{\text{elec}} = \text{cap\_mw} \times \text{PUE} \times \rho$ para la mayoría de los registros. Se aplica el modelo de estimación por categoría de conectividad que se describe a continuación
+
+## Parámetros del modelo de estimación
+
+Los siguientes parámetros globales se aplican uniformemente a todos los Data Centers
+para los cuales no existe dato declarado. Se basan en benchmarks internacionales 2024.
+
+| Parámetro | Símbolo | Valor | Fuente |
+|---|---|---|---|
+| Power Usage Effectiveness | $\text{PUE}$ | 1,58 | Lawrence Berkeley NL, 2024 |
+| Factor de ocupación | $\rho$ | 0,70 | Uptime Institute, 2024 |
+| Water Usage Effectiveness | $\text{WUE}$ | 1,8 L/kWh | Uptime Institute, 2024 |
+| Factor hídrico indirecto | $h_{\text{ind}}$ | WUE × 1,4 = 2,52 L/kWh | Proxy (sin dato por país) |
+| Factor de emisión eléctrica | $FE_{\text{global}}$ | 0,432 tCO₂/MWh | IEA, 2024 |
+| Horas anuales | $H$ | 8.760 h/año | — |
+
+## Variables derivadas: fórmulas aplicadas
+
+### Consumo eléctrico
+
+$$C_{\text{elec}} = \text{cap\_mw\_base} \times \text{PUE} \times \rho$$
+
+### Huella hídrica directa
+
+$$W_{\text{directa}} = C_{\text{elec}} \times 1000 \times \text{WUE} \times H$$
+
+### Huella hídrica indirecta
+
+$$W_{\text{indirecta}} = C_{\text{elec}} \times 1000 \times h_{\text{ind}} \times H$$
+
+### Huella hídrica total
+
+$$W_{\text{total}} = C_{\text{elec}} \times 1000 \times H \times \left(\text{WUE} + h_{\text{ind}}\right)$$
+
+### Emisiones de CO₂
+
+$$E_{\text{CO}_2} = C_{\text{elec}} \times FE_{\text{global}} \times H$$
+
+::: {.callout-note appearance="simple"}
+**Unidades.** $C_{\text{elec}}$ está en MW y $H = 8.760$ h/año. El factor $\times 1000$ convierte MW a kW, porque el WUE se expresa en litros por kWh: por lo tanto **las columnas de agua del dataset están en litros por año**, no en millones de litros — el sufijo `_ml_año` del nombre de la variable es histórico y quedó desactualizado.
+:::
+
+## Capacidad de referencia por categoría de red
+
+Para los Data Centers sin `cap_mw` declarado (n=5.280), la capacidad base
+se estima según su categoría de conectividad (`tamaño_porredes`).
+
+| `tamaño_porredes` | Criterio (`redes_conectadas`) | $\bar{C}_{\text{MW}}$ de referencia |
+|---|---|---|
+| `local` | < 5 redes | 0,25 MW |
+| `regional` | 5 – 19 redes | 3,0 MW |
+| `nacional` | 20 – 99 redes | 20,0 MW |
+| `internacional` | ≥ 100 redes | 100,0 MW |
+
+> **Nota metodológica:** `tamaño_porredes` mide alcance de conectividad de red,
+> no potencia física. Es un proxy — no comparar directamente con `tamaño_categoria`
+> que sí está basada en MW reales.
+
+La capacidad base resultante se define como:
+
+$$
+\text{cap\_mw\_base} =
+\begin{cases}
+\text{cap\_mw} & \text{si hay dato real declarado } (n = 31) \\[4pt]
+\bar{C}_{\text{MW}} & \text{si se estima por categoría de red } (n = 5.280)
+\end{cases}
+$$
+
+```{python}
+#| echo: true
+#| code-fold: true
+
+# Parámetros globales
+PUE   = 1.58   # LBL 2024
+RHO   = 0.70   # factor ocupación, Uptime Institute
+WUE   = 1.8    # L/kWh, Uptime Institute 2024
+H_PAI = WUE * 1.4  # proxy huella hídrica indirecta
+FE    = 0.432  # tCO2/MWh, IEA 2024
+HORAS = 8_760  # horas/año
+
+# Capacidad de referencia por tamaño_porredes
+ref_cap_porredes = {
+    "local":         0.25,
+    "regional":      3.0,
+    "nacional":      20.0,
+    "internacional": 100.0
+}
+
+# PASO 1 — cap_mw_base: real si existe, referencia si no
+def get_cap_base(row):
+    if pd.notna(row["cap_mw"]):
+        return row["cap_mw"]
+    elif pd.notna(row["tamaño_porredes"]):
+        return ref_cap_porredes[row["tamaño_porredes"]]
+    else:
+        return np.nan
+
+dc["cap_mw_base"] = dc.apply(get_cap_base, axis=1)
+
+# PASO 2 — consumo_electrico_mw
+dc["consumo_electrico_mw"] = (dc["cap_mw_base"] * PUE * RHO).round(2)
+
+# PASO 3 — agua directa
+dc["consumo_agua_ml_año"] = (dc["consumo_electrico_mw"] * 1000 * WUE * HORAS).round(0).astype("Int64")
+
+# PASO 4 — agua indirecta
+dc["agua_indirecta_ml_año"] = (dc["consumo_electrico_mw"] * 1000 * H_PAI * HORAS).round(0).astype("Int64")
+
+# PASO 5 — agua total
+
+dc["agua_total_ml_año"] = (dc["consumo_agua_ml_año"] + dc["agua_indirecta_ml_año"]).astype("Int64")
+# PASO 6 — co2
+dc["co2_ton_año"] = (dc["consumo_electrico_mw"] * FE * HORAS).round(0).astype("Int64")
+```
+
+## CO₂ — la fórmula, paso a paso
+
+$$E_{\text{CO}_2} = C_{\text{elec}} \times FE_{\text{global}} \times H$$
+
+- $C_{\text{elec}}$ = potencia que consume el DC, en megavatios (MW) — es como una "velocidad" instantánea de consumo eléctrico.
+- $\times\ H = 8.760$ (horas del año) = convierte esa "velocidad" en el total de energía consumida durante todo el año, en megavatio-hora (MWh) — igual que velocidad × tiempo = distancia recorrida.
+- $\times\ FE_{\text{global}}$ (0,432 tCO₂ por cada MWh) = por cada MWh consumido, en promedio global se emiten 0,432 toneladas de CO₂. Multiplicando el total de MWh del año por ese factor, se obtienen las toneladas de CO₂ del año.
+
+```{python}
+#| include: false
+
+tabla_02 = dc[["consumo_electrico_mw","consumo_agua_ml_año","agua_total_ml_año","co2_ton_año"]].describe().round(2)
+
+display(tabla_02)
+```
+
+```{python}
+#| include: false
+
+#|>  **Nota — Distribución de variables de impacto ambiental**
+#|>
+#|> - **Distribución fuertemente sesgada**: mediana = mínimo = Q25 en todas las variables, lo que indica que **más del 50% del dataset son DCs `local`** (0.25 MW base, derivado de PeeringDB).
+#|> - **Media >> mediana** en todos los casos: efecto de megaproyectos outliers. Se usará **mediana** como estadístico de referencia en el análisis.
+#|> - **Máximo `consumo_electrico_mw` = 14.378 MW** — corresponde a un megaproyecto ( European Data Center Investment — €176B 2026-2031). El valor máximo de agua total asociado es ~544.000 millones de litros/año.
+#|> - Las tres variables de impacto (`consumo_electrico_mw`, `agua_total_ml_año`, `co2_ton_año`) derivan de la misma base — correlación Spearman ρ = 1.00. No aportan diversidad en análisis multivariado.
+```
+
+```{python}
+#| include: false
+
+# Seleccion de columnas principales
+
+COLS = [
+    # identificación
+    'id', 'nombre', 'operador_norm', 'web', 
+    # localización
+    'continente', 'pais', 'pais_iso','ciudad','direccion',
+    'latitud', 'longitud',
+    
+    # características del DC
+    'estado', 'estado_ord', 'anio_registro', 'inversion_usd_m',
+    # conectividad
+   # 'redes_conectadas','ix_count',(las saco calculadas el consumo y demas...
+    # energía
+   'cap_mw', 'consumo_electrico_mw', 
+    # agua
+    'consumo_agua_ml_año',
+    'agua_indirecta_ml_año', 'agua_total_ml_año',
+    # emisiones
+    'co2_ton_año',
+    # eficiencia
+    'tecnologia_refrigeracion',
+    # riesgo hídrico
+    'riesgo_hidrico_cuenca', 'riesgo_hidrico_cuenca_ord',
+    'riesgo_hidrico_pais',   'riesgo_hidrico_pais_ord',
+    'divergencia_pais_cuenca', 'bws_descripcion' ,
+    # agregadas tamaño DC
+    'tamaño_categoria' , 'tamaño_porredes'
+]
+
+dc_t = dc[COLS].copy()
+print(f'Dataset de trabajo — shape: {dc_t.shape}')
+```
+
+### De esta manera en esta investigación se estará trabajando con estos variables finales: 
+
+```{python}
+# Elijo columnas representativas — mostrar las 37 columnas satura la tabla y no aporta
+cols_muestra = [
+    "nombre", "pais", "estado", "tamaño_porredes",
+    "cap_mw", "consumo_electrico_mw", "agua_total_ml_año",
+    "riesgo_hidrico_cuenca", "co2_ton_año"]
+
+# random_state fijo: si no, cada vez que se re-renderice la página va a mostrar
+# filas distintas, y quiero que la muestra sea siempre la misma
+muestra = dc_t[cols_muestra].sample(5, random_state=42)
+
+# Renombro las columnas para la web: los nombres técnicos con guión bajo y sin
+# unidad se leen mal en una tabla publicada. El nombre técnico sigue estando en
+# el diccionario de variables, que es donde corresponde
+muestra = muestra.rename(columns={
+    "nombre":                 "Data Center",
+    "pais":                   "País",
+    "estado":                 "Estado",
+    "tamaño_porredes":        "Tamaño (por redes)",
+    "cap_mw":                 "Capacidad declarada (MW)",
+    "consumo_electrico_mw":   "Consumo eléctrico (MW)",
+    "agua_total_ml_año":      "Agua total (litros/año)",
+    "riesgo_hidrico_cuenca":  "Riesgo hídrico de cuenca",
+    "co2_ton_año":            "CO₂ (t/año)",
+})
+
+# Ojo con esto: dejar `muestra` como última línea de la celda (no print(muestra))
+# para que Jupyter/Quarto la muestre como tabla HTML con estilo, no como texto plano
+(muestra.style
+    .hide(axis="index")
+    .set_caption("Muestra aleatoria de 5 registros del dataset de trabajo")
+    .format({
+        "Capacidad declarada (MW)": "{:,.0f}",
+        "Consumo eléctrico (MW)":   "{:,.2f}",
+        "Agua total (litros/año)":  "{:,.0f}",
+        "CO₂ (t/año)":              "{:,.0f}",
+    }, na_rep="—")
+)
+```
+
+```{python}
+#| include: false
+
+# Guardo el dataset actual 
+
+dc_t.to_csv('../datos/dc_trabajo.csv', index=False)
+print(f"Guardado: dc_trabajo.csv  |  Shape: {dc_t.shape}")
+```
+
+## Notas Adicionales
+
+- Acceda al [diccionario de variables completo](Material_Adicional/diccionario_variables.csv){download="diccionario_variables.csv"}.
+- Acceda al [dataset completo](Material_Adicional/dc_master_confeature.csv){download="dc_master_confeature.csv"}.
+
+---
+
+*D_EmpathyProject · agosto 2026 · Fuentes: LBL 2024, Uptime Institute 2024, IEA 2024, WRI Aqueduct 4.0*

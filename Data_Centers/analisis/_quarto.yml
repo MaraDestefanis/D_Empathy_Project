@@ -1,0 +1,94 @@
+project:
+  type: book
+  resources:
+    - mapa_dc.html
+    - mapa_dc2.html
+    - Material_Adicional/**
+    - datos/**
+
+book:
+  title: "Investigación Datacenters"
+  subtitle: "Consumo de agua, energía y capital en la infraestructura de la IA"
+  author: "Mara Geraldina Destéfanis"
+  date: today
+  date-format: "D MMMM YYYY"
+  reader-mode: true
+  search: true
+  downloads: [epub]
+  sharing: [twitter, facebook, linkedin]
+  open-graph: true
+  cover-image: images/D_EmpathyProject_logo.png
+  favicon: images/dep-favicon.png
+  page-navigation: true
+  site-url: https://dempathyproject.com
+  repo-url: https://github.com/MaraDestefanis/D_Empathy_Project
+  repo-actions: [edit, issue]
+
+  sidebar:
+    style: docked
+    background: "#F2EFE4"
+    type: light
+    align: left
+    collapse-level: 1
+
+  page-footer:
+    background: "#000000"
+    left: |
+      Copyright &copy; 2026 [D_Empathy Project](https://dempathyproject.com)
+    center:
+      - href: https://github.com/MaraDestefanis/D_Empathy_Project
+        icon: github
+        aria-label: GitHub
+      - href: https://www.linkedin.com/in/maradestefanis/
+        icon: linkedin
+        aria-label: LinkedIn
+    right: |
+      [dempathyproject.com](https://dempathyproject.com)
+
+  chapters:
+    - href: index.qmd
+      text: "Resumen"
+    - articulo.qmd
+    - part: "Impacto ambiental"
+      chapters:
+        - energia.qmd
+        - agua.qmd
+        - co2.qmd
+    - part: "Infraestructura global"
+      chapters:
+        - mapa.qmd
+    - part: "Impacto social"
+      chapters:
+        - denuncias.qmd
+        - capital.qmd
+    - part: "Alternativas"
+      chapters:
+        - espacio_oceano.qmd
+        - tesis_distribución_dc.qmd
+    - part: "Datos y Fórmulas"
+      chapters:
+         - datos_formulas.qmd
+
+jupyter: python3
+
+format:
+  html:
+    theme: [flatly, datacenters.scss]
+    code-link: true
+    code-fold: true
+    code-block-bg: "white"
+    highlight-style: github
+    title-block-style: none
+    toc: true
+    html-math-method: mathjax
+    link-external-newwindow: true
+    grid:
+      body-width: 1000px
+      margin-width: 250px
+
+execute:
+  freeze: auto
+  warning: false
+  message: false
+  eval: true
+  echo: false

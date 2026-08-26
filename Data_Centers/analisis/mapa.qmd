@@ -1,0 +1,120 @@
+---
+title: "Mapa integral"
+---
+
+```{python}
+#| include: false
+# ── Setup para este script (no hereda nada de explo03) ────────────
+import pandas as pd, numpy as np
+from IPython.display import display, HTML
+import sys, os
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from dc_estilos import *
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+TEMPLATE = TEMPLATE_PLOTLY
+pd.set_option("display.max_columns", None)
+pd.set_option("display.float_format", "{:,.2f}".format)
+
+dc_a = pd.read_csv("../datos/dc_master_confeature.csv", dtype={'id': str})
+
+cats = ['operador_norm', 'web', 'continente', 'pais', 'pais_iso', 'ciudad', 'direccion',
+        'estado', 'tecnologia_refrigeracion', 'riesgo_hidrico_cuenca', 'riesgo_hidrico_pais',
+        'bws_descripcion', 'tamaño_categoria', 'tamaño_porredes']
+for col in cats:
+    dc_a[col] = dc_a[col].astype('category')
+dc_a['id'] = dc_a['id'].astype('Int64')
+
+dc_a['tecnologia_refrigeracion'] = pd.Categorical(dc_a['tecnologia_refrigeracion'], categories=ORDEN_REFRIG, ordered=True)
+dc_a['estado'] = pd.Categorical(dc_a['estado'], categories=ORDEN_ESTADO, ordered=True)
+
+# ORDEN_RIESGO no vive en dc_estilos.py — la redefino acá porque ya es la segunda
+# vez que la necesito (Agua + este script). Te la dejo abajo como sugerencia,
+# pero si querés que no se repita más, lo prolijo es moverla a dc_estilos.py
+ORDEN_RIESGO = ['Low (<10%)', 'Low - Medium (10-20%)', 'Medium - High (20-40%)',
+                'High (40-80%)', 'Extremely High (>80%)', 'sin_dato']
+dc_a['riesgo_hidrico_cuenca'] = pd.Categorical(
+    dc_a['riesgo_hidrico_cuenca'].astype(str).replace({
+        'No Data': 'sin_dato', 'Sin dato (sin cuenca)': 'sin_dato', 'Arid and Low Water Use': 'sin_dato'
+    }), categories=ORDEN_RIESGO, ordered=True)
+
+op = dc_a[dc_a['estado']=='operativo'].copy()
+
+# Derivados que usan el mapa de Kepler + el dashboard resumen
+mapa_riesgo_rank = {cat: i for i, cat in enumerate(ORDEN_RIESGO)}
+op['riesgo_rank'] = op['riesgo_hidrico_cuenca'].map(mapa_riesgo_rank)
+
+resumen_riesgo = op.groupby('riesgo_hidrico_cuenca', observed=True).agg(
+    n=('id', 'count'), agua_suma=('agua_total_ml_año', 'sum'))
+resumen_riesgo['pct_instalaciones'] = resumen_riesgo['n'] / resumen_riesgo['n'].sum() * 100
+resumen_riesgo['pct_agua'] = resumen_riesgo['agua_suma'] / resumen_riesgo['agua_suma'].sum() * 100
+
+cruce_agua = op.pivot_table(index='tecnologia_refrigeracion', columns='riesgo_hidrico_cuenca',
+                             values='agua_total_ml_año', aggfunc='median', observed=True)
+
+colorscale_agua = [[0.0, "#F2EFE4"], [0.5, "#1D7484"], [1.0, "#2C2C2C"]]
+
+n_operativos = f"{len(op):,}".replace(",", ".")
+```
+
+Este capítulo integra en un solo mapa las capas que se analizaron por separado —agua, energía, riesgo hídrico y CO₂— sobre los **`{python} n_operativos` data centers operativos** del dataset.
+
+```{python}
+# ── Resumen visual: agua × riesgo hídrico ─────────────────────────
+fig_resumen = make_subplots(
+    rows=1, cols=3,
+    subplot_titles=["% instalaciones vs % agua", "Distribución agua (log)", "Mediana agua: refrig × riesgo"],
+    horizontal_spacing=0.08
+)
+
+fig_resumen.add_trace(go.Bar(name='% instalaciones', x=resumen_riesgo.index,
+                              y=resumen_riesgo['pct_instalaciones'], marker_color=PALETA['pizarra']), row=1, col=1)
+fig_resumen.add_trace(go.Bar(name='% agua total', x=resumen_riesgo.index,
+                              y=resumen_riesgo['pct_agua'], marker_color=PALETA['tierra']), row=1, col=1)
+
+fig_resumen.add_trace(go.Box(x=op['riesgo_hidrico_cuenca'], y=op['agua_total_ml_año'],
+                              marker_color=PALETA['musgo'], showlegend=False), row=1, col=2)
+
+cruce_agua_ord = cruce_agua.reindex(index=ORDEN_REFRIG, columns=ORDEN_RIESGO)
+fig_resumen.add_trace(go.Heatmap(z=cruce_agua_ord.values, x=list(cruce_agua_ord.columns),
+                                  y=list(cruce_agua_ord.index), colorscale=colorscale_agua, showscale=False,
+                                  text=cruce_agua_ord.values, texttemplate="%{text:,.0f}", textfont=dict(size=8)),
+                       row=1, col=3)
+
+# go.Box / go.Heatmap no leen el orden Categorical de pandas (a diferencia de px) — lo fuerzo
+for c in [1, 2, 3]:
+    fig_resumen.update_xaxes(categoryorder='array', categoryarray=ORDEN_RIESGO, row=1, col=c, tickangle=-30)
+fig_resumen.update_yaxes(type="log", row=1, col=2)
+fig_resumen.update_yaxes(autorange='reversed', row=1, col=3)  # Heatmap dibuja el eje y de abajo hacia arriba
+
+# Saco el width fijo de 1300px: el cuerpo de la página mide 1000px, así que la
+# figura se desbordaba por la derecha. Sin width, Plotly se adapta al contenedor
+fig_resumen.update_layout(template=TEMPLATE, height=460, barmode='group',
+                           title=dict(text="Resumen — Agua × riesgo hídrico (datacenters operativos)", x=0.5),
+                           legend=dict(orientation='h', y=-0.3, x=0.05))
+fig_resumen.show()
+```
+
+
+### Mapa 1 — Riesgo hídrico por cuenca
+
+Cada punto es un data center operativo. El color indica la categoría de riesgo hídrico de su cuenca (WRI Aqueduct) y el tamaño de punto es proporcional al consumo de agua total estimado. Usá el filtro de la izquierda para aislar tecnologías de refrigeración específicas.
+
+```{=html}
+<iframe src="mapa_dc.html" width="100%" height="650" style="border:1px solid #D9D2C0; border-radius:6px;" loading="lazy" title="Mapa de riesgo hídrico por cuenca"></iframe>
+```
+
+[Abrir el mapa en pantalla completa](mapa_dc.html){target="_blank"}
+
+### Mapa 2 — Todos los estados + impacto de CO₂
+
+Incluye operativos, en construcción y planificados. El color distingue el estado del proyecto y el tamaño de punto es proporcional a las toneladas de CO₂ al año.
+
+```{=html}
+<iframe src="mapa_dc2.html" width="100%" height="650" style="border:1px solid #D9D2C0; border-radius:6px;" loading="lazy" title="Mapa de estados e impacto de CO2"></iframe>
+```
+
+[Abrir el mapa en pantalla completa](mapa_dc2.html){target="_blank"}
+
+> **Nota técnica:** los dos mapas se generan con Kepler.gl en `mapa.ipynb` y se exportan como HTML standalone (`mapa_dc.html`, `mapa_dc2.html`) — el widget interactivo de Kepler no se renderiza de forma confiable dentro del motor de ejecución estático de Quarto, así que en vez de volver a correr ese código acá, se incrusta el archivo ya exportado. Los dos HTML viven en `web/` y están declarados en `resources:` del `_quarto.yml` para que Quarto los copie a `_book/`. Si se edita el mapa en la notebook, hay que volver a correr esas celdas ahí, copiar los HTML actualizados a `web/` y re-renderizar esta página.

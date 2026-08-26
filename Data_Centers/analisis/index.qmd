@@ -1,0 +1,72 @@
+---
+title: "Investigación Datacenters"
+subtitle: "Costo ambiental de la infraestructura de Movimientos de Datos"
+---
+
+
+![](images/AI_hero_c_datacenters_D_Empathy_Project.jpg){fig-align="center" width="70%"}
+
+
+Cada investigación comienza con una pregunta: **¿Cuál es el costo ambiental de la proliferación de DataCenters?**  De allí, las preguntas desencadenadas de la principal:  **¿ Qué es un data center?** **¿Cuál es el consumo de electricidad y agua?** **¿Qué ritmo de crecimiento tienen?** **¿Cómo afecta al medio ambiente y comunidad?** El análisis requiere de datos. Y la falta de información fue el primer obstáculo que invita a investigar, aún más. 
+
+El primer obstáculo, entonces: **los datos**
+La reconstrucción de datos requirió la elaboración de un dataset a través de investigación. 
+ **Menos de un 1% de los Data Centers brindan información completa sobre las características de consumos** especialmente consumo eléctrico y agua. Datos requeridos para responder a la pregunta central de esta investigación. 
+
+Para recolectar información, se trabajó con más de 5.000 datos recogidos de Data Centers verificados.
+Luego, se construyeron variables categóricas según características que nos servirá para analizar costos de consumo como cantidad de redes conectadas. 
+También se generaron estimaciones de consumos a través de fórmulas para luego analizarlas  estadísticamente y con visualizaciones útiles (ver [Datos y Fórmulas](datos_formulas.qmd)). 
+
+De esta manera, llegamos a profundizar sobre las estimaciones de costo para que un Data Center funcione. Observando su consumo eléctrico, consumo de agua y  relación con cuentas hídricas de la zona, emisiones de CO2 como el impacto que tendrán en el tiempo.
+
+La falta de apertura informativa pública resulta en falta de transparencia  que no permiten medir las  consecuencias inmediatas a corto plazo en la comunidad de la  zona donde se alza algún DataCenter, en los recursos naturales de sus cuentas y finalmente en el CO2 emitido que impacta a todo el medio ambiente a mediano y largo plazo.   
+
+Los análisis no pretenden dar opinión ni editoriales. Simplemente utilizar las herramientas analíticas y narrativas para responder preguntas que hacen a la responsabilidad de atender el equilibrio de la naturaleza que conlleva a garantizar la vida de todos sus integrantes. 
+
+Esta investigación es un "on going" abierto y público, que tiene los siguientes objetivos:
+
+- **Dar visibilidad a los aspectos que involucran el crecimiento de la creación de Data Centers como fábricas digitales que dan soporte al movimiento de los datos, especialmente frente al crecimiento exponencial en el uso de los grandes modelos de IA.**
+
+- **Crear responsabilidad y actuación social sobre nosotros como actores, ya sea desde el diseño, el rol de empleador, usuario, vecino, gobernante, capitalista o empresario, conscientes de la huella de cada uso, de su impacto, y de la importancia de las elecciones de herramientas de IA y digitales.**
+
+- **Para estas y las próximas generaciones, salvaguardar el planeta creando un propósito de vida que equilibre las acciones humanas con la salud del medio ambiente.**
+
+- **Y por último, y no de menor peso: pensar en crear un marco de responsabilidad ética que integre la transparencia y la justicia climática en el desarrollo tecnológico.**
+
+Qué encontraremos en esta investigación:
+
+- **[Artículo Principal](articulo.qmd)**
+- **[Datos y Fórmulas](datos_formulas.qmd)**
+- **[Análisis sobre el consumo de energía](energia.qmd)**
+- **[Análisis sobre el consumo de agua y estrés hídrico](agua.qmd)**
+- **[Impacto y estimaciones de emisiones de CO2](co2.qmd)**
+- **[Mapa de ubicaciones de los Data Centers](mapa.qmd)**
+- **[Denuncias NIMBY — "Not in my backyard"](denuncias.qmd)** — datos de valor, análisis ampliado próximamente
+- **[Capital y Economía](capital.qmd)** — en construcción
+- **[Data Centers al espacio o al océano](espacio_oceano.qmd)** — próximamente
+- **[Tesina sobre alternativas de Data Centers](tesis_distribución_dc.qmd)** — próximamente
+
+
+Esta investigación, como todas las de D_Empathy Project, se elaboran de manera colaborativa, sin fines de lucro, abierta a la comunidad desde los datos, el proceso de investigación y los reportes finales. 
+
+Para apoyar esta iniciativa puedes contribuir con tu donación aquí: [dempathyproject.com](https://dempathyproject.com/donar/).
+
+En cuanto a la metodología: se trabajó creando un dataset con la sumatoria de todos los Data Centers registrados. Se añadieron variables segregadas y se estimaron otras a partir de fórmulas [Datos y Fórmulas](datos_formulas.qmd) Se trabajó con análisis de datos en **Python** y convertido en un reporte a través de **quarto** y se investigaron otras fuentes -compartidas aquí en Recursos— que presentan investigaciones de gran valor sobre los Data Centers, al momento que se cerraba esta primer versión de la investigación: **Agosto 2026**.
+
+
+Sin más, espero que contribuya al conocimiento. 
+Para ponerse en contacto: [Contacto](mailto:mdestefanis@dempathyproject.com)
+
+
+Mara Destéfanis
+
+
+
+Recomendación de uso del reporte: al usar o republicar la información vertida aquí recuerda informar la fuente con su link original. A fin de los resultados finales que se comparten se conecten con los datos y procesos. Así las noticias no quedan truncas sin su origen.  
+
+
+
+##### Adicional, bibliografía de valor: El estudio de la ONU sobre Data Centers
+
+- Informe ["El costo ambiental de la IA"](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwQ85nXHCW5BWr2F6lZ3lWVPK0lN2crkcRW2K5G6J18PjKlN3bsD3w1vKxqW8sdLm96HrJdmW26MV6F6pVYNgW8J-hMP5NCCkcW8zCrNH30trDlVmxhTG14m2K1V1K-987T2Kq0W6dwjN91J7g10LwGzdsX6c-N7SW6DQz_NyRW354fS_2B0jzWW28KDJF5TwKL3W7ySbFF8sTBsSW8m_yjR3XdgXPW3Q6Drw54PqVyN4BrWyw2tNFhW5D9lpt7hVBLfVqYCvW8VdGZWW89kR2C8qdjGdW7l3Lg_3L2NT2W1gPF0R2P7pM0W5JJZKH5lrMHlW5hHHpQ21cgRGW5tDsl65kzXG1W2tlfcP1nz-7VVW9Z3s766b_3W63H_Bh4tXCFGVwWPXv7H3Z6PW873fkQ3jt9-CW6J43b86LmgH3W7cl6Wr4T6nrSW4KlQYZ4LQpFyf2db0Sl04) (*AI's Environmental Cost*), de la UN University Institute for Water, Environment and Health (UNU-INWEH), publicado el 3 de junio de 2026.
+

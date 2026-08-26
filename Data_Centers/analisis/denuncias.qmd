@@ -1,0 +1,79 @@
+---
+title: "Denuncias"
+---
+
+## Denuncias
+
+```{python}
+#| include: false
+# Preliminares
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+from IPython.display import display, HTML
+from pathlib import Path
+import sys, os
+
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from dc_estilos import *
+TEMPLATE = TEMPLATE_PLOTLY
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.float_format", "{:,.2f}".format)
+
+print("Estilo visual cargado.")
+```
+
+#### Crecimiento y oposición social
+
+**Virginia como epicentro.** El estado de Virginia concentra casi el **35%** del tráfico global de internet, y casi la mitad de los Data Centers del mundo operan en Estados Unidos — una concentración que alimenta el rechazo vecinal conocido como NIMBY (*not in my backyard*, no en mi patio trasero).
+
+**Una oposición en escalada.** En los últimos dos años, la cantidad de grupos organizados contra Data Centers en Estados Unidos creció un **175%**. El fenómeno ya no es solo estadounidense:
+
+- En **Uruguay**, la comunidad protestó contra el proyecto de Google en Canelones ("Proyecto Teros") por el uso de 7,6 millones de litros diarios de agua potable en medio de una sequía histórica. La Justicia terminó levantando el secreto que amparaba el acuerdo, y Google eliminó por completo el uso de agua del proyecto.
+- En **Países Bajos**, agricultores de la zona de Hollands Kroon (Agriport A7) — donde operan Microsoft, Google y CyrusOne — están en conflicto abierto desde 2021 por el uso de tierra agrícola y agua, con bloqueos de tractores incluidos. Hoy el país prohíbe nuevos proyectos hyperscale de más de 70 MW o 10 hectáreas en casi todo su territorio.
+
+#### Registro de denuncias y protestas
+
+El siguiente registro reúne casos documentados de denuncias, protestas y conflictos legales en torno a Data Centers, ordenados del más al menos reciente. Cada fila indica el resultado del conflicto —activo, judicial, cancelado, retirado, reducido o victoria de la comunidad— según la fuente citada.
+
+📥 [Descargar el registro completo en CSV](Material_Adicional/denuncias_datacenters.csv){download="denuncias_datacenters.csv"}
+
+```{python}
+denuncias = pd.read_csv("../datos/Denuncias/denuncias_datacenters.csv")
+
+# Combino país + lugar en una sola columna legible, y ordeno del caso más reciente al más viejo
+denuncias["ubicacion"] = denuncias["pais"] + " — " + denuncias["lugar"].fillna("")
+denuncias = denuncias.sort_values("anio", ascending=False)
+
+cols_show = ["anio", "ubicacion", "empresa", "resultado", "monto_musd", "desc", "fuente"]
+tab = denuncias[cols_show].copy()
+tab["monto_musd"] = tab["monto_musd"].apply(lambda v: f"{v:,.0f}" if pd.notna(v) else "—")
+
+fig = go.Figure(data=[go.Table(
+    columnwidth=[50, 160, 140, 90, 90, 320, 140],
+    header=dict(
+        values=['<b>Año</b>', '<b>Ubicación</b>', '<b>Empresa</b>', '<b>Resultado</b>',
+                '<b>Monto (M USD)</b>', '<b>Descripción</b>', '<b>Fuente</b>'],
+        fill_color='#1F4E5F',
+        font=dict(color='white', size=11),
+        align='left',
+        height=30,
+    ),
+    cells=dict(
+        values=[tab[c] for c in cols_show],
+        fill_color=[['#1a1a2e' if i % 2 == 0 else '#16213e' for i in range(len(tab))]] * len(cols_show),
+        font=dict(color='white', size=10),
+        align='left',
+        height=None,
+    ),
+)])
+fig.update_layout(
+    title=f'<b>Registro de denuncias y protestas</b> — {len(tab)} casos documentados',
+    template=TEMPLATE,
+    height=900,
+    margin=dict(l=10, r=10, t=50, b=10),
+)
+fig.show()
+```
+

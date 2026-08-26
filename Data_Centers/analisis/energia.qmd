@@ -1,0 +1,295 @@
+---
+title: "Energía"
+---
+
+```{python}
+#| include: false
+
+# Preliminares
+import pandas as pd
+import numpy as np
+
+# Visualización 
+
+from IPython.display import display, HTML
+from pathlib import Path
+import sys, os
+
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from dc_estilos import *
+TEMPLATE = TEMPLATE_PLOTLY
+
+# Display numérico
+pd.set_option("display.max_columns",  None)
+pd.set_option("display.float_format", "{:,.2f}".format)
+
+print("Estilo visual cargado.")
+
+VIZ = Path("../visual/")
+```
+
+```{python}
+#| include: false
+# DATOS
+
+dc_e = pd.read_csv("../datos/dc_master_confeature.csv")
+dc_e.info()
+```
+
+```{python}
+#| include: false
+
+# ── Tipos de datos correctos ─────────────────────────────────────
+cats = ['operador_norm', 'web', 'continente', 'pais', 'pais_iso',
+        'ciudad', 'direccion', 'estado', 'tecnologia_refrigeracion',
+        'riesgo_hidrico_cuenca', 'riesgo_hidrico_pais',
+        'bws_descripcion', 'tamaño_categoria', 'tamaño_porredes']
+
+for col in cats:
+    dc_e[col] = dc_e[col].astype('category')
+
+dc_e['nombre'] = dc_e['nombre'].astype('object')
+dc_e['id'] = dc_e['id'].astype('Int64')
+
+print(dc_e.dtypes)
+print()
+print("Memoria:", dc_e.memory_usage(deep=True).sum() / 1024**2, "MB")
+```
+
+#### ¿Cuanto es el consumo y qué capacidad energética requieren los Data Centers? 
+
+::: {.callout-warning}
+
+**945 teravatios-hora (TWh) de consumo eléctrico para 2030 — equivale al consumo combinado de las poblaciones de Pakistán, Bangladesh y Nigeria (más de 650 millones de personas).Si los centros de datos fueran un país, en 2030 serían la 6ª economía eléctrica del mundo**
+
+:::
+
+#### Metodología: Estimación del consumo eléctrico
+
+
+Hemos visto que **menos del 1%** de los Data Centers declaran su consumo en megavatio (MW), a unidad estándar para medir la potencia de instalaciones grande. Por este motivo, el consumo eléctrico lo estimamos a partir de una variable proxy — el tamaño por redes conectadas — aplicando la siguiente fórmula:
+
+$$C_{\text{elec}} = \text{cap\_mw\_base} \times \text{PUE} \times \rho$$
+
+Cada parte de la fórmula expuesta significa: 
+
+- **$\text{cap\_mw\_base}$**: es la capacidad IT de referencia asignada según la categoría de conectividad del data center (`tamaño_porredes`). Para los 31 registros con dato declarado se usa el valor real; para los 5.280 restantes se usa el benchmark de su categoría (ver [Datos y Fórmulas](datos_formulas.qmd)).
+
+- **$\text{PUE} = 1{,}58$** (Power Usage Effectiveness): indica que por cada MW consumido en servidores, se necesitan 0,58 MW adicionales en refrigeración, sistemas de alimentación ininterrumpida e infraestructura de soporte. Es decir, el data center consume en total 1,58 veces lo que consumen sus servidores.
+
+- **$\rho = 0{,}70$**: es el factor de ocupación, refleja que los servidores operan en promedio al 70% de su capacidad instalada, no al 100%.  [Ver Datos Formulas](datos_formulas.qmd)
+
+#### Poniendo los megavatios en perspectivas
+
+¿Qué significan los valores que se leen en los resultados? 
+
+Para poner en perspectiva 1 megavatio (MW) es capaz de alimentar aproximadamente 1000 hogares durante una hora. 
+Un data center local, es decir el más pequeño, opera con una demanda continua de 0,28 MW — suficiente para mantener encendidos 280 hogares de manera constante, los 365 días del año.
+
+Los Data Centers en construcción y planificados dan un salto de escala en el consumo eléctrico. Mientras la mediana del consumo eléctrico de los operativos es de 0,28 MW — el equivalente a 280 hogares encendidos simultáneamente — los proyectos en camino saltan a una mediana de 138,25 MW, comparable al consumo continuo de una ciudad mediana de ~138.000 hogares. La infraestructura que viene no es más de lo mismo. Es un cambio de categoría, con todo lo que eso implica en términos de demanda energética, hídrica y territorial. 
+Esto se refleja en la siguiente tabla y en el gráfico de boxplot: 
+
+```{python}
+#| include: false
+
+#Operativos y planificados/en_construcción
+
+op    = dc_e[dc_e["estado"] == "operativo"].copy()
+no_op = dc_e[dc_e["estado"] != "operativo"].copy()
+```
+
+```{python}
+
+
+# ── Consumo eléctrico: operativos vs no operativos ────────────
+comp = pd.concat([
+    op["consumo_electrico_mw"].describe().rename("Operativos"),
+    no_op["consumo_electrico_mw"].describe().rename("Planificados_Construcción")
+], axis=1).round(2)
+
+comp['Diferencia'] = (comp['Planificados_Construcción'] - comp['Operativos']).round(2)
+
+def resaltar_mediana(fila):
+    # marco toda la fila del 50% (mediana) con fondo distinto y negrita
+    es_mediana = fila.name == '50%'
+    return ['background-color: #fdf0d5; font-weight: bold' if es_mediana else '' for _ in fila]
+
+comp_style = (
+    comp.style
+    .set_caption("Consumo eléctrico (MW) — Operativos vs No operativos")
+    .apply(resaltar_mediana, axis=1)
+)
+display(comp_style)
+```
+
+```{python}
+#| include: false 
+dc_e = dc_e.copy()
+dc_e["grupo"] = dc_e["estado"].map({
+    "operativo": "Operativos",
+    "construccion": "Planificados_Construcción",
+    "planificado": "Planificados_Construcción"
+})
+
+print(dc_e["grupo"].value_counts(dropna=False))
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(7, 4.5))
+
+sns.boxplot(
+    data=dc_e, x="grupo", y="consumo_electrico_mw",
+    hue="grupo",
+    palette={"Operativos": PALETA["oliva"],
+             "Planificados_Construcción": PALETA["tierra"]},
+    legend=False,
+    width=0.45,
+    linewidth=0.9,
+    flierprops=dict(marker="o", markerfacecolor="none",
+                    markersize=4, linewidth=0.7),
+    ax=ax,
+)
+
+ax.set_yscale("log")
+ax.set_ylim(0.1, 30000)
+
+# mediana anotada
+for i, grupo in enumerate(["Operativos", "Planificados_Construcción"]):
+    med = dc_e[dc_e["grupo"] == grupo]["consumo_electrico_mw"].median()
+    ax.text(i, med * 1.35, f"{med:,.2f} MW",
+            ha="center", va="bottom",
+            fontsize=8, color=PALETA["ink"], fontweight="bold")
+
+# grilla log suave
+ax.grid(True, which="both", axis="y",
+        color=PALETA["crema"], linewidth=0.5, linestyle="--")
+ax.set_axisbelow(True)
+
+# ── fix warning ───────────────────────────────────────────────
+ax.set_xticks([0, 1])
+ax.set_xticklabels(["Operativos", "Planificados\ny en construcción"], fontsize=9)
+
+ax.set_xlabel("")
+ax.set_ylabel("Consumo eléctrico (MW) — escala logarítmica", fontsize=9)
+ax.set_title("Consumo eléctrico · operativos vs. proyectos futuros",
+             fontsize=11, pad=12)
+
+sns.despine()
+plt.tight_layout()
+plt.savefig(VIZ / "boxplot_consumo_electrico_log.png",
+            dpi=150, bbox_inches="tight", facecolor=PALETA["hueso"])
+plt.show()
+```
+
+El gráfico nos confirma visualmente: se trata de una nueva categoría de infraestructura de Data Centers.
+
+Mientras que el 75% de los operativos consumen entre 0,28 y 3,32 MW — instalaciones pequeñas y medianas que forman el tejido invisible de internet — apenas 107 de los 5.263 operativos (2%) superan los 100 MW, con un máximo de 1.327 MW (Stargate I, ya operativo en Texas).
+
+Los proyectos que vienen invierten esa lógica: el 25% más modesto de los proyectos futuros ya arranca en ~110 MW, y el proyecto individual más chico del pipeline es de 22 MW — de cualquier forma, ya supera al 75% de todos los Data Centers operativos actuales. La mediana (138,25 MW) ya estaría en el rango de outlier para el stock operativo actual.
+
+> Dos casos extremos alcanzan ~5.500 y ~14.400 MW — magnitudes sin precedente en la historia de la infraestructura digital.
+
+La infraestructura que viene, nuevamente, refuerza que no es "más de lo mismo": representa un salto de escala respecto al parque operativo actual. Un proyecto nuevo típico consume órdenes de magnitud más que el DC operativo promedio.
+
+#### Consumo eléctrico por país
+
+
+
+Podemos percibir gráficamente la diferencia del consumo de los Data Centers en camino respecto de los operativos a través del gráfico siguiente. En él, cada rectángulo representa un país (agrupado por continente), y su **tamaño es proporcional al consumo eléctrico total** (MW) de los Data Centers allí ubicados.
+
+El gráfico muestra no sólo dónde está el consumo *hoy*, sino dónde se va a **concentrar el crecimiento** del impacto eléctrico de los Data Centers en los próximos años — información central para anticipar presión sobre redes eléctricas y recursos asociados (agua, emisiones)-.
+
+>Se destacan en consumo eléctrico total: Estados Unidos, Alemania, Brasil e India.
+
+```{python}
+cons_combo = (dc_e.groupby(["continente", "pais", "estado"], observed=True)["consumo_electrico_mw"]
+                  .sum()
+                  .reset_index())
+cons_combo = cons_combo[cons_combo["consumo_electrico_mw"] > 0]
+cons_combo["estado"] = cons_combo["estado"].astype(str)
+cons_combo["continente"] = cons_combo["continente"].astype(str)
+cons_combo["pais"] = cons_combo["pais"].astype(str)
+
+fig = px.treemap(cons_combo,
+                  path=["continente", "pais", "estado"],
+                  values="consumo_electrico_mw",
+                  color="estado",
+                  color_discrete_map=COLOR_ESTADO,
+                  title="<b>Consumo eléctrico — Operativo vs Pipeline</b> por país",
+                  template=TEMPLATE,
+                  height=600)
+
+fig.update_layout(margin=dict(l=0, r=0, t=45, b=0))
+
+# Igual que en el artículo: el PNG estático es opcional, no puede tumbar el render
+try:
+    fig.write_image("../visual/treemap_consumo_combo.png", scale=2)
+except Exception:
+    pass
+
+fig.show()
+```
+
+#### En America del Sur
+
+
+Si miramos América del Sur registramos 479 Data Centers de los cuales 7 son proyectos en camino (planificados o en construcción), concentrados en **Brasil, Argentina, Chile, Colombia y Uruguay**. Entre ellos el proyecto má grande es el ubicado en Brasil  Scala AI City — Eldorado do Sul, RS (Brasil) el proyecto se está construyendo por fases — la Fase 1 es de 50-54 MW, con inicio de obra recién estimado para 2027 e inversión inicial de US$500 millones.  4,75 GW son el objetivo final del campus completo (10 millones de m² de predio).
+
+
+![Scala Campus Tamboré, Brasil. Imagen: Data Centre Magazine.](images/complexo-tambore-2025-r04-2-1_D_Empathy_Project.jpg){fig-align="center" width="85%"}
+
+```{python}
+# Filtro a América del Sur y preparo columnas para el mapa
+df_map = dc_e[dc_e["continente"] == "América del Sur"].copy()
+
+# tipo: versión legible de "estado" para el color del mapa
+mapa_tipo = {"operativo": "Operativo", "construccion": "En construcción", "planificado": "Planificado"}
+df_map["tipo"] = df_map["estado"].map(mapa_tipo)
+
+# size_plot: tamaño de la burbuja según consumo eléctrico estimado
+df_map["size_plot"] = df_map["consumo_electrico_mw"]
+
+fig = px.scatter_map(
+    df_map,
+    lat="latitud", lon="longitud",
+    size="size_plot",
+    color="tipo",
+    color_discrete_map={
+        "Operativo":        PALETA["oliva"],
+        "En construcción":  COLOR_ESTADO["construccion"],
+        "Planificado":      COLOR_ESTADO["planificado"],
+    },
+    hover_name="nombre",
+    hover_data={
+        "consumo_electrico_mw": ":.1f",
+        "pais": True,
+        "tipo": False,
+        "size_plot": False,
+        "latitud": False,
+        "longitud": False,
+    },
+    size_max=55,
+    zoom=2.8,
+    center={"lat": -20, "lon": -58},
+    map_style="open-street-map",
+    template=TEMPLATE,
+    title="América del Sur · Data Centers operativos y proyectos futuros<br>"
+          "<sup>Tamaño proporcional al consumo eléctrico estimado (MW)</sup>",
+)
+fig.update_layout(
+    legend=dict(title="Estado", x=0.01, y=0.99,
+                bgcolor="rgba(242,239,228,0.88)"),
+    margin=dict(t=60, b=0, l=0, r=0),
+    # Saco el width fijo: así el mapa ocupa el ancho del cuerpo de la página y
+    # queda centrado como el resto de las figuras
+    height=720,
+)
+try:
+    fig.write_html(str(VIZ / "bubblemap_latam_consumo_px.html"))
+except Exception:
+    pass
+fig.show()
+```
+
+
+

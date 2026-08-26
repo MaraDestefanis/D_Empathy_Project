@@ -1,0 +1,103 @@
+/*-- scss:defaults --*/
+/* Paleta tomada de dc_estilos.py — misma identidad que los gráficos Python */
+$body-bg: #F2EFE4;      /* hueso */
+$body-color: #2C2C2C;   /* ink */
+$primary: #7C8C5E;      /* oliva */
+$link-color: #7C8C5E;
+
+$font-family-base: Georgia, "Times New Roman", serif;
+$headings-font-family: Georgia, "Times New Roman", serif;
+
+/*-- scss:rules --*/
+
+/* ─────────────────────────────────────────────────────────────
+   Centrado de figuras, imágenes, gráficos Plotly y tablas.
+   Antes cada capítulo dependía de que la figura trajera su propio
+   fig-align o width; ahora se resuelve una sola vez acá.
+   ───────────────────────────────────────────────────────────── */
+
+/* Imágenes estáticas (matplotlib/seaborn guardadas como PNG, y fotos) */
+.cell-output-display > img,
+figure > img,
+p > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Salidas de celda en general: centro el contenido */
+.cell-output-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: auto;
+}
+
+/* Gráficos Plotly: que respeten el ancho del cuerpo y queden centrados */
+.cell-output-display .plotly-graph-div,
+.cell-output-display .js-plotly-plot {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 100%;
+}
+
+/* Iframes embebidos (mapas Kepler, línea de tiempo, video) */
+iframe {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+/* Tablas (incluye las de pandas Styler) */
+.cell-output-display table {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.88rem;
+}
+
+.cell-output-display table caption,
+table caption {
+  caption-side: top;
+  text-align: center;
+  font-style: italic;
+  color: #5A6472;
+  padding-bottom: 0.4rem;
+}
+
+/* Que una tabla ancha haga scroll en vez de romper el layout */
+.cell-output-display > div:has(> table) {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Pies de figura */
+figure figcaption,
+.figure-caption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #5A6472;
+}
+
+/* Fórmulas en display: un poco de aire arriba y abajo */
+.math.display {
+  margin-top: 1.1rem;
+  margin-bottom: 1.1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* El bloque de título duplicado y vacío que mete Quarto en los capítulos */
+#title-block-header:empty {
+  display: none;
+}
+.quarto-title-block + header#title-block-header {
+  display: none;
+}
+
+/* Utilidad para centrar bloques ::: {.text-center} */
+.text-center {
+  text-align: center;
+}

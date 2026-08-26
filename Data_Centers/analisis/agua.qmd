@@ -1,0 +1,594 @@
+---
+title: "Agua y Riesgo Hídrico"
+---
+
+
+
+```{python}
+#| include: false
+# Preliminares
+import pandas as pd
+import numpy as np
+
+# Visualización 
+
+from IPython.display import display, HTML
+from pathlib import Path
+import sys, os
+
+sys.path.insert(0, os.path.dirname(os.getcwd()))
+from dc_estilos import *
+TEMPLATE = TEMPLATE_PLOTLY
+
+# Display numérico
+pd.set_option("display.max_columns",  None)
+pd.set_option("display.float_format", "{:,.2f}".format)
+
+print("Estilo visual cargado.")
+```
+
+```{python}
+#| include: false
+dc_a = pd.read_csv("../datos/dc_master_confeature.csv", dtype={'id': str})
+```
+
+```{python}
+#| include: false
+
+# ── Tipos de datos correctos ─────────────────────────────────────
+cats = ['operador_norm', 'web', 'continente', 'pais', 'pais_iso',
+        'ciudad', 'direccion', 'estado', 'tecnologia_refrigeracion',
+        'riesgo_hidrico_cuenca', 'riesgo_hidrico_pais',
+        'bws_descripcion', 'tamaño_categoria', 'tamaño_porredes']
+
+for col in cats:
+    dc_a[col] = dc_a[col].astype('category')
+
+dc_a['nombre'] = dc_a['nombre'].astype('object')
+dc_a['id'] = dc_a['id'].astype('Int64')
+
+print(dc_a.dtypes)
+print()
+print("Memoria:", dc_a.memory_usage(deep=True).sum() / 1024**2, "MB")
+```
+
+#### Más consumo de agua 
+
+::: {.callout-warning}
+
+**Según informa la ONU:** para el año 2030, **9,3 billones de litros de agua** serán consumidos por los centros de datos.
+
+Cuanto más energía se utiliza, más necesidad de enfriar los Data Centers para que puedan continuar funcionando.
+
+:::
+
+#### Tecnología de refrigeración de los Data Centers
+
+
+
+C
+Aquí la tecnología de refrigeración es de vital importancia ya que se da visibilidad del agua consumida. 
+Ese consumo impacta directo en si afecta a la recuperación del agua en las cuencas hídricas del lugar a fin de que sea un recurso accesible a la población o genera estrés a las cuencas hídricas del lugar impactando a un efecto sin retorno. 
+
+
+Por lo que analicemos según los datos que tenemos y las características que se observa. En cuanto a tecnologías de refrigeración actualmente se nombran y se usan las siguientes: 
+
+
+- **Refrigeración Evaporativa (agua):** El proceso de enfriar lo hace por evaporación de agua en contacto con el aire. Consume agua directa en el sitio.
+
+-  **Refrigeración Mixta:** combina aire y agua según el clima del lugar, buscando el equilibro entre consumo eléctrico e hídrico. Es la tecnología que más se ha utilizado en el pasado. Hoy esta tecnología domina en los Data Centers operativos en un 96%  (5.082 de 5.263).
+
+
+- **Refrigeración por Aire:** refrigera solo con aire, sin agua en el proceso, a costa de mayor consumo eléctrico. Apenas 3 operativos la usan .El enfriamiento por aire típicamente no usa agua (es refrigeración seca)
+
+  
+- **Refrigeración por Aire/híbrido (post-2024):** categoría más reciente, pensada para reducir huella hídrica. No tiene ningún caso operativo — aparece únicamente en 48 proyectos planificados o en construcción. representando a la tecnología de refrigeración más señalada en los planificados en un 96.56%. 
+
+> **Nota metodológica:** la tecnología de refrigeración casi nunca está declarada — se asigna según una regla basada en tamaño y año de registro. Funciona como una categoría proxy: útil para ver tendencias de asignación, no para afirmar con certeza qué tecnología eligió cada operador puntual.
+
+Post 2024 se observa un cambio de elección de tecnología de refrigeración marcandose aire/hibrido 
+como tecnología posible para los Data Centers venideros. 
+
+```{python}
+#| include: false
+
+#Operativos y planificados/en_construcción
+
+op    = dc_a[dc_a["estado"] == "operativo"].copy()
+no_op = dc_a[dc_a["estado"] != "operativo"].copy()
+```
+
+```{python}
+
+
+op_counts = op['tecnologia_refrigeracion'].value_counts(dropna=False)
+op_pct = op['tecnologia_refrigeracion'].value_counts(dropna=False, normalize=True) * 100
+
+no_op_counts = no_op['tecnologia_refrigeracion'].value_counts(dropna=False)
+no_op_pct = no_op['tecnologia_refrigeracion'].value_counts(dropna=False, normalize=True) * 100
+
+# armo tabla combinada con columnas multinivel: (grupo, conteo/%)
+resumen_refrig = pd.DataFrame({
+    ('Operativos', 'conteo'): op_counts,
+    ('Operativos', '%'): op_pct.round(2),
+    ('Construcción/Planificados', 'conteo'): no_op_counts,
+    ('Construcción/Planificados', '%'): no_op_pct.round(2),
+}).fillna(0)
+
+resumen_refrig.columns = pd.MultiIndex.from_tuples(resumen_refrig.columns)
+resumen_refrig = resumen_refrig.sort_values(('Operativos', 'conteo'), ascending=False)
+
+col_conteo = [c for c in resumen_refrig.columns if c[1] == 'conteo']
+col_pct = [c for c in resumen_refrig.columns if c[1] == '%']
+
+display(
+    resumen_refrig.style
+    .set_caption('Tecnologías de refrigeración — Operativos vs Construcción/Planificados')
+    .format('{:.0f}', subset=col_conteo)
+    .format('{:.2f}%', subset=col_pct)
+)
+```
+
+#### El trade-off-PUE vs. WUE
+
+Revisemos qué significa trade off PUE vs. WUE: 
+
+**PUE (Power Usage Effectiveness)** mide qué tan eficiente es un data center en el uso de su electricidad: compara toda la energía que consume la instalación (cómputo + refrigeración + todo lo demás) contra la energía que realmente usan los servidores para procesar datos.
+
+$$PUE = \frac{\text{Energía total del data center}}{\text{Energía usada por los servidores}}$$
+
+Un PUE de 1,0 sería el ideal teórico (toda la energía va al cómputo, nada se "pierde" en refrigerar o mantener el edificio) — en la práctica, ningún data center llega a eso. Cuanto más bajo el PUE, más eficiente es la instalación: menos energía extra hace falta para mantener los servidores funcionando.
+
+**WUE (Water Usage Effectiveness)** mide cuánta agua se usa por cada unidad de energía de cómputo — se expresa en litros por kilovatio-hora (L/kWh). Cuanto más bajo el WUE, menos agua consume la instalación para producir la misma cantidad de cómputo.
+
+**El trade-off:** estas dos métricas suelen tironear en direcciones opuestas según la tecnología de refrigeración. El enfriamiento evaporativo, por ejemplo, usa agua para enfriar de forma más eficiente eléctricamente (baja el PUE), pero a costa de consumir más agua (sube el WUE). El enfriamiento por aire hace lo contrario: no usa agua, pero es menos eficiente eléctricamente. No existe una tecnología que optimice ambas métricas a la vez — cada elección de refrigeración es, en el fondo, una decisión sobre qué recurso sacrificar: electricidad o agua.
+
+Podemos preguntarnos cuál es la tecnología de refrigeración más eficiente y de menor impacto. Para ello analizamos la relación de los indicadores PUE -energía- y WUE - agua- en la gráfica de dispersión siguiente: 
+
+```{python}
+#| include: false
+# Chequeo de columnas disponibles — diagnóstico, no va a la web
+print(dc_a.columns)
+```
+
+```{python}
+#| include: false
+
+refrig = op[op['pue_estimado'].notna() & op['wue_estimado'].notna()].copy()
+print(f"Total DCs en refrig: {len(refrig)}")
+print(f"Combinaciones únicas de (PUE, WUE): {refrig[['pue_estimado','wue_estimado']].drop_duplicates().shape[0]}")
+print(refrig.groupby(['pue_estimado','wue_estimado']).size().sort_values(ascending=False).head(10))
+```
+
+```{python}
+#| include: false
+
+# ¿cuántos no-operativos hay en total, y cuántos de esos tienen PUE/WUE calculado?
+print(dc_a['estado'].value_counts(dropna=False))
+print()
+print("NaN en PUE/WUE para no-operativos:")
+print(dc_a[dc_a['estado'] != 'operativo'][['pue_estimado', 'wue_estimado']].isna().mean())
+```
+
+```{python}
+
+# Agrego mediana de PUE/WUE por tecnología + consumo eléctrico total como peso ──
+# (cap_mw no sirve: 100% NaN en operativos, así que peso por consumo_electrico_mw)
+
+def agregar_por_tech(df, metrica):
+    return (
+        df[df[metrica].notna()]
+        .groupby('tecnologia_refrigeracion', observed=True)
+        .agg(mediana=(metrica, 'median'), consumo_total_mw=('consumo_electrico_mw', 'sum'), n_dc=('nombre', 'size'))
+        .reset_index()
+    )
+
+op_data = op.copy()
+no_op_data = dc_a[dc_a['estado'] != 'operativo'].copy()
+
+pue_op    = agregar_por_tech(op_data, 'pue_estimado').sort_values('mediana')
+pue_no_op = agregar_por_tech(no_op_data, 'pue_estimado').sort_values('mediana')
+wue_op    = agregar_por_tech(op_data, 'wue_estimado').sort_values('mediana')
+
+# ── 2. Orden de categorías: unión de operativos + construcción, sin perder tecnologías nuevas ──
+orden_tech = list(dict.fromkeys(
+    pue_op['tecnologia_refrigeracion'].tolist() + pue_no_op['tecnologia_refrigeracion'].tolist()
+))
+
+# ── 3. Armo la figura de 3 paneles ──
+fig = make_subplots(
+    rows=1, cols=3,
+    subplot_titles=['PUE — Operativos', 'PUE — Construcción/Planificados', 'WUE — Operativos'],
+    shared_yaxes=True,
+)
+
+# escala de tamaño común a los 3 paneles, para que el tamaño de punto sea comparable entre gráficos
+consumo_max = max(pue_op['consumo_total_mw'].max(), pue_no_op['consumo_total_mw'].max(), wue_op['consumo_total_mw'].max())
+sizeref = 2. * consumo_max / (40.**2)
+
+def agregar_panel(df, col):
+    df = df.set_index('tecnologia_refrigeracion').reindex(orden_tech).reset_index()
+    df[['consumo_total_mw', 'n_dc']] = df[['consumo_total_mw', 'n_dc']].fillna(0)
+    fig.add_trace(go.Scatter(
+        x=df['mediana'], y=df['tecnologia_refrigeracion'],
+        mode='markers',
+        marker=dict(
+            size=df['consumo_total_mw'], sizeref=sizeref, sizemode='area', sizemin=4,
+            color=[COLOR_REFRIG.get(t, '#999999') for t in df['tecnologia_refrigeracion']],
+        ),
+        text=[f"{n:.0f} DCs · {c:,.0f} MW" for n, c in zip(df['n_dc'], df['consumo_total_mw'])],
+        hovertemplate='%{y}<br>Mediana: %{x:.2f}<br>%{text}<extra></extra>',
+        showlegend=False,
+    ), row=1, col=col)
+
+agregar_panel(pue_op, 1)
+agregar_panel(pue_no_op, 2)
+agregar_panel(wue_op, 3)
+
+# ── 4. Ajustes de escala y márgenes ──
+# mismo rango de X en los dos paneles de PUE, para poder comparar posición real, no escala relativa
+fig.update_xaxes(range=[0.5, 2.0], row=1, col=1)
+fig.update_xaxes(range=[0.5, 2.0], row=1, col=2)
+
+# automargin evita que las etiquetas largas del eje Y (ej. "aire/hibrido (post-2024)") se corten
+fig.update_yaxes(automargin=True, row=1, col=1)
+
+fig.update_layout(
+    title='<b>Eficiencia por tecnología de refrigeración</b><br>'
+          '<sup>Tamaño del punto = consumo eléctrico total (MW) · orden fijo según ranking de operativos '
+          '· WUE en construcción/planificados aún no disponible</sup>',
+    template=TEMPLATE_PLOTLY,
+    height=450,
+    margin=dict(l=160),
+)
+fig.show()
+```
+
+En Data Centers operativos la gráfica enseña que hoy, la tecnología dominante  es **mixto** —  la más usada (burbuja más grande en los dos paneles) pero también la de peor desempeño de las tres con datos completos: mayor PUE (~1,8, la menos eficiente eléctricamente) y mayor WUE (~5.700-5.800 L/kWh, la que más agua consume). 
+
+La tecnología "Aire" tiene el mejor PUE (~1,12) pero es marginal en el parque operativo — la burbuja más chica, probablemente instalaciones más antiguas o de menor escala. No tiene WUE porque no usar agua para refrigerar. 
+
+Por su parte el equilibrio en la tecnología que se usa es la **Evaporativa (agua)** queda en el medio en PUE (~1,6) pero tiene el WUE más bajo de las tecnologías con dato (~5.074), por debajo de "mixto". Esto es contraintuitivo — el enfriamiento evaporativo usa agua como mecanismo central, uno esperaría que consuma más, no menos. Pero WUE mide una tasa ( litros por Kwh), no el volumen total. En los datos vemos que la tecnología de refrigeración está determinada por el tamaño de la instalación. -"evaporativa" y "aire" aparecen exclusivamente en Data Centers hyperscale, o internacionales - hablando de tamaño por redes- mientra " mixto" domina las categorías más chicas del sector" es decir, dentro de las operativas la de mayor cantidad, contrario a la tendencia de tamaño despues del año 2021.   
+
+Por su parte los Data Centers en construcción/planificación marca la refrigeración **aire/hibrido (post-2024)** — tecnología que no existe todavía en el parque operativo, con PUE (~1,1-1,2) similar al mejor desempeño actual. Por ahora, con ausencias de información real pero bajo los supuestos de que los proyectos nuevos adoptarían refrigeración híbrida aire/agua para la próxima generación de infraestructura".
+
+> **Nota metodológica:** `pue_estimado` y `wue_estimado` son estimaciones internas cuya forma de cálculo no está del todo documentada — a diferencia de `agua_total_ml_año` (que usa un WUE fijo de 1,8 L/kWh para todo el dataset), estas dos columnas sí varían por fila, pero no se usan en ninguna fórmula publicada del sitio. Antes de afirmar en el texto final que "la evaporativa consume más agua", conviene revisar cómo se generaron estos dos valores — Es un proxy a fines de exploración.  [Ver Datos y Formulas](datos_formulas.qmd)
+
+#### Consumo de agua directa por tecnología en Data Centers Operativos
+
+
+La tecnología evaporativa es utilizada en las instalaciones más grandes. 
+apenas el 3,4% de los Data Centers operativos —los que usan refrigeración evaporativa y concentran el 30% del consumo total de agua directa del sector. Esa desproporción no responde a que la tecnología en sí use más agua por naturaleza, sino a que se aplica casi exclusivamente en las instalaciones de mayor escala.
+
+Esto es visible en el gráfico siguiente  responde dos preguntas distintas con el mismo dato. 
+
+- El panel de la izquierda ("TOTAL") suma el consumo de agua directa de todos los Data Centers de cada tecnología. Es decir, el volumen agregado que aporta esa tecnología al conjunto del sector, y depende tanto de cuánta agua usa cada instalación como de cuántas instalaciones hay.
+
+Podemos observar en volumen total, "mixto" domina ampliamente (315.300 millones de litros al año frente a 135.500 millones de evaporativa) pero es, sobre todo, un efecto de escala numérica: mixto representa el 96,6% de los Data Centers operativos, por lo cual aunque cada instalación por escala y tecnología de refrigeración de los operativos consuman poco, la suma de miles de ellas es enorme. 
+  
+- El panel de la derecha ("MEDIANA por DC") muestra cuánta agua consume una instalación típica (el 50% de las instalaciones de dichas tecnologías) de esa tecnología  el valor central de la distribución, no el promedio, porque el promedio quedaría distorsionado por las instalaciones más extremas.
+Aquí el consumo mediano por instalación, evaporativa multiplica casi por 80 el de mixto (348,8 millones de litros al año frente a apenas 4,4 millones) — reflejo directo de que la tecnología evaporativa se usa casi exclusivamente en Data Centers hyperscale, mientras que mixto es la tecnología del grueso de instalaciones pequeñas y medianas del sector.
+
+Nota: Excluimos 'aire' de esta comparación: con apenas 3 Data Centers operativos registrados —dos con capacidad no declarada (rellenada con un valor estándar) y uno correspondiente a Stargate I, el proyecto individual más grande del sector—, no hay muestra suficiente para un promedio representativo. Stargate I por sí solo consume más agua declarada que los otros dos juntos multiplicados por seis.
+
+```{python}
+#| include: false
+
+# ¿las instalaciones evaporativas realmente tienden a ser más grandes que las mixtas?
+print(op_data.groupby('tecnologia_refrigeracion')['consumo_electrico_mw'].median())
+print(op_data.groupby('tecnologia_refrigeracion')['tamaño_categoria'].value_counts(normalize=True))
+```
+
+```{python}
+# ── Agua directa por tecnología, DC Operativos ────────────
+agua_refrig = op.groupby('tecnologia_refrigeracion', observed=True).agg(
+    n=('id', 'count'),
+    agua_directa_total=('consumo_agua_ml_año', 'sum'),
+    agua_directa_mediana=('consumo_agua_ml_año', 'median'),
+    pue_medio=('pue_estimado', 'mean'),
+    wue_medio=('wue_estimado', 'mean'),
+).reset_index().sort_values('agua_directa_total', ascending=False)
+
+# excluyo 'aire' de la comparación: n=3, con 2 registros idénticos por valor por defecto (110.60 MW sin cap_mw)
+# y 1 correspondiente a Stargate I — no hay estadístico robusto posible con esta muestra
+agua_refrig_comp = agua_refrig[agua_refrig['tecnologia_refrigeracion'] != 'aire'].copy()
+
+fig = make_subplots(rows=1, cols=2,
+    subplot_titles=['Agua directa TOTAL (litros/año)', 'Agua directa MEDIANA por DC (litros/año)'])
+for col_i, col in enumerate(['agua_directa_total', 'agua_directa_mediana'], 1):
+    fig.add_trace(go.Bar(
+        x=agua_refrig_comp['tecnologia_refrigeracion'],
+        y=agua_refrig_comp[col],
+        marker_color=[COLOR_REFRIG.get(t, PALETA['crema']) for t in agua_refrig_comp['tecnologia_refrigeracion']],
+        text=[f"{v:,.0f}<br>n={n}" for v, n in zip(agua_refrig_comp[col], agua_refrig_comp['n'])],
+        textposition='outside',
+        textfont=dict(size=9),
+        showlegend=False,
+    ), row=1, col=col_i)
+fig.update_layout(
+    title='<b>Consumo de agua directa por tecnología, DC Operativos</b><br>'
+          '<sup>"Aire" excluido de la comparación (n=3, muestra no representativa — ver nota)</sup>',
+    template=TEMPLATE_PLOTLY, height=430,
+)
+fig.show()
+```
+
+#### Tabla resumen del trade-off
+
+
+
+Asimetría tecnología de refrigeración/tamaño de Data Centers según cantidad de redes vimos que el 3,4% de los Data Centers operativos con dato de refrigeración usan tecnología evaporativa — pero concentran el 30,1% del consumo total de agua directa del sector. En tanto el 96,6% restante, con refrigeración mixta, se reparte el 69,9% del agua total. 
+
+La asimetría se vuelve más marcada a nivel de instalación individual: una evaporativa mediana consume 348,8 millones de litros al año, casi 80 veces más que una mixta mediana (4,4 millones). 
+
+Esta brecha no responde a que la tecnología evaporativa sea intrínsecamente más demandante de agua por MW, sino a que se despliega casi exclusivamente en instalaciones hyperscale, mientras que la refrigeración mixta domina el segmento de menor escala del sector. (Los 3 Data Centers con refrigeración por aire quedan fuera de esta comparación: la muestra es demasiado chica y dos de los tres registros comparten un valor de capacidad no declarada, por lo que ningún promedio o mediana calculado sobre ellos sería representativo.) 
+
+Vemos los valores en la siguiente tabla: 
+
+```{python}
+# tabla resumen del trade-off: cantidad vs. concentración de consumo de agua, por tecnología (Operativos)
+
+agua_refrig_comp = agua_refrig[agua_refrig['tecnologia_refrigeracion'] != 'aire'].copy()
+
+total_agua = agua_refrig_comp['agua_directa_total'].sum()
+total_n = agua_refrig_comp['n'].sum()
+agua_refrig_comp['pct_n'] = agua_refrig_comp['n'] / total_n * 100
+agua_refrig_comp['pct_agua'] = agua_refrig_comp['agua_directa_total'] / total_agua * 100
+
+resumen_trade_off = agua_refrig_comp[
+    ['tecnologia_refrigeracion', 'n', 'pct_n', 'agua_directa_total', 'agua_directa_mediana', 'pct_agua']
+].rename(columns={
+    'tecnologia_refrigeracion': 'Tecnología',
+    'n':                        'N° DCs',
+    'pct_n':                    '% de DCs',
+    'agua_directa_total':       'Agua total (L/año)',
+    'agua_directa_mediana':     'Agua mediana por DC (L/año)',
+    'pct_agua':                 '% del agua total',
+})
+
+display(
+    resumen_trade_off.style
+    .set_caption('Trade-off cantidad vs. concentración de consumo — Operativos ("aire" excluido, n=3 no representativo)')
+    .format({
+        'N° DCs': '{:,.0f}',
+        '% de DCs': '{:.1f}%',
+        'Agua total (L/año)': '{:,.0f}',
+        'Agua mediana por DC (L/año)': '{:,.0f}',
+        '% del agua total': '{:.1f}%',
+    })
+    .background_gradient(cmap='Blues', subset=['% del agua total'])
+    .hide(axis='index')
+)
+
+# nota aparte: documento 'aire' sin mezclarlo en la comparación estadística.
+# Uso Styler en vez de print(.to_string()) porque el texto plano en la web sale
+# como bloque monoespaciado sin formato y rompe la lectura
+display(
+    op[op['tecnologia_refrigeracion']=='aire']
+      [['nombre','consumo_agua_ml_año','consumo_electrico_mw','redes_conectadas']]
+      .rename(columns={
+          'nombre':               'Data Center',
+          'consumo_agua_ml_año':  'Agua directa (L/año)',
+          'consumo_electrico_mw': 'Consumo eléctrico (MW)',
+          'redes_conectadas':     'Redes conectadas',
+      })
+      .style
+      .set_caption("Nota — refrigeración por 'aire' (n=3, no representativo, excluido de la tabla anterior)")
+      .format({'Agua directa (L/año)': '{:,.0f}',
+               'Consumo eléctrico (MW)': '{:,.2f}',
+               'Redes conectadas': '{:,.0f}'})
+      .hide(axis='index')
+)
+```
+
+#### Riesgo hídrico
+
+```{python}
+#| include: false
+
+# ── Acomodo categorías residuales de riesgo hídrico cuenca ───────
+reemplazos = {
+    'No Data': 'sin_dato',
+    'Sin dato (sin cuenca)': 'sin_dato',
+    'Arid and Low Water Use': 'sin_dato'
+}
+
+dc_a['riesgo_hidrico_cuenca'] = (dc_a['riesgo_hidrico_cuenca']
+    .astype(str)
+    .replace(reemplazos)
+    .astype('category'))
+
+op = dc_a[dc_a['estado']=='operativo'].copy()  # recalcular op
+
+print(op["riesgo_hidrico_cuenca"].value_counts(dropna=False))
+```
+
+```{python}
+#| include: false
+alto_riesgo = ['High (40-80%)', 'Extremely High (>80%)']
+
+riesgo_por_tech = (
+    op.assign(en_riesgo=op['riesgo_hidrico_cuenca'].isin(alto_riesgo))
+    .groupby('tecnologia_refrigeracion', observed=True)['en_riesgo']
+    .agg(n='size', pct_riesgo='mean')
+    .assign(pct_riesgo=lambda d: (d['pct_riesgo'] * 100).round(1))
+    .sort_values('pct_riesgo', ascending=False)
+)
+print(riesgo_por_tech)
+
+
+# Solo comprobanto si el tipo de tecnología de refrigeración impacta. 
+```
+
+
+Como nos referiamos al principio de este capítulo sobre el consumo del agua. Si se utiliza grandes volúmenes de agua en un data center pero allí hay una cuenca hídrica abundante que su recuperación es continua. Tenemos un  equilibrio sustentable en todas las actividades humanas que se realicen en la zona, por lo tanto la cuenca goza de buena salud. No hay una preocupación de estréss hídrico. 
+En cambio, si el data center está ubicado en una zona que ya de por sí presenta riesgo hídrico, la fábrica digital que está funcionando afecta directamente en la posibilidad de renovación del agua y por lo tanto acentúa el impacto de posble escasez del recurso hídrico, el agua, en el lugar. -Esto sin mencionar a los Data Centers que están planificados y en construcción que presentan dimensiones de hyperscale-
+
+Para analizar el riesgo hídrico contamos con la medida de WRI Aqueduct, la herramienta de referencia global para mapear estrés hídrico por cuenca. El riesgo hídrico mide qué tan disputada está el agua en la cuenca donde se ubica cada data center: compara cuánta agua dulce se extrae cada año —para consumo humano, agrícola e industrial, incluyendo la de los propios Data Centers— contra cuánta agua renovable hay disponible en esa cuenca.   [Ver Datos y Formulas](datos_formulas.qmd)  Cuando la extracción se acerca o supera lo que la cuenca puede reponer, entra en las categorías de estrés "alto" o "extremo": zonas donde ya existe competencia real por el recurso, y cualquier consumo adicional se suma a una presión que ya es crítica. 
+
+Una primer observación del análisis, reflejado en las gráficas y tablas siguientes, es que solo considerando los Data Centers operativos —sin contar los que están en construcción o planificados—, más de una cuarta parte (27,5%) están ubicada en cuencas de estrés hídrico alto o extremo, sin importar la tecnología de refrigeración que se use. Esto es solo la fracción operativa del sector aún falta incluir los cientos de proyectos en construcción o planificados en las cuales la característica principal es que escalan su tamaño como se analizó en el artículo principal. [Ver articulo](articulo.qmd)
+
+
+Existen cinco categorías de riesgo hídrico. Nos concentraremos en los que presentan un porcentaje mayor al 40% del estres alto o extremo. De los operativos en cantidad tenemos 1.446 Data Centers (27,5% mencionado)
+
+```{python}
+# ── Acomodo categorías residuales de riesgo hídrico cuenca ───────
+reemplazos = {
+    'No Data': 'sin_dato',
+    'Sin dato (sin cuenca)': 'sin_dato',
+    'Arid and Low Water Use': 'sin_dato'
+}
+dc_a['riesgo_hidrico_cuenca'] = (dc_a['riesgo_hidrico_cuenca']
+    .astype(str)
+    .replace(reemplazos)
+    .astype('category'))
+op = dc_a[dc_a['estado']=='operativo'].copy()  # recalcular op
+
+# ── Tabla resumen, ordenada de menor a mayor riesgo (no por frecuencia) ──
+orden_riesgo = ['Low (<10%)', 'Low - Medium (10-20%)', 'Medium - High (20-40%)',
+                'High (40-80%)', 'Extremely High (>80%)', 'sin_dato']
+
+conteo = op['riesgo_hidrico_cuenca'].value_counts(dropna=False)
+porcentaje = op['riesgo_hidrico_cuenca'].value_counts(dropna=False, normalize=True) * 100
+
+resumen_riesgo = (
+    pd.DataFrame({'N° de DCs': conteo, '% del total': porcentaje.round(1)})
+    .reindex(orden_riesgo)
+    .rename_axis('Categoría de riesgo hídrico')
+    .reset_index()
+)
+
+display(
+    resumen_riesgo.style
+    .set_caption('Distribución de data centers operativos por riesgo hídrico de cuenca (WRI Aqueduct)')
+    .format({'N° de DCs': '{:,.0f}', '% del total': '{:.1f}%'})
+    .background_gradient(cmap='Reds', subset=['% del total'])
+    .hide(axis='index')
+)
+```
+
+```{python}
+#| include: false
+
+alto_riesgo = ['High (40-80%)', 'Extremely High (>80%)']
+
+# renombro para evitar el choque con la variable vieja de la verificación de evaporativa
+en_riesgo_todos = op[op['riesgo_hidrico_cuenca'].isin(alto_riesgo)]
+print(len(en_riesgo_todos))  # debería dar 1446
+```
+
+#### Riesgo hídrico por tamaño de red
+
+```{python}
+tamaño_en_riesgo = (
+    en_riesgo_todos['tamaño_porredes']
+    .value_counts(dropna=False)
+    .rename('n')
+    .to_frame()
+)
+tamaño_en_riesgo['pct'] = (tamaño_en_riesgo['n'] / tamaño_en_riesgo['n'].sum() * 100).round(1)
+tamaño_en_riesgo = tamaño_en_riesgo.sort_values('n', ascending=True)
+
+fig2 = go.Figure(go.Bar(
+    x=tamaño_en_riesgo['pct'],
+    y=tamaño_en_riesgo.index.astype(str),
+    orientation='h',
+    marker_color=PALETA['oliva'],
+    text=[f"{p:.1f}% (n={n})" for p, n in zip(tamaño_en_riesgo['pct'], tamaño_en_riesgo['n'])],
+    textposition='outside',
+))
+fig2.update_layout(
+    title='<b>¿Qué tamaño de red tienen los data centers en riesgo hídrico alto o extremo?</b><br>'
+          '<sup>% sobre el total de DCs operativos en cuencas de riesgo alto/extremo (n=1.446)</sup>',
+    template=TEMPLATE_PLOTLY,
+    xaxis_title='% de los DCs en riesgo alto/extremo',
+    height=400,
+    margin=dict(l=120),
+)
+fig2.show()
+```
+
+#### Riesgo hídrico por país
+
+Los Data Centers con riesgo hídrico operativos se encuentran principalmente en cantidad en Estados Unidos, Alemania y Reino unido. El gráfico señala todos los países con riesgo hídrico según las DC actualmente operando. 
+
+```{python}
+en_riesgo_pais = (
+    en_riesgo_todos
+    .groupby('pais', observed=True)
+    .size()
+    .sort_values(ascending=True)
+    .tail(15)
+)
+
+fig = go.Figure(go.Bar(
+    x=en_riesgo_pais.values,
+    y=en_riesgo_pais.index,
+    orientation='h',
+    marker_color=PALETA['tierra'],
+    text=en_riesgo_pais.values,
+    textposition='outside',
+))
+fig.update_layout(
+    title='<b>Data centers operativos en cuencas de riesgo hídrico alto o extremo</b><br><sup>Top 15 países por cantidad (n=1.446)</sup>',
+    template=TEMPLATE_PLOTLY,
+    xaxis_title='N° de data centers',
+    height=500,
+    margin=dict(l=160),
+)
+fig.show()
+```
+
+#### Data Centers internacionales en riesgo hídrico alto o extremo
+
+Si quisieramos observar cuales de los que tienen más del 40% de riesgo hídrico y al mismo tiempo son los Data Centers de mayor tamaño que estan operando. Son y estan en los siguientes puntos. 
+
+```{python}
+alto_riesgo = ['High (40-80%)', 'Extremely High (>80%)']
+en_riesgo_todos = op[op['riesgo_hidrico_cuenca'].isin(alto_riesgo)]
+
+# filtro internacional en riesgo, con la base ya corregida
+internacional_riesgo = en_riesgo_todos[en_riesgo_todos['tamaño_porredes']=='internacional'].copy()
+
+fig = px.scatter_geo(
+    internacional_riesgo,
+    lat='latitud', lon='longitud',
+    color='riesgo_hidrico_cuenca',
+    size='consumo_agua_ml_año',
+    size_max=25,
+    hover_name='nombre',
+    hover_data={
+        'pais': True, 'operador_norm': True, 'tecnologia_refrigeracion': True,
+        'consumo_agua_ml_año': ':.0f', 'latitud': False, 'longitud': False,
+    },
+    color_discrete_map={
+        'High (40-80%)': PALETA.get('mostaza', '#c98a2b'),
+        'Extremely High (>80%)': PALETA.get('rojo', '#b23a2f'),
+    },
+    projection='natural earth',
+    title='<b>Data centers internacionales operativos en riesgo hídrico alto o extremo</b><br>'
+          '<sup>tamaño del punto = consumo de agua directa (litros/año)</sup>',
+    template=TEMPLATE_PLOTLY,
+    height=550,
+)
+fig.update_geos(showcountries=True, countrycolor='#c9c2b3', showland=True, landcolor='#f5f0e6', showocean=True, oceancolor='#e8f0f2')
+fig.update_layout(legend=dict(orientation='h', y=-0.1, title='Riesgo hídrico de cuenca'))
+fig.show()
+```
+
+```{python}
+tabla_internacional = (
+    en_riesgo_todos[en_riesgo_todos['tamaño_porredes']=='internacional']
+    [['nombre', 'operador_norm', 'pais', 'continente', 'riesgo_hidrico_cuenca',
+      'tecnologia_refrigeracion', 'consumo_electrico_mw', 'consumo_agua_ml_año']]
+    .reset_index(drop=True)
+)
+tabla_internacional.index = tabla_internacional.index + 1
+tabla_internacional.index.name = 'N°'
+tabla_internacional
+```
+
+```{python}
+
+```
+

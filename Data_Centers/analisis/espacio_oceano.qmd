@@ -1,0 +1,27 @@
+---
+title: "Espacio vs Océano"
+---
+
+::: {.callout-note appearance="simple" icon=false}
+### Próximamente
+
+Capítulo en preparación. Abajo dejamos publicado el material previo de investigación que sirve de base.
+:::
+
+<!-- Contenido pendiente: capítulo nuevo, parte de "Alternativas". -->
+
+
+##### Material previo de investigación: 
+
+- **Anthropic + SpaceX**: el [acuerdo del 6 de mayo](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwPT5nXHCW50kH_H6lZ3mZW1jSjyC5zZrzfN4ckMzFJtLnTN2tMCxFNXKkfW4XSLtf49YnxnW6b-Z5R8ZtS2VW6QgbcM8MgD8mW8ptwX85jtGj6VXtw-g2_WPY4W4BCxRK26HFTNW1_JL4-5gLJL1W86Pvp636bR4NN7DKBmWrgfD_W5Gg7Tc5tXjX6W6WcWyD2S5T7vN1kBpnw5c79JN2TWl2Nc5ythW50xjx392xpjLW79qYpy5mj86-W1QhYwK5QQCQ5W8Lv4yY8m8gDHW9hp25s7M4DRfW2N3t7K91T9RYVN-RmC5cTfnPW7n92vv162ckHW9fBJRT44hbHhW8_jW_-2_wF2jW2mnSBb5rNzlSW30nkHH3GlsDRVlM5BL2XvC8lW6LjLz62h_Hl8W27TfwZ18b9DhW7M1GSx4Tg8Lpf2ZmT1v04) que le da a Anthropic acceso al data center terrestre Colossus 1 de SpaceX, además del uso potencial de sus Data Centers orbitales, y el plan de enero de SpaceX para desplegar hasta un millón de satélites como Data Centers orbitales.
+- **Starcloud + NVIDIA**: la jugada del láser. Los satélites de Starcloud usan terminales láser para enlazarse con la constelación de Starlink, y su primer satélite llevó una NVIDIA H100 — la primera en entrenar un modelo de IA en el espacio. [Visitar sitio](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwR23qn9qW7lCdLW6lZ3nVW73Y5Nl2nYj4CW8ScM5C8Hp6lbW4Db_QD7rWctJW2gdRTT5M09G_W3VzKZT5S0-4FN7v9x3ClT4ptW3QDXyD4rKdPBW8WJPRk6RWQsSW1XjV0V3RfRZQW5XW4VN5y1yrgN3Yl0v5B934SW6BHD-W3-WKXzN4QZ6DN954tGW2N37fp3MBH9QN7PJ18T2f-wrW7lw_gN3QDYDhW6ZS4Cq4Z7MmWW83zNSC70JQtYN7YSjJRTTwlSW3M_4Fp1BWbJYW321R0y70J9RKW2rsTmH8kTjv3W3H6bgw82QGWkVJ4nhR3bhPQYf6f4fzM04).
+- **Aetherflux**: su proyecto ["Galactic Brain"](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwQ85nXHCW5BWr2F6lZ3m1W4PVFBl8HsmWmVFNKdW8s6XZHW308Hcp5_-x6xW6knbJg8xsJDVN2_lTWG5dwhhW8xW-Tt86vkfTW4cSX9554PW_WVztSrf4Xt9kXW2cZsJ37dTGP7W1mf9_p98QSYjVM0ZlJ8h0qqlW1QR_n_97F86YW1zqnqR6GF7n2N3Xb4mpyl4J3W5hKb8S73lF49W7fncd23kSfxXW1TnDLB1ZftjJN36tJvldx52tN76RQf-k0NvfW1HfPc27MBQRQW3zkkxg7zmT3kVg1ZwY7BzXf4VJB09C1TZmCcN4Hh0xJZYHJzW2Qv_JL4-MYjgW4lLQMW4kkPBBW6X__xw5WmrmTVL8Y5j7XzZ6XW75Fz9Y6YPmG0W8j7CTJ7tNz-KW2Zb_713VGtNPV4f0rL7zDL4XW3k_3rw57PnL3W6RfYDK7y9SJsf8db6Px04) apunta a desplegar su primer nodo de data center en órbita baja terrestre (LEO) en el primer trimestre de 2027.
+- **Lonestar Data Holdings**: la empresa de [Data Centers lunares](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwRl3qn9qW7Y8-PT6lZ3l6W4YstLl6w365QVrzL6c54ggzrW71xghV7W0wH0W3v5-tN4L0ZL4W3VFrjb5CKSwMW4vm3J36N3jQLN5VNL2cFXzh9W662cqq6vjtB5W2XTfsX3YWxzSW7mQrwy7cVMvHW54zGlX3Nzpz-W2mGl8k1TMbM8N6S4y6BGN5dFW2FyVDB6F62XCW1vSDvG1VyKz_W2FxkN06VF4s4W5_YqdQ3x3PLyW1sHLQY3Q7jg7W24X9TJ3KK331W4hJKt97mCG8LW8xR4Bq3BCPSWW88RFcr18s6m_W17wcjT3z6-P5W5BG3dB32h7SjW7cy4Qv2_zkv-N5BHXzx5794Jf73tVcP04).
+
+##### Data Centers basados en el océano
+
+- El trabajo de Microsoft en aguas profundas ([sitio de Project Natick](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwRl3qn9qW7Y8-PT6lZ3k-N4crfcDqgwXjW4kBcsP4L7VV3W3hJkn38-gMWyN4LC2DPRsXxcW6z3_FV21sMcVW4PwdMs7w9WGrVwVBmk8QG02DW8Z3Xyx5bx9L_W4hwhQf75Y9gMW55D8SF3D30GdW11SGs47R-1DFW439MsX1GyzRxW4B7T5D5smT4KW5TDk9y5_MPZwW6gvFr858SCxDW5by8Dw26bWbHW3TFVLw7PC8tdVMhmLX20SdXsW4-5st73tTVj7W2WzL4n8VbjG-W7dMws46c7_YzVl99kF4t1zQdW8NqT5g1Lk9j_W78wfxZ8HP2J7W7fr9gw3xGgd6MTQrPd4bPxrf8NpQN604)) y la actividad de Samsung en el mar Báltico, que retoma esa base ([ver cobertura](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwQs7mt9PW69tBBd6lZ3nfW97g2jH28yP9DW7ZzWBM57hdm_N2yxL5Z-c0qWVLYMKJ107DbQW8bvyMQ7yLQ12W3lr7QJ70hSVcW1bB0NC12LygzW6Wkr2l7Z9RZkVyzfHy7vr00mW1Z5SVw6rgXcvW22S36V4-W0nwW1NZL_67MZlXHW47ZZqN3Dx0fTW4DYhgC6sCGQ-W4cymVN4cZMrjW4x7HMY8CXRSmW9lW9zs1T5kW1N61HM5SshZc-F2-zY3p6f_9W34hryj3gwK-TW5kSSYX194QVYW1hSYkj5XLV4SW968jlD1PngdJW5grdqT70nnGrW5Hnl1q4LYBK4W3QhmjY27sklgW1MgVsS4_LlzNMh8xm8Z9sMMV6LZzD7p-Q7nW3m3rRm4KXzG-W5CrnBd1V3zTqW8nrh_37dlJ26W7D_tl-1VB_-VW2D8N0F96TZ9YW2DSryZ42NjxsW245vj59hLf72W76cPkb9kJGRjW9j5K2J4mN0W6VjpQ761tfysDW481B213c32P_W12shHm7K8bzDW6vHQyJ6t5c3RW80KqBK7HQHyJW2gZzWT2cldbTW9561dm8nmpHmW1cchZk5HrxY0W3gS0VL7rR5WgW6sWCpH7mF4VFW3RMC6K30m4mwW6Wmj1V4BfVLqW4cglRd7H4N7_W8hrdt35xn62Wf7fSy4R04)).
+
+##### Diseño de Data Centers
+
+- **ServerDomes**: firma de diseño de Data Centers con sede en Portland que usa arquitectura de domo geodésico con enfriamiento pasivo, y afirma lograr un 92% menos de consumo de agua y sin necesidad de HVAC. [Visitar sitio](https://cvbpm04.na1.hubspotlinks.com/Ctc/I6+113/cVbPm04/VVWJsx77p0hvVWmy_G6bLtkqW6B8lDm5Q8XK5M3ZwR23qn9qW7lCdLW6lZ3pgW8HQtd01TfbQmW1LcSky1JMDC1W1GnG7T1Dd1X1W5nQKnn4Q1sD-W3TkxbR7yQk5nW1KWsjG6zYpp9W1_jG3D7ff1DNW2wdmYq7BtWmlVlGP0M8xCS_5W5hg0Jg2JY7jFW5qqXlk58bpZ_W2hg85775TKY_VQ7qbd5LH-s8W3jr2JG3pKM31N33fdlg51KTrN37SpTjW64MMF7BhKlJ6nB0W32nTHl6yVJRGN67HCDh9nKXtW6FldKh8MN3SPW97DbPN7ZMKB0W2tS4cF3KmmpSW5HKs0C9k4PLWW56XqZm5nGgrnf4b01zM04).

@@ -1,0 +1,17 @@
+---
+title: "Tesis: distribución de Data Centers"
+---
+
+<!--
+Contenido pendiente: capítulo nuevo, parte de "Alternativas".
+Tesis propia de la autora: propuesta de solución sobre el modelo de distribución
+de los Data Centers (escala distribuida/federalizada vs. megaproyectos hyperscale
+centralizados) — ver el planteo inicial del problema en articulo.qmd
+("¿Existen otras alternativas de ubicación y diseño para los Data Centers?").
+-->
+
+::: {.callout-note appearance="simple" icon=false}
+### Próximamente
+
+Capítulo en preparación: la propuesta sobre modelos de distribución de Data Centers —escala distribuida o federalizada frente a los megaproyectos hyperscale centralizados— se publicará en una próxima actualización de esta investigación.
+:::

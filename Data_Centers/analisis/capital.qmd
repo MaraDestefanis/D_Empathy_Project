@@ -1,0 +1,26 @@
+---
+title: "Capital y economía"
+---
+
+::: {.callout-note appearance="simple" icon=false}
+### 🚧 En construcción
+
+Este capítulo está en desarrollo. Los datos que siguen ya están verificados; el análisis completo sobre concentración de capital se publicará en una próxima actualización.
+:::
+
+### Impacto económico y de mercado
+
+- **US$725.000 millones** (725 mil millones de dólares) en capital global están actualmente invertidos o vinculados a la construcción de Data Centers.
+- **US$330.000 millones** (330 mil millones de dólares) en proyectos quedaron estancados o fueron cancelados solo entre 2025 y 2026, por oposición de las comunidades o falta de infraestructura que los sostenga.
+- **US$2.220 millones** es la inversión que hoy fluye hacia Data Centers específicamente en Sudáfrica.
+
+![Meta Hyperion — Richland Parish, Louisiana: de los US$10.000 millones anunciados en 2024 a más de US$50.000 millones en 2026, uno de los proyectos que empuja el salto de escala del capital invertido en Data Centers.](images/louisiana_hub_Dempathy_project.jpg)
+
+**Un caso concreto de proyecto frenado:** en Irlanda, los Data Centers ya consumen el **21% de la electricidad medida del país** — más que todos los hogares urbanos combinados —, y el operador de la red nacional pausó la aprobación de nuevas conexiones en la zona de Dublín hasta 2028 por el estrés que generan sobre la red eléctrica.
+
+*Próximamente:* vamos a analizar y actualizar hacia dónde va ese capital, en qué manos se concentra, y qué responsabilidad ética —transparencia, justicia climática— debería exigirse a un desarrollo tecnológico de esta escala.
+
+<!--
+Pendiente: sumar la cita de ejecutivos de SpaceX (ya se producen más chips de los que
+se pueden alimentar con energía) cuando se redacte el análisis de concentración de capital.
+-->

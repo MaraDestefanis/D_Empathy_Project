@@ -25,3 +25,16 @@
 # R
 .RData
 .Rhistory
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.quarto/
+_freeze/
+_book/
+_site/
+
+# Excepciones — investigación Data Centers
+!Data_Centers/datos/*.csv
+!Data_Centers/**/*.png
